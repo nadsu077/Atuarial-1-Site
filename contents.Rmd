@@ -1,0 +1,1522 @@
+---
+output: html_document
+---
+# Selecione o conteúdo {.tabset .tabset-dropdown}
+
+Antes de escolher o assunto a ser estudado, esteja ciente de que você tem compreensão sobre matemática financeira e as funções de tábua de vida (ou morte), pois sem o devido entendimento dos assuntos citados será difícil compreender o que está sendo abordado.
+
+## Seguros de vida pagos no momento de morte
+
+### __Seguros de vida pagos no momento de morte__
+
+Seja (x) = indivíduo de idade x que faz um seguro de vida inteira (vitalício)
+
+Seja T = tempo de vida futuro ou adicional de x
+
+T é uma v.a. e $T \in (0, \infty)$
+
+Probabilidades são expressas como função densidade
+
+__Exemplo 1:__
+
+Deseja-se que um beneficiário receba 100 mil reais no __momento de morte__, daqui a T ano.
+Qual é o valor presente desses R$ 100.000,00 que serão recebidos daqui a T anos?
+
+__Solução feita no R__
+
+``` {r}
+vf = 100000 # Valor Futuro
+i = 0.05 # Taxa a ser considerada
+t = 50 # Tempo em anos
+
+v = 1/(1+i)
+vp = vf*(v^t)
+vp
+
+```
+
+Onde: 
+
+$V = \frac{1}{(1+i)}$
+
+Logo:
+
+$V^t = \frac{1}{(1+i)^t}$
+
+__Exemplo 2:__
+
+Suponha que T é uma v.a. com apenas 3 valores: 5,5; 32,3 e 50 anos. Quanto (x) deveria pagar hoje para esse seguro de modo que a seguradora receba o necessário para pagar, em média, a indenização de R$ 100.000,00 no futuro?
+
+__Solução__
+
+O justo seria a seguradora cobrar um prêmio igual ao valor esperado de V.P. (estamos ignorando, por enquanto, a necessidade da seguradora cobrir despesas e lucros)
+
+$E[VP] = (76.464,32) * P(T = 5,5) + (20.480,84) * P(T = 32,3) + (8.720,37) * P(T = 50)$
+
+$E[VP] = vf * (V^{5,5} * P(T = 5,5) + V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))$
+
+$E[VP] = 100.000 * (V^{5,5} * P(T = 5,5) + V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))$
+
+$E[VP] = 100.000 * E[V^t]$
+
+$E[VP] = B * E[V^t]$
+
+$$E[V^t] = \sum_{0}^{\infty} V^t * P(T = t)$$
+
+Se T fosse uma v.a. contínua
+
+$$E[V^t] = \displaystyle \int_{0}^{\infty} V^t * f_T(t)\, dt$$
+
+__Principais pontos:__
+
+O valor presente (V.P.) da indenização futura é incerto porque depende da v.a. T;
+
+O horizonte é de longo prazo;
+
+t = 0 tempo entre a emissão da apólice e a morte;
+
+Função benefício $\to b_t = b(t)$;
+
+Função de desconto $\to V_t = V^t$;
+
+Função de valor presente $\to Z(t) = b(t) * V^t$.
+
+Como T é uma v.a. Z(t) também é v.a. que possui uma lista de valores possíveis e probabilidades associadas.
+
+### __Seguro de vida__
+
+Chame de Prêmio Puro (PP) a parcela do prêmio, suficiente para pagar sinistros. Neste sentido o Prêmio Puro é o prêmio que propõe o pagamento de despesas relacionadas ao risco que está sendo assumido pela seguradora.
+
+$E[VP] = E[Z(t)] \to E[VP] = VPA$
+
+### __Seguro de vida temporário de n-anos__ $\overline{A}^{1}_{x:\overline{n}|}$
+
+Paga uma unidade monetária somente se o segurado morre dentro de n-anos
+
+$b(t) = \begin{cases} 1, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+$V_t = V^t$ Fator de desconto
+
+$Z(t) = \begin{cases}V^t, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+__Exemplo__
+
+- $(x) = \text{30 anos}$
+
+- $(n) = \text{20 anos}$
+
+- i = 5%, logo, V = 0.9524
+
+- T ~ U(0; 70)
+
+__Solução__
+
+$Z(t) = \begin{cases}0.9524^t, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+$E[Z] = \displaystyle \int_{0}^{20} Z(t) * f_T(t)\, dt$
+
+$E[Z] = \displaystyle \int_{0}^{20} V^t * T\, dt$
+
+$E[Z] = \displaystyle \int_{0}^{20} 0.9524^t * \frac{1}{70}\, dt$
+
+$E[Z] = \frac{1}{70} * \frac{1}{ln(0.9524)} * [0.9524^t|_{0}^{20}]$
+
+$E[Z] = 0.1825$
+
+__Resolvendo o exemplo usando o R__
+
+```{r}
+# Criando a função a ser integrada [Z(t) * fT(t)]
+unif = function(v, b, a){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){v^t*1/(b-a)})
+}
+
+# Integrando a função no intervalo de 0 a 20
+integrate(unif(v = 0.9524, 70, 0), lower = 0, upper = 20)$value
+
+```
+
+Isto é, cada 1 real eventualmente pago no futuro (dentro de 20 anos) vale, hoje, 18.25 centavos
+
+Se o valor do benefício a ser pago for 87 mil reais, então O VPA desse seguro é de 87000 * 0.1825 = 15877.5
+
+Observe que no contrato de seguro de vida temporário existe a incerteza sobre a ocorrência ou não da indenização
+e sobre a ocorrência ou não da indenização e sobre o momento do pagamento eventual
+
+Se b(t) é uma constante, não há incerteza sobre o valor a ser pago
+
+Notação: no caso de b(t) = 1 (uma unidade)
+
+$\overline{A}^{1}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} Z(t) * f_T(t) dt = \displaystyle \int_{0}^{n} 1 * V^t * f_T(t)\, dt$
+
+$\overline{A} \to \text{Seguro pago no momento de morte}$
+
+$^1 \to \text{Temporário}$
+
+$_x \to \text{Idade}$
+
+$_n \to \text{Tempo de vigência}$
+
+Sabemos que, de acordo com as relações de tabelas de vida:
+
+$f_T(t) dt = \sideset{_t}{}p_x * \mu(x+t)\, dt$
+
+Dessa forma, podemos escrever: 
+$\overline{A}^{1}_{x:\overline{n}|}  = \displaystyle \int_{0}^{n} 1V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt$
+ 
+Como Z é uma v.a. que oscila em torno de E[Z], podemos perguntar como Z varia ao redor de E[Z]
+
+$Var(Z) = E[Z - E[Z]]^2 = E[Z^2] - E[Z]^2$
+
+Se b(t) é igual a zero ou 1 para todo t, o cálculo de Var(Z) é facilitado, pois:
+
+$Z^j = [b(x) * V^t]^j = b(x)^j * V^{t * j}$
+
+Então
+
+$E[Z^j] = \displaystyle \int_{0}^{n} b(t)^j * V^{t * j} * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * V^{j * t} * f_T(t)\, dt$
+
+$E[Z^j] = \displaystyle \int_{0}^{n} 1 * (V^j)^t * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * W^t * f_T(t)\, dt$
+
+Assim, $E[Z^j]$ com fator de desconto V é igual a $E[Z]$ com fator de desconto $V^j$
+
+Notação: $E[Z^j]@V = E[Z]@V^j$
+
+__No exemplo anterior:__
+
+$^2\overline{A}^{1}_{30:\overline{20}|} = \displaystyle \int_{0}^{20} [0.9524^2]^t * \frac{1}{70}\, dt = 0.1256$
+
+__Realizando no R__
+
+```{r}
+# Criando a função a ser integrada
+unif2 = function(v, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){(v^j)^t*1/(b-a)})
+}
+# Integrando a função
+integrate(unif2(v = 0.9524, b = 70, a = 0, j = 2), lower = 0, upper = 20)$value
+
+```
+
+$Var(Z) = 0.1256 - 0.1825^2 = 0.09229$
+
+$DP = \sqrt{Var(Z)} = 0.3038$
+
+### __Seguro de vida inteira__ $\overline{A}_x$
+
+Paga 1 real no momento de morte
+
+Assim, $b(t) = 1$ para todo t e $Z(t) = 1*V^t$
+
+O VPA é
+
+$\overline{A}_x = \displaystyle \int_{0}^{\infty} V^t * f_T(t)\, dt = \displaystyle \int_{0}^{\infty} V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt$
+
+$\overline{A} \to \text{Seguro pago no momento de morte}$
+
+$_x \to \text{Idade}$
+
+$Var(Z) =\, ^2\overline{A}_x - (\overline{A}_x)^2$
+
+Este é o caso limite do seguro temporário quando $n \to \infty$
+
+A incerteza é apenas sobre o momento do pagamento
+
+__Exemplo__
+
+Seguro de vida inteira de R$ 80.000,00 emitido para (x) com vida futura T ~ U(0; 80). 
+A taxa de juros instantânea é de 3% a.a., encontre o V.P.A.
+
+$\overline{A}_x = 80000 * \displaystyle \int_{0}^{80} e^{-0.03 * t} \frac{1}{80}\, dt$
+
+$\overline{A}_x = \frac{80000}{80} * \displaystyle \int_{0}^{80} e^{-0.03 * t}\, dt$
+
+$\overline{A}_x = \frac{1000}{-0.03} * e^{-0.03 * t}|_{0}^{80}$
+
+$\overline{A}_x = 30309.4$
+
+$Var(Z) =\, ^2\overline{A}_x - (\overline{A}_x)^2$
+
+$^2\overline{A}_x = 80000^2 * \displaystyle \int_{0}^{80} e^{(-0.03 * t)^2} \frac{1}{80}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{80} * \displaystyle \int_{0}^{80} e^{(-0.03 * t * 2)}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{80} * \displaystyle \int_{0}^{80} e^{(-0.06 * t)}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{-0.06 * 80} * e^{-0.06 * t}|_{0}^{80}$
+
+$^2\overline{A}_x = 1322360337$
+
+$Var(Z) = 1322360337 - 30309.4^2$
+
+$Var(Z) = 403700609$
+
+$DP = 20092.3$
+
+__Resolvendo utilizando o R__
+
+```{r}
+unif2 = function(i, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  i = i; b = b; a = a
+  return(function(t){exp(-i*j*t)*1/(b-a)})
+}
+
+
+sqrt( # Desvio-padrão
+80000^2*integrate(unif2(i = 0.03, b = 80, a = 0, j = 2), lower = 0, upper = 80)$value- # E[Z²]
+(80000*integrate(unif2(i = 0.03, b = 80, a = 0, j = 1), lower = 0, upper = 80)$value)^2 # E[Z]²
+)
+
+```
+
+Observe que E[Z] é muito próximo de DP(Z), ou seja, o coeficiente de variação é muito próximo de 1, muita variação é muito próximo de 1, muita variação ao redor de E[Z].
+
+A distribuição uniforme para o tempo de vida só é razoável para os homens entre 25 e 45 anos, mais ou menos, pois $q_x$ é constante nesta faixa. 
+
+Para um seguro de vida inteira é mais razoável ter T com distribuição não-uniforme,  uma boa distribuição para T é a Gama com os parâmetros $\alpha$ e $\beta$.
+
+__Exemplo__
+
+Imagine uma carteira com 100 indivíduos (todos de mesma idade) que contratam hoje um seguro de vida inteira.
+O benefício é de 10 unidades monetárias no momento da morte. Seja a taxa instantânea de juros igual a 0.06.
+
+Seja ainda T ~ Exp(0.04). Qual o prêmio puro a ser cobrado de cada segurado E[Z]?
+
+__Solução__
+
+$Z(t) = b_t * V^t = 10 * e^{-0.06*t}$
+
+$E[Z] = \displaystyle \int_{0}^{\infty} 10 * e^{-0.06 * t} * 0.04 * e^{-0.04 * T}\, dt$
+
+$E[Z] = 10 * 0.04 * \displaystyle \int_{0}^{\infty} e^{-0.06 * t - 0.04 * t}\, dt$
+
+$E[Z] = 0.4 * \displaystyle \int_{0}^{\infty} e^{-0.1 * t}\, dt$
+
+$E[Z] = \frac{0.4}{-0.1} * e^{-0.1 * t}|_{0}^{\infty}$
+
+$E[Z] = -4 * (e^{-0.1 * \infty} - e^{-0.1 * 0})$
+
+$E[Z] = -4 * (0 - 1)$
+
+$E[Z] = 4$
+
+__Resolvendo utilizando o R__
+
+```{r}
+# Criando a função a ser integrada
+funcao = function(bt, a, b){
+  return(function(t){bt*exp(-a*t)*b*exp(-b*t)})
+}
+
+# Integrando a função
+integrate(funcao(bt = 10, a = 0.06, b = 0.04), lower = 0, upper = Inf)$value
+
+```
+
+Veja que o gasto médio com o pagamento de sisnistros será de 400 reais, pois cada uma das 100 pessoas
+nesta carteira, pagará 4 unidades monetárias para a seguradora honrar com seus compromissos relativos à
+sinistros. 
+
+Porém, o processo de risco dessa seguradora pode ser um pouco mais complexo. Pensemos o que 
+aconteceria se 90% dos segurados morressem já no primeiro ano? Certamente a seguradoranão teria tempo 
+suficiente para investir o dinheiro pago pelos segurados na forma de prêmio e, esta, ficaria insolvente.
+
+Neste caso, pode-se dizer que o valor cobrado pela seguradora seria diferente do prêmio calculado 
+anteriormente. De fato, o prêmio poderá ser (em alguns casos) bem maior que o calor calculado anteriormente. 
+
+Seguindo essa linha de raciocínio, o que desejamos saber é qual o valor que a seguradora deve ter hoje 
+de modo que a probabilidade de que haja fundo para efetuar todos os pagamentos no momento de morte seja
+aproximadamente 95%. 
+
+Chamando de S o valor total a ser pago pela seguradora em relação aos sinistros 
+ocorridos, queremos encontrar o valor h tal que: 
+
+$P(S \le h) = 0.95$ 
+
+Fazendo uma aproximação pela distribuição normal teremos: 
+
+$P(S \le h) = P\bigg(\frac{S - 400}{\sqrt{900}} \le \frac{h - 400}{\sqrt{900}}\bigg) = 0.95$
+
+Ou seja,
+
+$\frac{h - 400}{\sqrt{900}} = 1.645 \Leftrightarrow h = \sqrt{900} * 1.645 + 400 = 449.35$
+
+Como existem 100 segurados em nossa carteira e um custo total de 449.35, o prêmio deveria ser
+$\frac{449.35}{100} = 4.49$ 
+por indivíduo e não de 4 unidades monetárias, como calculado anteriormente.
+
+### __Seguro Dotal Puro de n-anos__ $A_{x:\overline{n}|^1}\, \text{ ou } \, \sideset{_{n}}{}E_{x}$
+
+Paga uma unidade ao final de n-anos se, e somente se, o segurado sobrevive pelo menos n-anos após a emissão da apólice.
+
+$b(t) = \begin{cases} 0,\, \text{se } t \le n \\ 1,\, \text{se } t > n \end{cases}$
+
+$V_t = V^n,\, \text{se } t \ge 0$
+
+$Z = \begin{cases}0,\, \text{se } t \le n \\ V^n,\, \text{se } t > n\end{cases}$
+
+Existe incerteza apenas sobre a ocorrência da indenização, não há incerteza sobre o momento e o valor.
+
+Este tipo de seguro será útil para modelar o pagamento de um bônus por uma empresa: se um funcionário "sobrevive" como ativo na empresa por 20 anos, ele recebe 2 salários mensais como bônus. Caso ele não sobreviva como ativo, nada é pago. 
+Para fazer frente a esta despesa futura, a empresa precisa saber hoje, quanto ela deveria ter para cobrir estes benefícios.
+
+Assim, 
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = 0 * P(T<=n) + V^n*P(T > n)$
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = V^n * P(T > n)$
+
+$Var(Z) = E[Z^2] - E[Z]^2$
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x - V^{2*n} * \sideset{_n}{}p_x^2$ 
+
+Colocando $V^{2*n} * \sideset{_n}{}p_x$ em evidência
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x * (1-\sideset{_n}{}p_x)$
+
+Como $(1-npx) = nqx$
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x * \sideset{_n}{}q_x$
+
+__Exemplo__
+
+Seguro dotal de n = 20 anos para (x) = 30 anos com taxa instantânea de juros de 0.03 -> V = 0.970, paga R$ 100.000,00 se sobreviver. Qual o VPA? (Tabela do livro pág. 676)
+
+$l_{30} = 95013.79$
+$l_{50} = 89509$
+
+$\sideset{_{20}}{}p_{30} = \frac{l_{50}}{l_{30}} = 0.942$
+
+Assim, paga R$ 100.000,00 com prob. de 0.942 e zero com prob. de 0.058. Portanto, em valor presente:
+
+$Z = \begin{cases} 10^5 * 0.970^{20},\, \text{com prob. 0.942} \\ 0,\, \text{com prob. 0.058} \end{cases}$
+
+Dessa forma, o valor presente médio de uma unidade é:
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = V^{20} * \sideset{_{20}}{}p_{30} = 0.97^{20} * 0.942 = 0.5122543 * 10^5$
+
+$A_{x:\overline{n}|^1} = 51225.43$
+
+Para 100.000 unidades paga-se 51.225,43
+
+$Var(Z) = \sideset{_{n}^2}{}E_{x} - (0.5122543)²$
+
+$Var(Z) = (e^{-0.03*2})^{20} * 0.942 - 0.5122543^2 = 0.02132048$
+
+Para 100 unidades monetárias
+
+$Var(100*Z) = 100^2 * Var(Z) = 100^2 * 0.02132048 = 213.20$
+
+$DP = 15.170$
+
+__Resolvendo utilizando o R__
+
+```{r}
+l30 = 95013.79
+l50 = 89509
+
+p30_20 = l50/l30
+
+nEx = 0.97^20 * p30_20
+
+cat("Para 100.000 unidades monetárias, paga-se ", round(10^5*nEx,2), " unidades.", sep = "")
+
+varZ = exp(-0.03*2)^20*p30_20 - nEx^2
+
+cat("Para 100 unidades monetárias: ", round(100^2*varZ,2),"\n\nCom DP igual a: ", sqrt(100^2*varZ), sep = "")
+
+```
+
+### __Seguro Dotal Misto__ $\overline{A}_{x:\overline{n}|}$
+
+Paga uma unidade monetária se o segurado morre ou o segurado sobrevive ao final de n-anos, o que ocorrer primeiro. 
+
+Como motivação para esse seguro, imagine alguém com 30 anos, desejando um plano de aposentadoria que pague 500 mil reais daqui a n = 35 anos, se ele viver até lá. Se ele falecer, a viuva ou outro beneficiário receberá o benefício. 
+
+Quanto custa hoje esse benefício futuro?
+
+Considere o pagamento de uma única unidade, ou seja, b(t) = 1 para todo t.
+
+$Vt = \begin{cases} V^t,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+$Z = \begin{cases}V^t,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+O valor presente atuarial é denotado por:
+
+$\overline{A}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} V^t * f_T(t)\, dt + V^n * \sideset{_{n}}{}p_{x}$
+
+O seguro dotal misto pode ser visto como a soma de um seguro temporário de  n anos Z1 e um dotal puro de n anos Z2.
+
+$Z_1 = \begin{cases} V^t,\, \text{se } t \le n \\ 0,\, \text{se } t > n \end{cases}$
+
+$Z_2 = \begin{cases} 0,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+$Z = Z_1 + Z_2$
+
+$\overline{A}_{x:\overline{n}|} = \overline{A}_{x:\overline{n}|}^1  + \sideset{_{n}}{}E_{x}$ 
+
+__Variância:__
+
+Variância de Z usa a relação da variância da soma de duas variáveis $Var(X + Y)$, no caso as variáveis são $Z_1$ e $Z_2$
+
+$Var(Z) = Var(Z_1 + Z_2) = Var(Z1) + Var(Z2) + 2*Cov(Z1, Z2)$
+
+Como $Z_1 * Z_2 = 0 \Rightarrow E(Z1, Z2) = 0$
+
+Assim, 
+
+$Cov(Z_1, Z_2) = E(Z_1, Z_2) - E(Z_1)*E(Z_2) = -E(Z_1)*E(Z_2)$
+
+$Cov(Z_1, Z_2) = -\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+Conclusão:
+$Var(Z) = Var(Z_1) + Var(Z_2) - 2*\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+$Var(Z) =\, ^2\overline{A}_{x:\overline{n}|}^1 - (\overline{A}_{x:\overline{n}|}^1)^2 + \sideset{_n^2}{}E_x - (\sideset{_{n}}{}E_{x})^2 - 2*\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+### __Seguro de Capital Diferido__ $\sideset{_{m|}}{}{\overline{A}}_x$
+
+Seguro de vida inteira com um período de carência. Paga uma unidade após a morte somente se o segurado morrer pelo menos m anos após a emissão da apólice.
+
+$b(t) = \begin{cases} 1,\, \text{se } t > m \\ 0,\, \text{se } t \le m \end{cases}$
+
+$Z = \begin{cases} V^t,\, \text{se } t > m \\ 0,\, \text{se } t \le m \end{cases}$
+
+$V_t = V^t,\, \forall \, t$
+
+$\sideset{_{m|}}{}{\overline{A}}_x = \displaystyle \int_{m}^{\infty} V^t * f_T(t)\, dt$
+
+$\sideset{_{m|}}{}{\overline{A}}_x = \displaystyle \int_{m}^{\infty} V^t * \sideset{_n}{}p_x * \mu(x+t)\, dt$
+
+## Anuidades ou séries financeiras
+
+### Resumo
+
+As anuidades são uma série de pagamentos que serão feitos à um segurado até o momento de morte (em caso de aposentadoria) ou por um período determinado (cobertura).
+
+A série de Prêmios pagos pelo segurado, seja para financiar um seguro de vida, seja para financiar a aposentadoria, também podem ser reconhecidas como anuidades.
+
+As anuidades que não pagam imediatamente uma quantia financeira (o primeiro pagamento só ocorre no próximo instante de tempo) são chamadas anuidades postecipadas.
+
+As anuidades em que o primeiro pagamento ocorre imediatamente são chamadas anuidades antecipadas.
+
+### __Esquema 1 de pagamento__ $\ddot{a}_{\overline{n}|}$
+
+São feitos n pagamentos anuais de 1 u.m. em t = 0, 1, 2, ..., n-1 $\to$ anuidade antecipada  paga no início do período em que está vivo.
+
+O valor presente é:
+
+$\ddot{a}_{\overline{n}|} = \frac{1-V^n}{1-V}$
+
+O valor final ou acumulado da anuidade é o valor final capitalizado a juros efetivos i a.a. da série de n pagamentos de 1 u.m.
+
+$\ddot{S}_{\overline{n}|} = 1 * (1+i)^n + 1 * (1+i)^{n-1} + ... + 1*(1+i)$
+
+Em que $1*(1+i)^n$ é pago no tempo inicial (t = 0) e capitalizado por n períodos
+
+$a_1 = 1*(1+i)^n$
+
+$q = \frac{1}{1+i}$
+
+Desenvolvendo:
+
+$\ddot{S}_{\overline{n}|} = 1 * (1+i)^n + 1 * (1+i)^{n-1} + ... + 1*(1+i)$
+
+$\ddot{S}_{\overline{n}|} = (1+i)*\Big[1+(1+i) + ... + (1+i)^{n-1}\Big]$
+
+$\ddot{S}_{\overline{n}|} = (1+i)*\Bigg[\frac{1-(1+i)^n}{1-(1+i)}\Bigg]$
+
+$\ddot{S}_{\overline{n}|} = \frac{1+i}{i}*\Big[(1+i)^n - 1\Big]$
+
+Veja que $\ddot{S}_{\overline{n}|} = (1+i)^n * \ddot{a}_{\overline{n}|}$
+
+__Exercício:__
+
+Suponha que alguém ao aposentar-se aos 60 anos deseja receber uma renda antecipada de 36000 por ano durante 20 anos. Considere uma taxa de juros de 8% ao ano. Qual o valor dos depósitos anuais que  um indivíduo de 40 anos deve fazer?
+
+__Resolução feita no R__
+
+```{r}
+i = 0.08      # Taxa considerada
+n = 20        # Número de Períodos
+apos = 36000  # Valor da renda
+V = 1/(1+i)   # Fator de desconto
+
+a20 = (1-V^n)/(1-V) # Valor presente
+
+Map = 36000*a20 # Montante de Aposentadoria
+
+S20 = (1+i)^n*a20 # Série de pagamentos ou Anuidades
+
+P = Map / S20 # Prêmio a ser cobrado ao segurado
+
+Mpr = P * S20 # Montante dos Prêmios
+
+# Onde Mpr é o Montante dos Prêmios e o Montante dos Prêmios tem que ser igual ao Montante da Aposentadoria (Mpr = Map). 
+# Logo, P * S20 = Map => P = Map / S20
+
+cat("Valor Presente: ", a20, "\n\n",
+    "Montante de Aposentadoria: ", Map, "\n\n",
+    "Série de Pagamentos ou Anuidades: ", S20, "\n\n",
+    "Montante dos Prêmios: ", Mpr, "\n\n",
+    "Valor do Prêmio: ", P, 
+    sep = "")
+
+```
+
+### __Esquema 2 de pagamento__ $a_{\overline{n}|}$
+
+São feitos n pagamentos anuais de 1 u.m. em t = 1, 2, ..., n $\to$ anuidade postecipada.
+
+O valor presente é:
+
+$a_{\overline{n}|} = V + V^2 + ... + V^n = V*(1 + V + V^2 + ... + V^{n-1})$
+
+$a_{\overline{n}|} = \frac{V}{1-V} * (1-V^n) = V * \ddot{a}_{\overline{n}|} \to \text{Desconta um período do Esquema 1}$
+
+O valor final capitalizado é:
+
+$S_{\overline{n}|} = (1+i)^{n-1} + ... + 1$
+
+$S_{\overline{n}|} = \frac{1-(1+i)^n}{1-(1+i)} = \frac{(1+i)^n-1}{i}$
+
+### __Esquema 3 de pagamento__ $\ddot{a}_{\overline{n}|}^{(m)}$
+
+São feitos n pagamentos anuais de 1 u.m. em m parcelas equipassadas de $\frac{1}{m}$ pagos em $t = 0, \frac{1}{m}, \frac{2}{m}, ..., \frac{n*m-1}{m} \to$ antecipada
+
+Por exemplo: 10 pagamentos anuais em 12 parcelas por ano.
+
+Valor presente:
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} + ... + \frac{1}{m}*V^{\frac{m*n-1}{m}}$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} + \frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^2 + ... + \frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^{m*n-1}$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} * \Bigg[\frac{1-\Big(V^{\frac{1}{m}}\Big)^{m*n}}{1-\Big(V^{\frac{1}{m}}\Big)}\Bigg]$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} * \Bigg[\frac{1-V^n}{1-\big(V^{\frac{1}{m}}\big)}\Bigg]$
+
+__Valor final capitalizado__
+
+$\ddot{S}_{\overline{n}|}^{(m)} = \frac{(1+i)^n - 1}{m*\Big(1 - (1 + i)^{\frac{1}{m}}\Big)}$
+
+### __Esquema 4 de pagamento__ $a_{\overline{n}|}^{(m)}$
+
+São feitos n pagamentos anuais de 1 em m parcelas equipassadas de 1/m pagos em $t = \frac{1}{m}, \frac{2}{m}, ..., n \to$ postecipada
+
+__Uma idealização matemática__
+
+No esquema 3, o que acontece quando $m \to \infty$ ?
+
+O número de pagamentos vai a $\infty$, mas cada pagamento $\frac{1}{m} \to 0$
+
+A soma no fim do ano dos cheques recebidos é igual a 1, mas capitaliza mais que 1.
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \displaystyle \lim_{m \to \infty} \Bigg[\frac{\frac{1}{m} * (1-V^n)}{1-V^{\frac{1}{m}}}\Bigg]$
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = (1-V^n) * \displaystyle \lim_{m \to \infty} \Bigg[\frac{1/m}{1-V^{1/m}}\Bigg]$
+
+Como,
+
+$\displaystyle \lim_{x \to 0} \bigg(\frac{x}{1-V^x}\bigg) = \displaystyle \lim_{x \to 0} \bigg(\frac{x}{1-e^{-\delta*x}}\bigg)$
+
+Por L'Hoptal
+
+$\displaystyle \lim_{x \to 0} \bigg(\frac{1}{\delta*e^{-\delta*x}}\bigg) = \frac{1}{\delta}$
+
+Logo,
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta}$
+
+Dessa forma, 
+
+$VP = \frac{1-V^n}{\delta}$
+
+Para t geral (não só t = n inteiro) temos
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta} = \overline{a}_{\overline{t}|} = \frac{1-e^{-\delta*t}}{\delta}$
+
+$\overline{a}_{\overline{t}|}$ é o valor presente de um fluxo contínuo de pagamentos em $[0, t]$ à taxa de 1 real por ano, com juros delta.
+
+Pense no fluxo contínuo como se fosse água saindo por um ano à uma taxa de 1 litro por minuto, no nosso caso pense em 1 real por ano.
+
+Infelizmente o fluxo não é tão simples assim!
+
+O segurado pode morrer antes de receber todos os benefícios, então os pagamentos deveriam ser menores?
+
+O segurado pode morrer antes de completar os pagamentos.
+
+Veja que, no processo de compra de um produto atuarial ou de concessão de benefício, existe o risco.
+
+A seguradora não sabe se vai receber todos os prêmios do segurado (este pode morrer antes do período de cobertura) e, a seguradora não sabe ao certo quanto irá gastar com previdência uma vez que não se sabe o tempo de gozo de benefício de uma pessoa que se aposentou.
+
+Reconhecer a anuidade como um produto atuarial é reconhecer que a seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor presente (hoje), um segurado irá custar.
+
+## Anuidades atuariais
+
+### __Anuidades Atuariais__
+
+Infelizmente as anuidades atuariais não são tão simples assim! 
+
+O segurado pode morrer antes de receber todos os benefícios, pagamentos deveriam ser menores, como também pode morrer antes de completar os pagamentos.
+
+Veja que, no processo de compra de um produto atuarial ou de concessão de benefício, existe o __risco__.
+
+A seguradora não sabe se vai receber todos os prêmios do segurado (este pode morrer antes do período de cobertura) e, a seguradora não sabe ao certo quanto irá gastar com previdência, uma vez que não se sabe o tempo de gozo de benefício de uma pessoa que se aposentou.
+
+Reconhecer a anuidade como um produto atuarial é reconhecer que a seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor de hoje, um segurado irá custar.
+
+### __Anuidades Atuariais Contínuas__
+
+__Anuidades__
+
+Pensemos em uma pessoa que aposentou hoje e recebeu 1 u.m. e morreu antes de receber a segunda parcela do benefício. Esse segurado (ou participante) irá custar à seguradora (ou fundo de pensão) apenas 1 u.m.
+
+Caso o Segurado sobreviva um ano a mais e morra no ano seguinte, o fundo de pensão deverá ter pago, em valores de hoje, o valor de: $1 + V$.
+
+Se o segurado não morrer nos dois primeiros anos e morrer no terceiro ano, deverá ser pago ao segurado, à valores de hoje, o valor de: $1 + V + V^2$.
+
+A partir desse ano de morte, o custo desse segurado à seguradora fica intuitivo.
+
+### __Anuidades Vitalícias__ $\overline{a}_{\overline{t}|}$
+
+As anuidades vitalícias são uma sequência periódica de pagamentos sujeitos a sobrevivência do beneficiário.
+
+Anuidades Vitalícias podem ser:
+
+- 1: Sequência de pagamentos de prêmios do segurado ao segurador
+
+- 2: Sequência de pagamentos do segurador ao segurado
+
+- 3: Pensões
+
+T é o tempo de vida futuro (adicional) de x
+
+__Continuous Life Annuities__
+
+O valor presente de um fluxo contínuo em $[0,t]$ de pagamentos à taxa de 1 a.a. com taxa de juros instantânea $\delta$ é igual a anuidade vitalícia paga continuamente em $[0,t]$.
+
+$Y = \displaystyle \lim_{m \to \infty} a_{\overline{t}|}^{(m)} = \frac{1-V^{t}}{\delta} = \overline{a}_{\overline{t}|} = \frac{1-e^{-\delta*t}}{\delta}$
+
+Como T é uma variável aleatória, o valor presente também é uma v.a.
+
+### __Valor Presente Atuarial__ $\overline{a}_{x}$
+
+VPA é a esperança do valor presente da anuidade $\to$ Considerar a função densidade do tempo adicional de vida
+
+$E[Y] = \overline{a}_{x} = \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{t}|} * f_t(t)\, dt = \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{t}|} * {}_{t}p_x$
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} \frac{1-e^{-\delta * t}}{\delta} * f_t(t)\, dt$
+
+Considerando,
+
+$u = \frac{1-e^{-\delta * t}}{\delta}$
+
+$du = e^{-\delta*t}\, dt$
+
+$dv = {}_{t}p_{x} * \mu(x+t)\, dt = f_t(t)\, dt$
+
+$v = F_t(t) = 1-{}_{t}p_{x} \gets \text{Relação de tabelas de sobrevivência}$
+
+Assim,
+
+$\overline{a}_{x} = \frac{1-e^{-\delta*t}}{\delta} * F_t(t)|_{0}^{\infty} - \displaystyle \int_{0}^{\infty} e^{-\delta*t} * (1-{}_{t}p_{x})\, dt$
+
+$\overline{a}_{x} = \Big[\frac{1}{\delta} * F_t(\infty) - 0\Big] - \Big[\displaystyle \int_{0}^{\infty} e^{-\delta*t}\, dt -\displaystyle \int_{0}^{\infty} e^{-\delta*t} * {}_{t}p_{x}\, dt\Big]$
+
+$\overline{a}_{x} = \frac{1}{\delta} - \frac{1}{\delta} * \displaystyle \int_{0}^{\infty} \delta*e^{-\delta*t}\, dt + \displaystyle \int_{0}^{\infty} e^{-\delta*t} * {}_{t}p_{x}\, dt$
+
+Onde, $\displaystyle \int_{0}^{\infty} \delta*e^{-\delta*t}\, dt$ é a função densidade de uma exponencial e integrando essa função chegaremos ao valor de 1.
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle \int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt$
+
+Interpretação: Pagamentos Contínuos de 1 dt no instante t, trazidos a valor presente por:
+
+$1*dt*e^{-\delta*t} = V^t*1*dt$
+
+E  multiplicado pela chance de estar vivo: ${}_{t}p_{x}$
+
+Resultado:
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle \int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt$
+
+A técnica de pagamento corrente para determinar o V.P.A. de uma anuidade segue a seguinte interpretação:
+
+$\overline{a}_{\overline{x}|} = \displaystyle \int_{0}^{\infty} V^{t} * \text{(prob. do pagamento ser feito no tempo t)}*\text{taxa de fluxo de pagamento}\, dt$
+
+__Relação matemática importante__
+
+- Uma anuidade é posta a juros $\delta$
+
+- Após um tempo t, capitaliza e vale $1*e^{\delta*t} > 1$ no tempo t
+
+- O acréscimo no capital devido a juros é $e^{\delta*t} - 1$ em valores no tempo t
+
+- Em valor presente (t = 0), este acréscimo vale:
+
+$V^t * (e^{\delta*t} - 1) = e^{-\delta*t} * (e^{\delta*t} - 1) = 1 - e^{-\delta*t} = 1 - V^t$
+
+Como,
+
+$1 = 1 - V^t + V^t = \frac{\delta*(1-V^t)}{\delta} + V^t$
+
+Podemos dizer que:
+
+$1 = \delta*\overline{a}_{\overline{t}|} + V^t$
+
+Onde:
+
+$\delta*\overline{a}_{\overline{t}|} =$ V.P. do acréscimo devido a juros de uma anuidade vitalícia
+
+$V^t =$ V.P., após t, do cheque inicial de 1
+
+- Essa relação vale para todo t
+
+- Vale também se T é um valoraleatório
+
+- Isto é, se T é váriável aleatória com valores em $(0, \infty)$ então,
+
+$1 = \delta*\overline{a}_{\overline{t}|} + V^t \to$ Soma de duas v.a.'s que, somadas, possui valor constante
+
+Então, se tirarmos a esperança de cada parcela, temos:
+
+$E[1] = E[\delta*\overline{a}_{\overline{t}|}] + E[V^t]$
+
+$1 = \delta*E[\overline{a}_{\overline{t}|}]  + E[V^t]$
+
+$1 = \delta * \overline{a}_{x} + \overline{A}_{x}$
+
+Onde:
+
+$\delta * \overline{a}_{x} \to$ V.P.A. de fluxo contínuo de anuidade inteira à taxa de 1 real por ano e a juros $\delta$
+
+$\overline{A}_{x} \to$ V.P.A. de um seguro de vida inteira que paga 1 real
+
+Assim, temos as seguintes relações:
+
+$\overline{a}_{x} = \frac{1-\overline{A}_x}{\delta}$
+
+$\overline{A}_x = 1-\delta*\overline{a}_x$
+
+Podemos também calcular a variância do valor presente de um fluxo contínuo de pagamentos em $[0,t]$ à taxa de 1 real por ano, com juros $\delta$.
+
+$Var(\overline{a}_{\overline{t}|}) = Var\Big(\frac{1-V^t}{\delta}\Big)$
+
+$Var(\overline{a}_{\overline{t}|}) = \frac{Var(V^t)}{\delta^2}$
+
+$Var(\overline{a}_{\overline{t}|}) = \frac{{}^{2}\overline{A}_x - (\overline{A}_x)^2}{\delta^2}$
+
+### __Anuidades Temporária__ $\overline{a}_{x:n}$
+
+Paga a taxa de 1 por ano continuamente, enquanto indivíduo com a idade x sobrevive pelos próximos n anos
+
+$Y = \begin{cases} \overline{a}_{\overline{t}|},\, \text{se } 0 \le T < n \\ \overline{a}_{\overline{n}|},\, \text{se } T \ge n \end{cases}$
+
+$Y = \begin{cases} \frac{1-V^t}{\delta},\, \text{se } 0 \le T < n \\ \frac{1-V^n}{\delta},\, \text{se } T \ge n \end{cases}$
+
+- Y é uma Variável Aleatória (V.A.)
+
+- Y não é nem contínua e nem discreta
+
+Precisamos calcular a esperança de Y, ou seja, o VPA. Como fazer?
+
+Se o VPA de uma anuidade vitalícia é:
+
+$\overline{a}_{\overline{x}|} = \displaystyle \int_{0}^{\infty} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Então o VPA de uma anuidade de vida temporária é:
+
+$\overline{a}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Interpretação pela técnica de pagamentos correntes
+
+$\overline{a}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Onde:
+
+- A integral é o período de pagamento
+
+- 1 é a Taxa de fluxos de pagamento em t
+
+- $V^t$ é o desconto para trazer a valor presente
+
+- Probabilidade de pagar = Probabilidade de estar vivo = ${}_{t}p_{x}$
+
+Observe que a anuidade temporária pode ser escrita em função do seguro de vida temporário:
+
+$Y = \begin{cases} \overline{a}_{\overline{t}|},\, \text{se } 0 \le T < n \\ \overline{a}_{\overline{n}|},\, \text{se } T \ge n \end{cases} \implies$
+$Y = \begin{cases} \frac{1-V^t}{\delta},\, \text{se } 0 \le T < n \\ \frac{1-V^n}{\delta},\, \text{se } T \ge n \end{cases}$
+
+$Y = \frac{1-Z}{\delta}$
+
+$Z = \begin{cases} V^t,\, \text{se } 0 \le T < n \\ V^n,\, \text{se } T \ge n \end{cases}$
+
+Onde Z é o valor presente do seguro dotal misto
+
+Assim, temos que:
+
+$\overline{a}_{x:\overline{n}|} = E[Y] = E\Big[\frac{1-Z}{\delta}\Big] = \frac{1}{\delta} * E[1-Z] = \frac{E[1]-E[Z]}{\delta} = \frac{1-E[Z]}{\delta}$
+
+Além disso,
+
+$Var[Y] = Var\Big[\frac{1-Z}{\delta}\Big] = \frac{Var[1-Z]}{\delta^2} = \frac{Var[1]+Var[-Z]}{\delta^2} \implies \text{Como Var[1] = 0} \text{ & } Var[-Z] = (-1)^2*Var[Z] = Var[Z] \\ Var[Y] =  \frac{Var[Z]}{\delta^2} = \frac{{}^{2}\overline{A}_{x:\overline{n}|} - (\overline{A}_{x:\overline{n}|})^2}{\delta^2}$
+
+### __Anuidade Vitalícia Diferida de m anos__ ${}_{m|}\overline{a}_x$
+
+Neste caso, a v.a. que representa o valor presente dessa anuidade é:
+
+$Y = \begin{cases} 0,\, \text{se } 0 \le T < m \\ \overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|},\, \text{se } T \ge m \end{cases}$
+
+Em que $\overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|}$ é o valor presente do fluxo de pagamento desde do tempo zero $\overline{a}_{\overline{t}|}$ menos o valor presente do fluxo entre zero e m $\overline{a}_{\overline{m}|}$
+
+Pensão vitalícia que vai começar a ser paga dentro de m anos, se vivo até lá
+
+Como,
+
+$\overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|} = \frac{1-V^t}{\delta} - \frac{1-V^m}{\delta} = \frac{V^m - V^t}{\delta} = V^m * \frac{1-V^{t-m}}{\delta} = V^m * \overline{a}_{t-\overline{m}|}$
+
+Então,
+
+$Y = \begin{cases} 0,\, \text{se } 0 \le T < m \\ V^m * \overline{a}_{t-\overline{m}|}, \, \text{se } T \ge m \end{cases}$
+
+Y não é discreta e nem contínua
+
+Os valores do valor presente de Y estão entre $\Big[0, \frac{V^m}{\delta}\Big]$, porque:
+
+$P[Y = 0] = P[0 \le T < m] = {}_{m}q_x > 0$
+
+$Y \le \lim\limits_{x \to \infty} \Big(V^m * \overline{a}_{t-\overline{m}|}\Big) = \frac{V^m}{\delta}$
+
+O valor presente atuarial = esperança de Y:
+
+${}_{m|}\overline{a}_x = E[Y] = 0 + \displaystyle \int_{m}^{\infty} V^m * \overline{a}_{t-\overline{m}|} * f_t(t)\, dt$
+
+Se $t = m + s$
+
+${}_{m|}\overline{a}_x = \displaystyle \int_{0}^{\infty} V^m * \overline{a}_{\overline{s}|} * f_t(m+s)\, ds = V^m * \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{s}|} * {}_{m+s}p_x * \mu(x+m+s)\, ds$
+
+Como ${}_{m+s}p_x = {}_{m}p_x * {}_{s}p_{x+m}$, então:
+
+${}_{m|}\overline{a}_x = V^m * {}_{m}p_x * \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{s}|}*{}_{s}p_{x+m} * \mu(x+m+s)\, ds$
+
+Dessa forma, o VPA da anuidade é:
+
+${}_{m|}\overline{a}_x = {}_{m}E_x * \overline{a}_{x+m} = V^m * {}_{m}p_x * \overline{a}_{x+m}$
+
+O VPA do seguro dotal puro x VPA de uma renda vitalícia para um indivíduo com x+m anos
+
+${}_{m|}\overline{a}_x = V^m * {}_{m}p_x * \overline{a}_{x+m}$
+
+${}_{m|}\overline{a}_x = \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+- Desenvolvimento alternativo
+
+${}_{m|}\overline{a}_x = \overline{a}_x - \overline{a}_{x:\overline{m}|}$
+${}_{m|}\overline{a}_x = \displaystyle \int_0^{\infty} V^t * {}_{t}p_x\, dt - \displaystyle \int_0^m V^t * {}_{t}p_x\, dt = \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+VPA da anuidade vitalícia $\overline{a}_x$ menos VPA de uma anuidade temporária de m anos $\overline{a}_{x:\overline{m}|}$
+
+### __Anuidade Vitalícia com Pagamentos Certos para os Primeiros m anos__ $\overline{a}_{\overline{x:\overline{m}|}}$
+
+Isto é, o beneficiário recebe um fluxo contínuo de pagamentos de 1dt nos primeiros m períodos com certeza e, após este período, se ainda vivo, o fluxo de pagamentos de 1dt continua até a sua eventual morte.
+
+Assim, o valor atuarial do valor presente dessa anuidade é:
+
+$Y = \begin{cases} \overline{a}_{\overline{m}|},\, \text{se } 0 \le T \le m \\ \overline{a}_{\overline{t}|},\, \text{se } T>m \end{cases}$
+
+Esta v.a. não é nem contínua e nem discreta.
+
+O VPA, ou seja, a esperança de Y é:
+
+$\overline{a}_{\overline{x:\overline{m}|}} = \overline{a}_{\overline{m}|} + \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+Prob = 1 entre $[0, m]$ e probabilidade de sobrevivência entre $[m, \infty]$
+
+### __Anuidades Atuariais Discretas__
+
+- Renda vitalícia antecipada: Paga 1 no início de cada ano que x sobrevive. Para melhor compreensão é necessário fazer a linha do tempo!
+
+- Renda vitalícia postecipada: paga 1 no final de cada ano que x sobrevive. Para melhor compreensão é necessário fazer a linha do tempo!
+
+### __Anuidade Antecipada__ $\ddot{a}_x$
+
+K = [T], parte inteira de T
+
+Pagamentos em 0,1,2,...,k
+
+São feitos k+1 pagamentos
+
+Assim, o V.P. é: $Y = \ddot{a}_{k+\overline{1}|} = 1 + V + V^2 + ... + V^k$
+
+Em que Y é uma variável aleatória discreta
+
+
+| Valores j possíveis para k        | k = 0                             | k = 1                             | k = 2                                 | ... |
+|:----------------------------------|:---------------------------------:|:---------------------------------:|:-------------------------------------:|:----|
+| Valores possíveis de Y            | $1 \\ \ddot{a}_{\overline{1}|}$   | $1+V \\ \ddot{a}_{\overline{2}|}$ | $1+V+V^2 \\ \ddot{a}_{\overline{3}|}$ | ... |
+| Probabilidades associadas P(k=j)  | $q_x$                             | ${}_{1}p_x * q_{x+1}$             | ${}_{2}p_x*q_{x+2}$                   | ... |
+|
+
+Assim, o V.P.A. é: 
+
+$\ddot{a}_x = E[Y] = \displaystyle \sum_{j = 0}^{\infty} \ddot{a}_{j+\overline{1}|} * {}_{j}p_x * q_{x+j}$
+
+Ou
+
+$\ddot{a}_x = E[Y] = \displaystyle \sum_{j = 0}^{\infty} V^j * {}_{j}p_x$
+
+No mundo contínuo o V.P.A. é: 
+
+$\overline{a}_x = \displaystyle \int_0^{\infty} V^t * {}_{t}p_x\, dt$
+
+No seguro pago no final do ano de morte o VPA é: 
+
+$A_x = E[Z] = \displaystyle \sum_{j = 0}^{\infty} V^{j+1} * {}_{j}p_x * q_{x+j}$
+
+__Exemplo__
+
+Seja uma pessoa de 40 anos que queira comprar uma anuidade que paga 5 parcelas de 1 u.m. começando a pagar imediatamente. Considerando a tábua de mortalidade AT-2000 e uma taxa de juros de 5% a.a., calcule o Prêmio Puro Único a ser pago pelo segurado para comprar essa anuidade.
+
+__Resolução feita utilizando o R__
+
+```{r}
+i = 0.05    # Taxa de juros considerada
+V = 1/(1+i) # Calculando o fator de desconto V
+n = 5       # Períodos considerados
+
+# ä40:5¬ = (somatório de k = 0 a 4) V^k * kp40
+
+tabua = data.frame(qx = c(0.000677, 0.000732, 0.000796, 0.000868, 0.000950, 0.001043),
+                   lx = c(98518.75, 98452.05, 98379.98, 98301.67, 98216.35, 98123.04),
+                   dx = c(66.69719, 72.06690, 78.31047, 85.32585, 93.30553, 102.3423),
+                   row.names = c(40, 41, 42, 43, 44, 45))
+
+print(tabua)
+
+a40_5 = c()
+
+for (k in 1:n){
+  # Calculando a anuidade ä40:5¬
+  a40_5[k] = V^(k-1)*(tabua[k,2]/tabua[1,2])
+}
+
+cat("O prêmio puro único a ser pago é igual a: ", round(sum(a40_5),2), sep = "")
+
+```
+
+## Prêmios e benefícios
+
+Até agora todos os nossos estudos estão baseados no pagamento de Prêmio Puro Único para os produtos atuariais. Porém na prática, para comprar uma anuidade (ou seguro), fazemos vários pagamentos ao longo do ano (ou de vários anos).
+
+Vamos andar mais um pouco na teoria e criar uma estrutura que se aproxima de situações reais.
+
+Veja que o prêmio poderá ser pago de 3 formas:
+
+- 1) Um único pagamento (como já estamos vendo ao longo do curso)
+
+- 2) Prêmios periódicos de valor constante no tempo (prêmios nivelados)
+
+- 3) Prêmios periódicos de quantidade variável.
+
+__Pensemos num produto de anuidade:__ Imagine um segurado de 40 anos que quer aposentar-se aos 60 anos. Essa pessoa deseja receber o valor de 36 mil (por ano) durante o período de 20 anos. Essa pessoa irá pagar um prêmio x em uma conta que rende 6% ao ano. 
+
+Quanto esse segurado deverá depositar por ano?
+
+#### __FAZER A LINHA DO TEMPO__
+
+Para calcular x, devemos calcular o valor total dos depósitos e o valor total dos benefícios. Não usaremos os valores nominais, pois depósitos e benefícios são feitos em momentos diferentes do tempo.
+
+Vamos calcular o valor total dos depósitos em t = 20 e o valor total dos benefícios (no mesmo tempo), mas, inicialmente, iremos desconsiderar a possibilidade do indivíduo morrer, ou seja, ele irá fazer todos os depósitos e receberá todos os benefícios.
+
+Neste caso, o problema não será atuarial e sim financeiro. Veja que a soma de benefícios trazido a valor presente (em t = 20) será: $36000*(1 + V + ... + V^{19})$. Assim, em t = 20, ele precisa ter acumulado com seus depósitos o valor de:
+
+- (I) $36000 * (1 + V + ... + V^{19}) = 36000 * \ddot{a}_{\overline{20}|} = 36000 * \frac{1 - V^{20}}{1-V} = 437.692,20$
+
+```{r}
+# Fazendo usando o R
+
+i = 0.06 # Taxa de juros
+n = 20 # Período considerado
+V = 1/(1+i) # Fator de desconto
+B = 36000 # Valor do benefício a receber
+
+# O valor que é preciso ter acumulado é igual a B * (1 - V^n) / (1 - V)
+# Colocando os valores na fórmula:
+
+ac = B * (1 - V^n) / (1 - V)
+
+cat("Dessa forma, o segurado precisa acumular o valor de: ", ac, sep = "")
+
+```
+
+O total capitalizado de seus depósitos no tempo t = 20 e com taxa de juros i = 6% a.a., será: 
+
+- (II) $x * [(1 + i)^{20} + (1 + i)^{19} + ... + (1 + i)] = x * (1 + i) * \frac{(1 + i)^{20} - 1}{i} = 38.99273 * x$
+
+```{r}
+# Fazendo usando o R
+
+i = 0.06 # Taxa de juros
+n = 20 # Período considerado
+B = 36000 # Valor do benefício a receber
+
+# O valor que é preciso ter acumulado é igual a B * (1 - V^n) / (1 - V)
+# Colocando os valores na fórmula:
+
+tx_ac = (1+i)*((1+i)^n-1)/i
+
+cat("Dessa forma, a taxa de capitalização acumulada será de: ", tx_ac, sep = "")
+
+```
+
+Então precisamos achar o valor de x tal que (I) = (II). 
+
+$437692.20 = 38.99273*x \implies x = \frac{437692.20}{38.99273} = 11224.97$
+
+Ou seja, deve-se pagar 11.224,97 u.m. por ano (lembremos que não estamos considerando a possibilidade do segurado falecer) para pagar o benefício anual de 36 mil ao longo de 20 anos.
+
+__Princípio da equivalência:__ O valor total dos compromissos do segurado, num certo momento, deve ser igual ao valor total dos compromissos do segurador no mesmo momento.
+
+Infelizmente, na prática não é tão simples calcular o prêmio como no exemplo anterior. Ainda não consideramos os carregamentos do prêmio (despesas administrativas, lucro, impostos) e não consideramos que o segurado poderá falecer tanto no momento dos depósitos quanto no momento de recebimento dos benefícios.
+
+Vamos considerar agora um exemplo mais simples. Pensemos no seguro de vida inteira que pagará R$ 100 ao fim do ano de morte do segurado. Então, o compromisso em valor presente do segurador é: 
+
+$Z = 100 * V^{K + 1}$
+
+Em que K é o número de anos inteiros de vida adicional do segurado.
+
+O contrato estipula que o segurado deverá pagar um prêmio constante P no início de cada ano enquanto o segurado sobreviver. Então, o compromisso do segurado, em valor presente, é igual a: 
+
+$Y = P + P*V + P*V^2 + ... + P*V^K = P*(1+V+V^2+ ... + V^K) = P*\frac{1-V^{K+1}}{1-V} \\ Y = P*\ddot{a}_{\overline{K+1}|}$
+
+Veja que, tanto Z quanto Y são variáveis aleatórias (v.a.'s). Pelo princípio da equivalência, gostaríamos de escolher P tal que:
+
+$Z - Y = 0$
+
+Mas isto é "impossível" de garantir, pois Z e Y são v.a.'s. 
+
+Gostaríamos de obter um prêmio tal que o princípio da equivalência fosse respeitado. Porém, como o Prêmio é dependente da relação de duas v.a.'s não seria possível, neste caso, definir um Prêmio constante para um segurado em particular. 
+
+Os produtos atuariais são calculados para um grupo grande de pessoas e funciona bem, em média. A partir desse princípio, poderemos calcular sim um Prêmio constante P que satisfaça nosso Princípio da Equivalência em média. Como?
+
+Queremos um Prêmio que satisfaça:
+
+$E[Z - Y] = E[0]$
+
+Neste caso, temos que:
+
+$E[Z] - E[Y] = 0$
+
+Como:
+
+$E[Z] = E[100*V^{K+1}] = 100*E[V^{K+1}] = 100*A_x \\ E[Y] = E[P*\ddot{a}_{\overline{K+1}|}] = P*E[\ddot{a}_{\overline{K+1}|}] = P*\ddot{a}_x$
+
+Usando o Princípio da Equivalência: 
+
+$0 = E[Z] - E[Y] = 100*A_x - P*\ddot{a}_x \implies P = 100*\frac{A_x}{\ddot{a}_x}$
+
+Veja que podemos obter o Prêmio utilizando apenas o cálculo do seguro de vida usando a seguinte relação:
+
+$\ddot{a}_x = \frac{1-A_x}{1-V}$
+
+Então:
+$P = 100*\frac{A_x}{\ddot{a}_x}$
+$P = 100 * \frac{A_x}{\frac{1-A_x}{1-V}} = 100 * A_x * \frac{1-V}{1-A_x} \\ P = 100 * \frac{(1-V)*A_x}{1-A_x}$
+
+__Exemplo__
+
+Suponha que um segurado de 65 anos deseja comprar um seguro de vida inteira que paga R$ 1,00 e deseja pagar um prêmio nivelado enquanto viver. Caso o atuário tenha calculado: A65 = 0.4397 para uma taxa de juros anual i = 0.05. Qual será o valor do prêmio a ser pago anualmente pelo segurado?
+
+__Resolvendo utilizando o R__
+
+```{r}
+i = 0.05 # Taxa de juros
+V = 1/(1+i) # Fator de desconto
+Ax = 0.4397 # 
+
+P = (1-V)*Ax / (1-Ax)
+
+P
+
+```
+
+Caso o segurado queira que o benefício seja de R$ 100,00 neste seguro de vida inteira, então: 
+$P = P*100 = 3.7369$
+
+Seguindo a linha de procurar um equilíbrio entre as obrigações do segurado e do segurador defina: 
+
+L = (V.P. dos benefícios) - (V.P. dos pagamentos dos prêmios),
+
+Em que L (de loss) é a v.a. que representa a perda do segurador. O princípio da equivalência pede que $E[L] = 0$.
+
+O valor do Prêmio que satisfaz este princípio é o Prêmio Puro. Veja que, se existe apenas um único pagamento (como estamos trabalhando ao longo do curso), então em t = 0
+
+L = (V.P. dos Benefícios a serem concedidos) - P
+
+Neste caso, considerando que obteremos o Prêmio Puro tal que a Esperança da Perda seja igual a zero:
+
+E[L] = 0
+
+E[L] = E[V.P. dos B.'s a serem concedidos] - P = 0
+
+P = E[V.P. dos B.'s a serem concedidos]
+
+Que é o princípio utilizado para cálculo de prêmio utilizado até o momento.
+
+__Exemplo__
+
+Suponha um seguro de vida temporário por 10 anos que paga C no final do ano de morte de $(x) = (40)$ anos se a morte ocorrer no período de ? e 10 anos. Seja P o prêmio periódico anual pago antecipadamente enquanto o segurado estiver vivo, por não mais que 10 anos. Determine o Prêmio "não-único" P deste contrato.
+
+__Solução:__
+
+Como dito anteriormente, queremos calcular o Prêmio tal que $E[L] = 0$.
+
+Veja que estamos considerando L como uma V.A. e, a partir daí, calculando sua esperança matemática. Para calcular a Esperança Matemática desta V.A. é necessário reconhecer duas caoisas nessa V.A., você se lembra quais são? __A lista de valores possíveis com suas respectivas probabilidades associadas__. Como L é a perda da seguradora, veremos inicialmente os valores possíveis dos benefícios a serem concedidos (compromisso do segurador).
+
+$Z = \begin{cases} c*V^{K+1},\, \text{se } K = 0, 1, 2, ..., 9 \\ 0,\, \text{se } K = 10, 11, 12, ... \end{cases}$
+
+E como ficam os valores possíveis dos pagamentos realizados pelo segurado? (Lembrando que ele poderá falecer antes de completar todas as contribuições). 
+
+Assim:
+
+$Y = \begin{cases} P*\ddot{a}_{\overline{K+1}|} = P*(1+V+V^2+...+V^K),\, \text{se } K = 0, 1, 2, ..., 9 \\ P*\ddot{a}_{\overline{10}|},\, \text{se } K \ge 10\end{cases}$
+
+$L = \begin{cases} c*V^{K+1} - P*\ddot{a}_{\overline{K+1}|},\, \text{se } K = 0, 1, 2, ..., 9 \\ -P*\ddot{a}_{\overline{10}|},\, \text{se } K \ge 10\end{cases}$
+
+Veja que já calculamos várias vezes a $E[Z*]$ e $E[Y*]$ que são, respectivamente, dadas por:
+
+$A^1_{40: \overline{10}|} \quad\quad \ddot{a}_{40:\overline{10}|}$
+
+Então:
+
+$E[L] = c * A^1_{40:\overline{10}|} - P * \ddot{a}_{40:\overline{10}|}$
+
+$ 0 = c * A^1_{40:\overline{10}|} - P * \ddot{a}_{40:\overline{10}|} \Leftrightarrow P = \frac{c * A^1_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}$
+
+__Exemplo__
+
+Seja uma pessoa de 40 anos que queira comprar um seguro de vida temporário por 5 anos. Para isso, o segurado deseja pagar durante a vigência do contrato um prêmio fixo. Qual o valor do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i = 0.05 a.a?
+
+__Resolvendo utilizando o R__
+
+```{r}
+options(scipen = 999, digits = 5)
+
+install.packages("readxl") # Precisamos do pacote readxl para ler arquivos no formato .xls ou .xlsx
+
+tmp = tempfile(fileext = ".xls")
+url = "https://github.com/nadsu077/MatAtuarial/raw/main/AT-49.xls" # Link para a tabela AT-49
+download.file(url, destfile = tmp, quiet = T) # Baixando a tabela
+
+at49 = as.data.frame(readxl::read_excel(tmp)) # Lendo o arquivo da tabela AT-49
+
+i = 0.05 # Taxa a ser considerada
+V = 1/(1+i) # Fator de desconto
+n = 5 # Período a ser considerado
+idade = 40 # Idade do segurado
+
+print(head(at49, 5))
+
+a40_5 = c(); A40_5 = c()
+
+for(k in (idade+1):(idade+n)){
+# Calculando ä40:5¬
+# Assim, o V.P.A. é: äx = E[Y] = (somatório de j=0 a inf) äj+1¬ * jpx * qx+j
+# Ou
+# äx = E[Y] = (somatório de j=0 a inf) V^j * jpx
+  a40_5[k-idade] = V^(k-idade-1)*(at49[k,2]/at49[idade+1,2])
+# Calculando A¹40:5¬
+# A¹|x:n] = (somatório de j = 0 a n-1) 1 * V^(j+1) * jpx * qx+j
+  A40_5[k-idade] = V^(k-idade) * (at49[k,2]/at49[idade+1,2]) * at49[k,3]
+}
+
+sum(a40_5)
+sum(A40_5)
+
+P = sum(A40_5) / sum(a40_5)
+
+# Caso, no exemplo anterior o benefício do seguro seja de R$ 5000.00, então:
+# P = 5000 * A¹40:5¬ / ä40:56 =>
+
+cat("O prêmio a ser pago pelo segurado é igual a: ", 5000*P, sep = "")
+
+```
+
+### __Exemplo__
+
+Considere agora, à luz do enunciado do exemplo 3, que o mesmo segurado queira comprar um seguro de vida inteira e pagar prêmios enquanto estiver vivo (começando a pagar o prêmio antecipadamente). Qual deverá ser o valor deste prêmio?
+
+Veja que, neste caso:
+
+$\ddot{a}_{40} = 16.5233$
+
+$A_{40} = 0.2132$
+
+Então: 
+
+$P = A_{40} / \ddot{a}_{40} = \frac{0.2132}{16.5233} = 0.0129$
+
+```{r, include = F, echo = F}
+# PARA AVALIAR E CORRIGIR
+
+# Assim, o V.P.A. é: äx = E[Y] = (somatório de j=0 a inf) äj+1¬ * jpx * qx+j
+# Ou
+# äx = E[Y] = (somatório de j=0 a inf) V^j * jpx
+# No seguro pago no final do ano de morte o VPA é: 
+# Ax = E[Z] = (somatório de j = 0 a inf) V^(j+1) * jpx * qx+j
+
+# Calculando ä40
+options(scipen = 999, digits = 5)
+
+install.packages("readxl") # Precisamos do pacote readxl para ler arquivos no formato .xls ou .xlsx
+
+tmp = tempfile(fileext = ".xls")
+url = "https://github.com/nadsu077/MatAtuarial/raw/main/AT-49.xls" # Link para a tabela AT-49
+download.file(url, destfile = tmp, quiet = T) # Baixando a tabela
+
+at49 = as.data.frame(readxl::read_excel(tmp)) # Lendo o arquivo da tabela AT-49
+
+i = 0.05 # Taxa a ser considerada
+V = 1/(1+i) # Fator de desconto
+n = 5 # Período a ser considerado
+idade = 40 # Idade do segurado
+
+head(at49, 5)
+
+a40 = c(); A40 = c()
+
+for(k in (idade+1):(idade+n)){
+  # Calculando ä40
+  # Assim, o V.P.A. é: äx = E[Y] = (somatório de j=0 a inf) äj+1¬ * jpx * qx+j
+  # Ou
+  # äx = E[Y] = (somatório de j=0 a inf) V^j * jpx
+  
+  a40[k-idade] = V^(k-idade-1) * (at49[k,2]/at49[(idade+1),2])
+  
+  # Ax = E[Z] = (somatório de j = 0 a inf) V^(j+1) * jpx * qx+j
+  A40[k-idade] = V^(k-idade) * (at49[k,2]/at49[(idade+1),2]) * at49[k,3]
+}
+
+sum(a40)
+sum(A40)
+
+P = sum(A40) / sum(a40)
+P
+
+sum(A40_5) / sum(a40_5)
+sum(A40) / sum(a40)
+
+```
+
+Veja que, no exemplo 3, o período de cobertura do seguro é menor que o período de cobertura do seguro no exemplo 4. Analisando apenas esse aspecto, o prêmio deveria ser maior no exemplo 4 que o prêmio cobrado no exemplo 3. No entanto, o período de recebimento de prêmio é maior no exemplo 4 (durante toda a vida do  segurado) que no exemplo 3, o que nos levaria a pensar que o prêmio cobrado no exemplo 4 deveria ser menor que no exemplo 3. Nesta "briga" de risco em relação ao período de recebimento, o prêmio cobrado no exemplo 4 é aproximadamente  5 vezes maior que o prêmio cobrado no exemplo 3.
+
+__Exemplo__
+
+Seja um segurado de 40 anos de idade que resolve contratar um seguro de vida inteiro que paga R$ 1.00 ao final do ano de morte e decide pagar esse seguro em 10 parcelas iguais, sendo a primeira paga imediatamente. Considerando uma tábua de vida AT-49 e uma taxa de juros anual de 5%. Qual deverá ser o valor do prêmio pago por esse segurado?
+
+__Solução:__
+
+Para resolvermos esse exercício devemos lembrar do Princípio da Equivalência que diz que o compromisso do segurador é igual ao compromisso do segurado em um determinado tempo t. ou, de outra forma:
+
+L = V.P. das obrigações da seguradora - V.P. das obrigações do segurado
+
+Queremos um Prêmio tal que E[L] = 0:
+
+Seja a v.a. Z que representa o compromisso da seguradora e Y a v.a. que representa o compromisso do segurado.
+
+$Z = V^{T+1},\, \text{para } T \ge 0$
+
+$Y = P * \ddot{a}_{\overline{T}|},\, \text{para } 0 < T < 10$
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y] = E[V^{T+1}] - E[P*\ddot{a}_{\overline{T}|}] = E[V^{T+1}] - P*E[\ddot{a}_{\overline{T}|}] \\0 = A_{40} - P*\ddot{a}_{40:\overline{10}|} \implies P = \frac{A_{40}}{\ddot{a}_{40:\overline{10}|}}$
+
+O exercício se resume ao cálculo de uma anuidade e de um seguro de vida inteiro. Sabemos calcular os dois.
+
+$A_{40} = 0.2132$
+
+$\ddot{a}_{40:\overline{10}|} = 8.01582$
+
+```{r, echo = F, include = F}
+## REALIZAR O CÁLCULO
+# No seguro pago no final do ano de morte o VPA é: Ax = E[Z] = (somatório de j = 0 a inf) V^(j+1) * jpx * qx+j
+"n = 10; idade = 40; i = 0.05; V = 1/(1+i)
+
+for (j in (idade+1):(idade+n)){
+  V^(j-idade) * (at49[j,2] / at49[idade+1,2]) * 
+}"
+
+A40 = 0.2132
+a40_10 = 8.01582
+
+P = A40 / a40_10
+```
+
+__Exemplo__
+
+Uma pessoa de 20 anos decide contratar uma aposentadoria vitalícia que pagará R$ 1,00 ao ano até que este segurado faleça. Ele se aposentará caso chegue vivo à idade de 60 anos. Esse segurado decide pagar um Prêmio nivelado enquanto estiver ativo. Considerando a tábua de mortalidade AT-49 e a taxa de juros de 5% ao ano, qual será o valor do Prêmio a ser pago pelo segurado?
+
+__Solução:__
+
+Novamente, vamos calcular o prêmio P tal que a esperança de L seja zero. Então:
+
+$L = Z - Y$
+
+Em que:
+
+$Z = \begin{cases} \ddot{a}_{\overline{T}|},\, \text{se } T>40 \\ 0,\, \text{se c.c.} \end{cases}$
+
+$Y = \begin{cases} P*\ddot{a}_{\overline{T}|},\, \text{se } 0 < T < 40 \\ P*\ddot{a}_{\overline{40}|},\, \text{se } T \ge 40 \end{cases}$
+
+
+Logo, 
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y] = E[V^{T+1}] - E[P * \ddot{a}_{\overline{T}|}] = E[V^{T+1}] - P*E[\ddot{a}_{\overline{T}|}] \\0 = {}_{40|}\ddot{a}_{20} - P * \ddot{a}_{20:\overline{40}|} \\ P = \frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20:\overline{40}|}} = \frac{1.4284}{7.2794} = 0.19622$
+
+Caso o segurado tenha interesse de receber R$ 25.000,00 ao ano, então:
+
+$P = 25000 * \frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20:\overline{40}|}} = 25000 * 0.19622 = 4905.52$
+
+__Exemplo__
+
+Suponhamos que o salário do segurado no exemplo anterior seja insuficiente para pagar os prêmios durante o período em que ele está em idade ativa. O segurado pergunta ao atuário se é possível pagar um prêmio anual nivelado durante toda a sua vida (inclusive enquanto aposentado). Qual deveria ser o prêmio pago pelo segurado neste caso?
+
+__Solução:__
+
+Veja que, neste caso, o que o segurado está fazendo será diminuir o beneficício que irá receber. De fato, o segurado irá receber um benefício como no exemplo 6, porém parte deste benefício estará comprometido para pagamento do prêmio. Como anteriormente, queremos um prêmio tal que E[L] = 0.
+
+$P = \frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20}}$ 
+A anuidade diferida de 40 anos da seguradora pela anuidade vitalícia do segurado
+
+
+## Prêmios carregados
+
+Nas aulas anteriores aprendemos como calcular o Prêmio Puro Único e o Prêmio Nivelado. Nos dois casos estamos calculando o prêmio de risco, ou seja, o prêmio a ser cobrado do segurado para que a seguradora consiga pagar todas as indenizações relativas a sinistros ocorridos. No entanto, nenhum dos prêmios cobrados será suficiente para pagar as despesas administrativas da seguradora (ou fundo de pensão). 
+
+Veremos agora como incluir no prêmio as despesas da seguradora.Para incluirmos as despesas da seguradora no prêmio puro devemos inicialmente dividir as despesas no que diz à incidência. Algumas despesas irão ocorrer apenas no momento da aquisição do contrato como: comissão de corretagem, despesas com médicos examinadores, ordenado com empregados ligados à aquisição da apólice, etc. 
+
+Em contrapartida, algumas despesas incidem enquanto o segurado estiver ligação com a empresa (período de pagamento de prêmio ou recebimento de benefício). Algumas dessas despesas são: salários de funcionários, despesas com informática, correspondência, aluguel, impostos, etc.
+
+Sobre o Prêmio Puro, pode-se adicionar carregamentos de segurabilidade para diminuir o risco de insolvência da seguradora a partir da Teoria do Risco de Ruína. Até o final do curso, estudaremos os carregamentos relativos às despesas apresentadas anterioremente. 
+
+Dividiremos os Prêmios carregados em:
+
+- a) Prêmio de Inventário
+
+- b) Prêmio Zilmerado
+
+- c) Prêmio Comercial ou de Tarifa
+
+### __a) Prêmio de Inventário__
+
+O prêmio de inventário deve ser mensurado para atender às despesas de administração e demais despesas que incidem ao longo do contrato de seguro (além do prêmio de risco).
+
+Para exemplificar este tipo de seguro, pensemos em uma pessoa de idade x que contrata um seguro de vida inteira que paga R$ 1,00 no final do ano de morte deste segurado. Sabemos que o prêmio puro único seria dados por:
+
+$A_x = \displaystyle \sum_{k = 0}^{\infty} V^{k+1} * {}_{k}p_{x} * q_{x+k}$
+
+Caso o segurado tenha interesse em fazer pagamentos nivelados até o momento de morte, então o prêmio seria:
+
+$P = \frac{A_x}{\ddot{a}_x}$
+
+Queremos calcular o prêmio (de Inventário) que faça frente às despesas administrativas que incidem ao longo do período de vigência do contrato. Em outras palavras, queremos cobrar um prêmio do segurado que, em média, seja suficiente para cobrir os riscos (prêmio puro) e as despesas da seguradora. Ou seja, queremos calcular o Prêmio P' tal que E[L] = 0.
+
+Vejam que a teoria já vista é extremamente importante para calcularmos o prêmio com este carregamento. 
+
+Lembremos que: 
+
+$L = Z - Y$
+
+Em que Z é a obrigação da seguradora e Y é a obrigação do segurado. 
+
+A obrigação da seguradora, agora, é diferente do que havíamos calculado anteriormente.
+
+A obrigação da seguradora é, além de pagar as indenizações, pagar também as despesas administrativas para seu funcionamento (durante o período de vigência do contrato). Neste caso, Z é uma V.A. cuja função (em relação ao tempo de vida adicional) pode ser descrita como:
+
+Obrigação da seguradora com o segurado:
+$Z = \begin{cases}V^{K+1} + \gamma * \ddot{a}_{\overline{K}|},\, \text{se } K \ge \\ 0,\, \text{c.c} \end{cases}$
+
+E qual a obrigação do segurado? O Segurado se compromete a pagar o prêmio enquanto estiver vivo. 
+
+Mantendo a notação, P' é o prêmio que assume essas despesas da seguradora, então:
+
+$Y = \begin{cases}P' * \ddot{a}_{\overline{K}|},\, \text{se } K \ge 0 \\ 0,\, \text{c.c}\end{cases}$
+
+Quase nenhum esforço adicional é necessário. Veja que queremos calcular P' tal que E[L] = 0, então:
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y] \\ E[Z] - E[Y] = A_x + \gamma * \ddot{a}_x - P' * \ddot{a}_x = 0 \\ P'*\ddot{a}_x = A_x + \gamma * \ddot{a}_x \\ P' = \frac{A_x + \gamma*\ddot{a}_x}{\ddot{a}_x} \\ P' = \frac{A_x}{\ddot{a}_x} + \frac{\gamma*\ddot{a}_x}{\ddot{a}_x} \\P' = \frac{A_x}{\ddot{a}_x} + \gamma \\ P' = P + \gamma$
+
+Lembremos que o prêmio puro (nivelado) seria calculado pela fórmula: $P = \frac{A_x}{\ddot{a}_x}$, ou seja, o prêmio de inventário é calculado pela soma do prêmio puro mais a parte das despesas que é gerada periodicamente pelo segurado. De outra forma: $P' = P + \gamma$
+
+__Exemplo 1:__
+
+Seja uma pessoa de 40 anos que queira comprar um seguro de vida inteiro que paga R$ 1,00 ao final do ano de morte. Para isso, o segurado deseja pagar durante a vigência do contrato um prêmio fixo. 
+Qual o valor do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i = 0.05? Considere, para o cálculo do prêmio, que o segurado deve pagar uma quantia anual de R$ 0.005 relativos a gastos administrativos.
+
+__Solução:__
+
+Já vimos no exemplo 4 dos slides de Prêmios e Benefícios que o prêmio de risco (ou prêmio puro) é de R$ 0,0129. 
+Utilizando a fórmula: $P' = P + \gamma$ temos que: $P' = 0.0129 + 0.005 = 0.0179$
+
+__Exemplo__
+
+Seja uma pessoa de 40 anos que queira comprar um seguro de vida temporário por 5 anos. Para isso, o segurado deseja pagar durante a vigência do contrato um prêmio fixo. Qual o valor do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i = 0.05, considerando, para o cálculo do prêmio, que o segurado deve pagar uma quantia anula de R$ 0.0005 relativos a gastos administrativos.
+
+__Solução:__
+
+Este exemplo está inspirado no exemplo 3 de Prêmios e Benefícios. Veja que queremos calcular um prêmio que contemplo os gastos administrativos tal que E[L] = 0. Temos que: 
+
+$P' = \frac{A_{x:\overline{5}|} + \gamma * \ddot{a}_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} \\ P' = \frac{A_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} + \gamma \\ P' = P + \gamma$
+
+O valor de P já foi calculado no exemplo 3 da aula de Benefícios e Prêmios.
+
+$P = 0.002518 \implies P' = 0.002518 + 0.0005 = 0.003018$
+
+Caso o interesse seja calcular o prêmio para produtos atuariais e formas de pagamento diferentes, deve ser feito de forma similar aos exemplos anteriores. Basta usar o princípio da equivalência. $L = Z - Y = 0$
+
+### __b) Prêmio Zilmerado (Zilmer, 1863)__
+
+Este tipo de prêmio considera despesas de aquisição, quando esta é cara o suficiente para que o segurado deseja pagá-la em um período bem menor do que o período de vigência do contrato.
+
+Neste caso, o segurado irá pagar um prêmio P' durante um período até o pagamnento relativo às despesas de aquisição e, em seguida, pagará um prêmio P relativo ao risco. Calculando, então esses prêmios tais que E[L] = 0, teremos:
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y]$
+
+Mas qual é, nesse caso, a obrigação do segurado? Quanto ele gastará, em média, com esse segurado? Podemos dizer que o gasto será relativo ao seguro e à despesa que a seguradora terá no momento de aquisição do contrato, então: 
+
+$E[Z] = A_x + \alpha$
+
+Em que $\alpha$ é o gasto inicial da seguradora. Vamos identificar agora o compromisso do segurado.
+
+$E[Y] = P' * \ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x$
+
+Como queremos calcular o prêmio tal que E[L] = 0, o resultado fica: 
+
+$E[Z] - E[Y] = (A_x + \alpha) - (P'*\ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x) = 0$
+
+$P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*{}_{s|}\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}}$
+
+Em que, ${}_{s|}\ddot{a}_x = \ddot{a}_x - \ddot{a}_{x:\overline{s}|}$
+
+Agora, $P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*(\ddot{a}_x - \ddot{a}_{x:\overline{s}|})}{\ddot{a}_{x:\overline{s}|}}$
+
+$P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} + P$
+
+$P' = \frac{A_x - P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} + P$
+
+- Veja que $A_x - P*\ddot{a}_x$ é $Z - Y$ e que, portanto, é igual a 0, logo:
+
+$P' = P + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}}$
+
+### __c) Prêmio Comercial ou de Tarifa__
+
+O prêmio comercial é o prêmio que contempla as duas despesas apontadas anteriormente.
+
+$\gamma =$ Despesa de administração
+$\alpha =$ Despesa de aquisição
+
+$P' = P + \gamma + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}}$
