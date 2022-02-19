@@ -1,0 +1,15 @@
+name: "mat-atuarial"
+output_dir: "."
+navbar:
+  title: "Matemática Atuarial I"
+  left:
+    - text: "Início"
+      href: index.html
+    - text: "Curso"
+      href: about.html
+    - text: "Conteúdos"
+      href: contents.html
+output: 
+  html_document:
+    theme: cerulean
+    css: "style.css"
