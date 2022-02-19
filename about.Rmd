@@ -1,0 +1,67 @@
+---
+title: "Matemática Atuarial I"
+---
+
+- ## __Sobre o Curso:__
+
+O conteúdo de matemática atuarial I irá abordar conceitos básicos, como:
+
+  - __Seguros de vida pagos no momento de morte (tempo contínuo e discreto)__
+   
+    - Seguro de vida temporário de n-anos
+   
+    - Seguro de vida inteira
+   
+    - Seguro Dotal puro de n-anos
+   
+    - Seguro Dotal Misto
+   
+    - Seguro de Capital Diferido
+    
+  - __Anuidades ou séries financeiras__
+  
+  - __Anuidades atuariais (discretas e contínuas)__
+  
+    - Anuidades Vitalícias (contínua)
+  
+    - Valor Presente Atuarial (contínua)
+  
+    - Anuidades temporárias (contínua)
+  
+    - Anuidade Vitalícia Diferida de m anos (contínua)
+  
+    - Anuidade Vitalícia com Pagamentos Certos para os Primeiros m anos (contínua)
+  
+    - Anuidade Antecipada (discreta)
+  
+  - __Prêmios e benefícios__
+  
+  - __Prêmios carregados__
+  
+    - Prêmio de inventário
+  
+    - Prêmio Zilmerado (Zilmer, 1863)
+  
+    - Prêmio comercial (ou de tarifa)
+    
+### Exposto os conteúdos abordados pelo curso, é importante que o aluno tenha conhecimentos sobre as seguintes áreas:
+
+  - __Matemática Financeira__
+  
+    - Juros e inflação
+    
+    - Valor futuro e valor presente
+    
+    - Vendas parceladas
+    
+    - Formas de amortização
+  
+  - __Funções de tabelas de sobrevivência (Tábuas de vida ou morte)__
+  
+  - __Teoria Econômica (Teoria da Utilidade)__
+    
+    - Utilidade total e marginal
+    
+    - Teoria do consumidor (Teoria da utilidade)
+    
+    - Microeconomia do seguro
