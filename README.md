@@ -1,2 +1,3 @@
-# MatAtuarial
-Repositório destinado ao conteúdo de Matemática Atuarial I. O Conteúdo aqui presente foi elaborado a partir do material da professora Luana Myrrha em conjunto com demais professores.
+Repositório destinado ao site com material de apoio para a disciplina de matemática atuarial 1.
+
+O site pode ser acessado pelo site https://mat-atuarial-1-ufrn.netlify.app/
