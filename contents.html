@@ -1584,7 +1584,9 @@ por:</p>
 <p>Então:</p>
 <p><span class="math inline">\(E[L] = c * A^1_{40:\overline{10}|} - P *
 \ddot{a}_{40:\overline{10}|}\)</span></p>
-<p>$ 0 = c * A^1_{40:|} - P * _{40:|} P = $</p>
+<p><span class="math inline">\(0 = c * A^1_{40:\overline{10}|} - P *
+\ddot{a}_{40:\overline{10}|} \Leftrightarrow P = \frac{c *
+A^1_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}\)</span></p>
 <p><strong>Exemplo</strong></p>
 <p>Seja uma pessoa de 40 anos que queira comprar um seguro de vida
 temporário por 5 anos. Para isso, o segurado deseja pagar durante a
@@ -1639,9 +1641,7 @@ sum(a40_5)</code></pre>
 
 cat(&quot;O prêmio a ser pago pelo segurado é igual a: &quot;, 5000*P, sep = &quot;&quot;)</code></pre>
 <pre><code>## O prêmio a ser pago pelo segurado é igual a: 11.97</code></pre>
-</div>
-<div id="exemplo" class="section level3">
-<h3><strong>Exemplo</strong></h3>
+<p><strong>Exemplo</strong></p>
 <p>Considere agora, à luz do enunciado do exemplo 3, que o mesmo
 segurado queira comprar um seguro de vida inteira e pagar prêmios
 enquanto estiver vivo (começando a pagar o prêmio antecipadamente). Qual

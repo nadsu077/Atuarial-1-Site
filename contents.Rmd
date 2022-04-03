@@ -1197,7 +1197,7 @@ Então:
 
 $E[L] = c * A^1_{40:\overline{10}|} - P * \ddot{a}_{40:\overline{10}|}$
 
-$ 0 = c * A^1_{40:\overline{10}|} - P * \ddot{a}_{40:\overline{10}|} \Leftrightarrow P = \frac{c * A^1_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}$
+$0 = c * A^1_{40:\overline{10}|} - P * \ddot{a}_{40:\overline{10}|} \Leftrightarrow P = \frac{c * A^1_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}$
 
 __Exemplo__
 
@@ -1249,7 +1249,7 @@ cat("O prêmio a ser pago pelo segurado é igual a: ", 5000*P, sep = "")
 
 ```
 
-### __Exemplo__
+__Exemplo__
 
 Considere agora, à luz do enunciado do exemplo 3, que o mesmo segurado queira comprar um seguro de vida inteira e pagar prêmios enquanto estiver vivo (começando a pagar o prêmio antecipadamente). Qual deverá ser o valor deste prêmio?
 
