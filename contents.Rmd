@@ -4,7 +4,7 @@ output: html_document
 
 # Selecione o conteúdo {.tabset .tabset-pills}
 
-Antes de escolher o assunto a ser estudado, esteja ciente de que você tem compreensão sobre matemática financeira e as funções de tábua de vida (ou morte), pois sem o devido entendimento dos assuntos citados será difícil compreender o que está sendo abordado.
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado no nossa pagina inicial (colocar o link que direciona para essa parte)
 
 ## Seguros pagos no momento de morte
 
