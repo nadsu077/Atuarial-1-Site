@@ -4,9 +4,9 @@ title: "Matemática Atuarial I"
 
 - ## __Sobre o Curso:__
 
-O presente site foi elaborado para a disciplina de Matemática Atuarial I, onde o conteúdo exposto foi preparado pela Dra. Luana Junqueira Dias Myrrha, professora adjunta do Departamento de Demografia e Ciências Atuariais (DDCA) da Universidade Federal do Rio Grande do Norte (UFRN), em conjunto com demais colegas professores da atuária. 
+O presente site foi elaborado pelo disciente Nadson Angelo Silva Nogueira para a disciplina de Matemática Atuarial I, a partir do conteúdo elaborado pela Dra. Luana Junqueira Dias Myrrha, professora adjunta do Departamento de Demografia e Ciências Atuariais (DDCA) da Universidade Federal do Rio Grande do Norte (UFRN), em conjunto com demais colegas professores de atuária de outras instituições brasileiras. Destaca-se aqui o nome do Dr. Renato Assunção, professor do Departamento de Ciência da Computação da Universidade Federal de Minas Gerais (UFMG), quem inicou a contrução deste material no curso de Ciências Atuariais da UFMG.  
 
-Este material serve de apoio aos alunos que estão cursando a disciplina de matemática atuarial I, contendo as explicações de fórmulas utilizadas na disciplina, exemplos resolvidos e explicados com resolução feita de forma manual e utilizando a linguagem R.
+Este material serve de apoio aos alunos que estão cursando a disciplina de Matemática Atuarial I, pois contém as explicações das formúluas utilizadas na disciplina e exemplos resolvidos manualmente e utilizando a linguagem R.
 
 O conteúdo da disciplina irá abordar conceitos básicos, como:
 
@@ -50,9 +50,11 @@ O conteúdo da disciplina irá abordar conceitos básicos, como:
     
 ### Exposto os conteúdos abordados pelo curso, é importante que o aluno tenha conhecimentos sobre as seguintes áreas:
 
+  - __Cálculo Diferencial e Integral I__
+  
   - __Probabilidade e Estatística__
 
-  - __Matemática Financeira__
+- __Matemática Financeira__
   
     - Juros e inflação
     
@@ -64,10 +66,6 @@ O conteúdo da disciplina irá abordar conceitos básicos, como:
   
   - __Funções de tabelas de sobrevivência (Tábuas de vida ou morte)__
   
-  - __Teoria Econômica (Teoria da Utilidade)__
+
     
-    - Utilidade total e marginal
     
-    - Teoria do consumidor (Teoria da utilidade)
-    
-    - Microeconomia do seguro
