@@ -4,7 +4,9 @@ output: html_document
 
 # Selecione o conteúdo {.tabset .tabset-pills}
 
-Antes de escolher o assunto a ser estudado, esteja ciente de que você tem compreensão sobre matemática financeira e as funções de tábua de vida (ou morte), pois sem o devido entendimento dos assuntos citados será difícil compreender o que está sendo abordado.
+<div style="text-align: justify">
+
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado na área [sobre o curso](https://atuarial-1-ufrn.netlify.app/about.html)
 
 ## Seguros pagos no momento de morte
 
@@ -1523,3 +1525,5 @@ $\gamma =$ Despesa de administração
 $\alpha =$ Despesa de aquisição
 
 $P' = P + \gamma + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}}$
+
+</div>
