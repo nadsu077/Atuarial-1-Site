@@ -4,6 +4,8 @@ title: "Matemática Atuarial"
 
 - __O que é:__
 
+<div style="text-align: justify">
+
 Conhecida também como matemática dos seguros, a matemática atuarial trabalha com cálculos para avaliar riscos e sistemas de investimento de seguro. Criada através da probabilidade para jogos (teoria dos jogos), no século XVII, na europa, seu susgimento está vinculado a necessidade de ter um sistema capaz de responder questões referentes ao funcionamento dos sistemas de seguro e previdência com o desenvolvimento da sociedade.
 
 - __Ciências Atuariais:__
@@ -14,3 +16,4 @@ As Ciências Atuariais (Atuária) é a ciência que analisa e gerencia riscos e 
 
 Embora suas origens tenham raízes na Roma antiga, as ciências atuariais surgiram formalmente na Inglaterra no século XIX, estudando os padrões de mortalidade da população e seus principais desdobramentos: cálculos da expectativa de vida, com interesse em aposentadorias e pensões.
 
+</div>
