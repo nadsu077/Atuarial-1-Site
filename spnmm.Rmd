@@ -1,0 +1,495 @@
+---
+output: html_document
+---
+
+<div style="text-align: justify">
+
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado na área [sobre o curso](https://atuarial-1-ufrn.netlify.app/about.html)
+
+### __Seguros pagos no momento de morte__
+
+Seja (x) = indivíduo de idade x que faz um seguro de vida inteira (vitalício)
+
+Seja T = tempo de vida futuro ou adicional de x
+
+T é uma v.a. e $T \in (0, \infty)$
+
+Probabilidades são expressas como função densidade
+
+__Exemplo 1:__
+
+Deseja-se que um beneficiário receba 100 mil reais no __momento de morte__, daqui a T ano.
+Qual é o valor presente desses R$ 100.000,00 que serão recebidos daqui a T anos?
+
+__Solução feita no R__
+
+``` {r}
+vf = 100000 # Valor Futuro
+i = 0.05 # Taxa a ser considerada
+t = 50 # Tempo em anos
+
+v = 1/(1+i)
+vp = vf*(v^t)
+vp
+
+```
+
+Onde: 
+
+$V = \frac{1}{(1+i)}$
+
+Logo:
+
+$V^t = \frac{1}{(1+i)^t}$
+
+__Exemplo 2:__
+
+Suponha que T é uma v.a. com apenas 3 valores: 5,5; 32,3 e 50 anos. Quanto (x) deveria pagar hoje para esse seguro de modo que a seguradora receba o necessário para pagar, em média, a indenização de R$ 100.000,00 no futuro?
+
+__Solução__
+
+O justo seria a seguradora cobrar um prêmio igual ao valor esperado de V.P. (estamos ignorando, por enquanto, a necessidade da seguradora cobrir despesas e lucros)
+
+$E[VP] = (76.464,32) * P(T = 5,5) + (20.480,84) * P(T = 32,3) + (8.720,37) * P(T = 50)$
+
+$E[VP] = vf * (V^{5,5} * P(T = 5,5) + V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))$
+
+$E[VP] = 100.000 * (V^{5,5} * P(T = 5,5) + V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))$
+
+$E[VP] = 100.000 * E[V^t]$
+
+$E[VP] = B * E[V^t]$
+
+$$E[V^t] = \sum_{0}^{\infty} V^t * P(T = t)$$
+
+Se T fosse uma v.a. contínua
+
+$$E[V^t] = \displaystyle \int_{0}^{\infty} V^t * f_T(t)\, dt$$
+
+__Principais pontos:__
+
+O valor presente (V.P.) da indenização futura é incerto porque depende da v.a. T;
+
+O horizonte é de longo prazo;
+
+t = 0 tempo entre a emissão da apólice e a morte;
+
+Função benefício $\to b_t = b(t)$;
+
+Função de desconto $\to V_t = V^t$;
+
+Função de valor presente $\to Z(t) = b(t) * V^t$.
+
+Como T é uma v.a. Z(t) também é v.a. que possui uma lista de valores possíveis e probabilidades associadas.
+
+### __Seguro de vida__
+
+Chame de Prêmio Puro (PP) a parcela do prêmio, suficiente para pagar sinistros. Neste sentido o Prêmio Puro é o prêmio que propõe o pagamento de despesas relacionadas ao risco que está sendo assumido pela seguradora.
+
+$E[VP] = E[Z(t)] \to E[VP] = VPA$
+
+### __Seguro de vida temporário de n-anos__ $\overline{A}^{1}_{x:\overline{n}|}$
+
+Paga uma unidade monetária somente se o segurado morre dentro de n-anos
+
+$b(t) = \begin{cases} 1, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+$V_t = V^t$ Fator de desconto
+
+$Z(t) = \begin{cases}V^t, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+__Exemplo__
+
+- $(x) = \text{30 anos}$
+
+- $(n) = \text{20 anos}$
+
+- i = 5%, logo, V = 0.9524
+
+- T ~ U(0; 70)
+
+__Solução__
+
+$Z(t) = \begin{cases}0.9524^t, \, \text{se } t \le n \\ 0, \, \text{se } c.c.\end{cases}$
+
+$E[Z] = \displaystyle \int_{0}^{20} Z(t) * f_T(t)\, dt$
+
+$E[Z] = \displaystyle \int_{0}^{20} V^t * T\, dt$
+
+$E[Z] = \displaystyle \int_{0}^{20} 0.9524^t * \frac{1}{70}\, dt$
+
+$E[Z] = \frac{1}{70} * \frac{1}{ln(0.9524)} * [0.9524^t|_{0}^{20}]$
+
+$E[Z] = 0.1825$
+
+__Resolvendo o exemplo usando o R__
+
+```{r}
+# Criando a função a ser integrada [Z(t) * fT(t)]
+unif = function(v, b, a){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){v^t*1/(b-a)})
+}
+
+# Integrando a função no intervalo de 0 a 20
+integrate(unif(v = 0.9524, 70, 0), lower = 0, upper = 20)$value
+
+```
+
+Isto é, cada 1 real eventualmente pago no futuro (dentro de 20 anos) vale, hoje, 18.25 centavos
+
+Se o valor do benefício a ser pago for 87 mil reais, então O VPA desse seguro é de 87000 * 0.1825 = 15877.5
+
+Observe que no contrato de seguro de vida temporário existe a incerteza sobre a ocorrência ou não da indenização
+e sobre a ocorrência ou não da indenização e sobre o momento do pagamento eventual
+
+Se b(t) é uma constante, não há incerteza sobre o valor a ser pago
+
+Notação: no caso de b(t) = 1 (uma unidade)
+
+$\overline{A}^{1}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} Z(t) * f_T(t) dt = \displaystyle \int_{0}^{n} 1 * V^t * f_T(t)\, dt$
+
+$\overline{A} \to \text{Seguro pago no momento de morte}$
+
+$^1 \to \text{Temporário}$
+
+$_x \to \text{Idade}$
+
+$_n \to \text{Tempo de vigência}$
+
+Sabemos que, de acordo com as relações de tabelas de vida:
+
+$f_T(t) dt = \sideset{_t}{}p_x * \mu(x+t)\, dt$
+
+Dessa forma, podemos escrever: 
+$\overline{A}^{1}_{x:\overline{n}|}  = \displaystyle \int_{0}^{n} 1V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt$
+ 
+Como Z é uma v.a. que oscila em torno de E[Z], podemos perguntar como Z varia ao redor de E[Z]
+
+$Var(Z) = E[Z - E[Z]]^2 = E[Z^2] - E[Z]^2$
+
+Se b(t) é igual a zero ou 1 para todo t, o cálculo de Var(Z) é facilitado, pois:
+
+$Z^j = [b(x) * V^t]^j = b(x)^j * V^{t * j}$
+
+Então
+
+$E[Z^j] = \displaystyle \int_{0}^{n} b(t)^j * V^{t * j} * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * V^{j * t} * f_T(t)\, dt$
+
+$E[Z^j] = \displaystyle \int_{0}^{n} 1 * (V^j)^t * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * W^t * f_T(t)\, dt$
+
+Assim, $E[Z^j]$ com fator de desconto V é igual a $E[Z]$ com fator de desconto $V^j$
+
+Notação: $E[Z^j]@V = E[Z]@V^j$
+
+__No exemplo anterior:__
+
+$^2\overline{A}^{1}_{30:\overline{20}|} = \displaystyle \int_{0}^{20} [0.9524^2]^t * \frac{1}{70}\, dt = 0.1256$
+
+__Realizando no R__
+
+```{r}
+# Criando a função a ser integrada
+unif2 = function(v, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){(v^j)^t*1/(b-a)})
+}
+# Integrando a função
+integrate(unif2(v = 0.9524, b = 70, a = 0, j = 2), lower = 0, upper = 20)$value
+
+```
+
+$Var(Z) = 0.1256 - 0.1825^2 = 0.09229$
+
+$DP = \sqrt{Var(Z)} = 0.3038$
+
+### __Seguro de vida inteira__ $\overline{A}_x$
+
+Paga 1 real no momento de morte
+
+Assim, $b(t) = 1$ para todo t e $Z(t) = 1*V^t$
+
+O VPA é
+
+$\overline{A}_x = \displaystyle \int_{0}^{\infty} V^t * f_T(t)\, dt = \displaystyle \int_{0}^{\infty} V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt$
+
+$\overline{A} \to \text{Seguro pago no momento de morte}$
+
+$_x \to \text{Idade}$
+
+$Var(Z) =\, ^2\overline{A}_x - (\overline{A}_x)^2$
+
+Este é o caso limite do seguro temporário quando $n \to \infty$
+
+A incerteza é apenas sobre o momento do pagamento
+
+__Exemplo__
+
+Seguro de vida inteira de R$ 80.000,00 emitido para (x) com vida futura T ~ U(0; 80). 
+A taxa de juros instantânea é de 3% a.a., encontre o V.P.A.
+
+$\overline{A}_x = 80000 * \displaystyle \int_{0}^{80} e^{-0.03 * t} \frac{1}{80}\, dt$
+
+$\overline{A}_x = \frac{80000}{80} * \displaystyle \int_{0}^{80} e^{-0.03 * t}\, dt$
+
+$\overline{A}_x = \frac{1000}{-0.03} * e^{-0.03 * t}|_{0}^{80}$
+
+$\overline{A}_x = 30309.4$
+
+$Var(Z) =\, ^2\overline{A}_x - (\overline{A}_x)^2$
+
+$^2\overline{A}_x = 80000^2 * \displaystyle \int_{0}^{80} e^{(-0.03 * t)^2} \frac{1}{80}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{80} * \displaystyle \int_{0}^{80} e^{(-0.03 * t * 2)}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{80} * \displaystyle \int_{0}^{80} e^{(-0.06 * t)}\, dt$
+
+$^2\overline{A}_x = \frac{80000^2}{-0.06 * 80} * e^{-0.06 * t}|_{0}^{80}$
+
+$^2\overline{A}_x = 1322360337$
+
+$Var(Z) = 1322360337 - 30309.4^2$
+
+$Var(Z) = 403700609$
+
+$DP = 20092.3$
+
+__Resolvendo utilizando o R__
+
+```{r}
+unif2 = function(i, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  i = i; b = b; a = a
+  return(function(t){exp(-i*j*t)*1/(b-a)})
+}
+
+
+sqrt( # Desvio-padrão
+80000^2*integrate(unif2(i = 0.03, b = 80, a = 0, j = 2), lower = 0, upper = 80)$value- # E[Z²]
+(80000*integrate(unif2(i = 0.03, b = 80, a = 0, j = 1), lower = 0, upper = 80)$value)^2 # E[Z]²
+)
+
+```
+
+Observe que E[Z] é muito próximo de DP(Z), ou seja, o coeficiente de variação é muito próximo de 1, muita variação é muito próximo de 1, muita variação ao redor de E[Z].
+
+A distribuição uniforme para o tempo de vida só é razoável para os homens entre 25 e 45 anos, mais ou menos, pois $q_x$ é constante nesta faixa. 
+
+Para um seguro de vida inteira é mais razoável ter T com distribuição não-uniforme,  uma boa distribuição para T é a Gama com os parâmetros $\alpha$ e $\beta$.
+
+__Exemplo__
+
+Imagine uma carteira com 100 indivíduos (todos de mesma idade) que contratam hoje um seguro de vida inteira.
+O benefício é de 10 unidades monetárias no momento da morte. Seja a taxa instantânea de juros igual a 0.06.
+
+Seja ainda T ~ Exp(0.04). Qual o prêmio puro a ser cobrado de cada segurado E[Z]?
+
+__Solução__
+
+$Z(t) = b_t * V^t = 10 * e^{-0.06*t}$
+
+$E[Z] = \displaystyle \int_{0}^{\infty} 10 * e^{-0.06 * t} * 0.04 * e^{-0.04 * T}\, dt$
+
+$E[Z] = 10 * 0.04 * \displaystyle \int_{0}^{\infty} e^{-0.06 * t - 0.04 * t}\, dt$
+
+$E[Z] = 0.4 * \displaystyle \int_{0}^{\infty} e^{-0.1 * t}\, dt$
+
+$E[Z] = \frac{0.4}{-0.1} * e^{-0.1 * t}|_{0}^{\infty}$
+
+$E[Z] = -4 * (e^{-0.1 * \infty} - e^{-0.1 * 0})$
+
+$E[Z] = -4 * (0 - 1)$
+
+$E[Z] = 4$
+
+__Resolvendo utilizando o R__
+
+```{r}
+# Criando a função a ser integrada
+funcao = function(bt, a, b){
+  return(function(t){bt*exp(-a*t)*b*exp(-b*t)})
+}
+
+# Integrando a função
+integrate(funcao(bt = 10, a = 0.06, b = 0.04), lower = 0, upper = Inf)$value
+
+```
+
+Veja que o gasto médio com o pagamento de sisnistros será de 400 reais, pois cada uma das 100 pessoas
+nesta carteira, pagará 4 unidades monetárias para a seguradora honrar com seus compromissos relativos à
+sinistros. 
+
+Porém, o processo de risco dessa seguradora pode ser um pouco mais complexo. Pensemos o que 
+aconteceria se 90% dos segurados morressem já no primeiro ano? Certamente a seguradoranão teria tempo 
+suficiente para investir o dinheiro pago pelos segurados na forma de prêmio e, esta, ficaria insolvente.
+
+Neste caso, pode-se dizer que o valor cobrado pela seguradora seria diferente do prêmio calculado 
+anteriormente. De fato, o prêmio poderá ser (em alguns casos) bem maior que o calor calculado anteriormente. 
+
+Seguindo essa linha de raciocínio, o que desejamos saber é qual o valor que a seguradora deve ter hoje 
+de modo que a probabilidade de que haja fundo para efetuar todos os pagamentos no momento de morte seja
+aproximadamente 95%. 
+
+Chamando de S o valor total a ser pago pela seguradora em relação aos sinistros 
+ocorridos, queremos encontrar o valor h tal que: 
+
+$P(S \le h) = 0.95$ 
+
+Fazendo uma aproximação pela distribuição normal teremos: 
+
+$P(S \le h) = P\bigg(\frac{S - 400}{\sqrt{900}} \le \frac{h - 400}{\sqrt{900}}\bigg) = 0.95$
+
+Ou seja,
+
+$\frac{h - 400}{\sqrt{900}} = 1.645 \Leftrightarrow h = \sqrt{900} * 1.645 + 400 = 449.35$
+
+Como existem 100 segurados em nossa carteira e um custo total de 449.35, o prêmio deveria ser
+$\frac{449.35}{100} = 4.49$ 
+por indivíduo e não de 4 unidades monetárias, como calculado anteriormente.
+
+### __Seguro Dotal Puro de n-anos__ $A_{x:\overline{n}|^1}\, \text{ ou } \, \sideset{_{n}}{}E_{x}$
+
+Paga uma unidade ao final de n-anos se, e somente se, o segurado sobrevive pelo menos n-anos após a emissão da apólice.
+
+$b(t) = \begin{cases} 0,\, \text{se } t \le n \\ 1,\, \text{se } t > n \end{cases}$
+
+$V_t = V^n,\, \text{se } t \ge 0$
+
+$Z = \begin{cases}0,\, \text{se } t \le n \\ V^n,\, \text{se } t > n\end{cases}$
+
+Existe incerteza apenas sobre a ocorrência da indenização, não há incerteza sobre o momento e o valor.
+
+Este tipo de seguro será útil para modelar o pagamento de um bônus por uma empresa: se um funcionário "sobrevive" como ativo na empresa por 20 anos, ele recebe 2 salários mensais como bônus. Caso ele não sobreviva como ativo, nada é pago. 
+Para fazer frente a esta despesa futura, a empresa precisa saber hoje, quanto ela deveria ter para cobrir estes benefícios.
+
+Assim, 
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = 0 * P(T<=n) + V^n*P(T > n)$
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = V^n * P(T > n)$
+
+$Var(Z) = E[Z^2] - E[Z]^2$
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x - V^{2*n} * \sideset{_n}{}p_x^2$ 
+
+Colocando $V^{2*n} * \sideset{_n}{}p_x$ em evidência
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x * (1-\sideset{_n}{}p_x)$
+
+Como $(1-npx) = nqx$
+
+$Var(Z) = V^{2*n} * \sideset{_n}{}p_x * \sideset{_n}{}q_x$
+
+__Exemplo__
+
+Seguro dotal de n = 20 anos para (x) = 30 anos com taxa instantânea de juros de 0.03 -> V = 0.970, paga R$ 100.000,00 se sobreviver. Qual o VPA? (Tabela do livro pág. 676)
+
+$l_{30} = 95013.79$
+$l_{50} = 89509$
+
+$\sideset{_{20}}{}p_{30} = \frac{l_{50}}{l_{30}} = 0.942$
+
+Assim, paga R$ 100.000,00 com prob. de 0.942 e zero com prob. de 0.058. Portanto, em valor presente:
+
+$Z = \begin{cases} 10^5 * 0.970^{20},\, \text{com prob. 0.942} \\ 0,\, \text{com prob. 0.058} \end{cases}$
+
+Dessa forma, o valor presente médio de uma unidade é:
+
+$A_{x:\overline{n}|^1} = \sideset{_{n}}{}E_{x} = V^{20} * \sideset{_{20}}{}p_{30} = 0.97^{20} * 0.942 = 0.5122543 * 10^5$
+
+$A_{x:\overline{n}|^1} = 51225.43$
+
+Para 100.000 unidades paga-se 51.225,43
+
+$Var(Z) = \sideset{_{n}^2}{}E_{x} - (0.5122543)²$
+
+$Var(Z) = (e^{-0.03*2})^{20} * 0.942 - 0.5122543^2 = 0.02132048$
+
+Para 100 unidades monetárias
+
+$Var(100*Z) = 100^2 * Var(Z) = 100^2 * 0.02132048 = 213.20$
+
+$DP = 15.170$
+
+__Resolvendo utilizando o R__
+
+```{r}
+l30 = 95013.79
+l50 = 89509
+
+p30_20 = l50/l30
+
+nEx = 0.97^20 * p30_20
+
+cat("Para 100.000 unidades monetárias, paga-se ", round(10^5*nEx,2), " unidades.", sep = "")
+
+varZ = exp(-0.03*2)^20*p30_20 - nEx^2
+
+cat("Para 100 unidades monetárias: ", round(100^2*varZ,2),"\n\nCom DP igual a: ", sqrt(100^2*varZ), sep = "")
+
+```
+
+### __Seguro Dotal Misto__ $\overline{A}_{x:\overline{n}|}$
+
+Paga uma unidade monetária se o segurado morre ou o segurado sobrevive ao final de n-anos, o que ocorrer primeiro. 
+
+Como motivação para esse seguro, imagine alguém com 30 anos, desejando um plano de aposentadoria que pague 500 mil reais daqui a n = 35 anos, se ele viver até lá. Se ele falecer, a viuva ou outro beneficiário receberá o benefício. 
+
+Quanto custa hoje esse benefício futuro?
+
+Considere o pagamento de uma única unidade, ou seja, b(t) = 1 para todo t.
+
+$Vt = \begin{cases} V^t,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+$Z = \begin{cases}V^t,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+O valor presente atuarial é denotado por:
+
+$\overline{A}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} V^t * f_T(t)\, dt + V^n * \sideset{_{n}}{}p_{x}$
+
+O seguro dotal misto pode ser visto como a soma de um seguro temporário de  n anos Z1 e um dotal puro de n anos Z2.
+
+$Z_1 = \begin{cases} V^t,\, \text{se } t \le n \\ 0,\, \text{se } t > n \end{cases}$
+
+$Z_2 = \begin{cases} 0,\, \text{se } t \le n \\ V^n,\, \text{se } t > n \end{cases}$
+
+$Z = Z_1 + Z_2$
+
+$\overline{A}_{x:\overline{n}|} = \overline{A}_{x:\overline{n}|}^1  + \sideset{_{n}}{}E_{x}$ 
+
+__Variância:__
+
+Variância de Z usa a relação da variância da soma de duas variáveis $Var(X + Y)$, no caso as variáveis são $Z_1$ e $Z_2$
+
+$Var(Z) = Var(Z_1 + Z_2) = Var(Z1) + Var(Z2) + 2*Cov(Z1, Z2)$
+
+Como $Z_1 * Z_2 = 0 \Rightarrow E(Z1, Z2) = 0$
+
+Assim, 
+
+$Cov(Z_1, Z_2) = E(Z_1, Z_2) - E(Z_1)*E(Z_2) = -E(Z_1)*E(Z_2)$
+
+$Cov(Z_1, Z_2) = -\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+Conclusão:
+$Var(Z) = Var(Z_1) + Var(Z_2) - 2*\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+$Var(Z) =\, ^2\overline{A}_{x:\overline{n}|}^1 - (\overline{A}_{x:\overline{n}|}^1)^2 + \sideset{_n^2}{}E_x - (\sideset{_{n}}{}E_{x})^2 - 2*\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}$
+
+### __Seguro de Capital Diferido__ $\sideset{_{m|}}{}{\overline{A}}_x$
+
+Seguro de vida inteira com um período de carência. Paga uma unidade após a morte somente se o segurado morrer pelo menos m anos após a emissão da apólice.
+
+$b(t) = \begin{cases} 1,\, \text{se } t > m \\ 0,\, \text{se } t \le m \end{cases}$
+
+$Z = \begin{cases} V^t,\, \text{se } t > m \\ 0,\, \text{se } t \le m \end{cases}$
+
+$V_t = V^t,\, \forall \, t$
+
+$\sideset{_{m|}}{}{\overline{A}}_x = \displaystyle \int_{m}^{\infty} V^t * f_T(t)\, dt$
+
+$\sideset{_{m|}}{}{\overline{A}}_x = \displaystyle \int_{m}^{\infty} V^t * \sideset{_n}{}p_x * \mu(x+t)\, dt$
+
+</div>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>peb.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="prêmios-e-benefícios" class="section level3">
+<h3><strong>Prêmios e benefícios</strong></h3>
+<p>Até agora todos os nossos estudos estão baseados no pagamento de
+Prêmio Puro Único para os produtos atuariais. Porém na prática, para
+comprar uma anuidade (ou seguro), fazemos vários pagamentos ao longo do
+ano (ou de vários anos).</p>
+<p>Vamos andar mais um pouco na teoria e criar uma estrutura que se
+aproxima de situações reais.</p>
+<p>Veja que o prêmio poderá ser pago de 3 formas:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>Um único pagamento (como já estamos vendo ao longo do curso)</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>Prêmios periódicos de valor constante no tempo (prêmios
+nivelados)</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>Prêmios periódicos de quantidade variável.</li>
+</ol></li>
+</ul>
+<p><strong>Pensemos num produto de anuidade:</strong> Imagine um
+segurado de 40 anos que quer aposentar-se aos 60 anos. Essa pessoa
+deseja receber o valor de 36 mil (por ano) durante o período de 20 anos.
+Essa pessoa irá pagar um prêmio x em uma conta que rende 6% ao ano.</p>
+<p>Quanto esse segurado deverá depositar por ano?</p>
+<div id="fazer-a-linha-do-tempo" class="section level4">
+<h4><strong>FAZER A LINHA DO TEMPO</strong></h4>
+<p>Para calcular x, devemos calcular o valor total dos depósitos e o
+valor total dos benefícios. Não usaremos os valores nominais, pois
+depósitos e benefícios são feitos em momentos diferentes do tempo.</p>
+<p>Vamos calcular o valor total dos depósitos em t = 20 e o valor total
+dos benefícios (no mesmo tempo), mas, inicialmente, iremos desconsiderar
+a possibilidade do indivíduo morrer, ou seja, ele irá fazer todos os
+depósitos e receberá todos os benefícios.</p>
+<p>Neste caso, o problema não será atuarial e sim financeiro. Veja que a
+soma de benefícios trazido a valor presente (em t = 20) será: <span
+class="math inline">\(36000*(1 + V + ... + V^{19})\)</span>. Assim, em t
+= 20, ele precisa ter acumulado com seus depósitos o valor de:</p>
+<ul>
+<li><ol style="list-style-type: upper-roman">
+<li><span class="math inline">\(36000 * (1 + V + ... + V^{19}) = 36000 *
+\ddot{a}_{\overline{20}|} = 36000 * \frac{1 - V^{20}}{1-V} =
+437.692,20\)</span></li>
+</ol></li>
+</ul>
+<pre class="r"><code># Fazendo usando o R
+
+i = 0.06 # Taxa de juros
+n = 20 # Período considerado
+V = 1/(1+i) # Fator de desconto
+B = 36000 # Valor do benefício a receber
+
+# O valor que é preciso ter acumulado é igual a B * (1 - V^n) / (1 - V)
+# Colocando os valores na fórmula:
+
+ac = B * (1 - V^n) / (1 - V)
+
+cat(&quot;Dessa forma, o segurado precisa acumular o valor de: &quot;, ac, sep = &quot;&quot;)</code></pre>
+<pre><code>## Dessa forma, o segurado precisa acumular o valor de: 437692</code></pre>
+<p>O total capitalizado de seus depósitos no tempo t = 20 e com taxa de
+juros i = 6% a.a., será:</p>
+<ul>
+<li><ol start="2" style="list-style-type: upper-roman">
+<li><span class="math inline">\(x * [(1 + i)^{20} + (1 + i)^{19} + ... +
+(1 + i)] = x * (1 + i) * \frac{(1 + i)^{20} - 1}{i} = 38.99273 *
+x\)</span></li>
+</ol></li>
+</ul>
+<pre class="r"><code># Fazendo usando o R
+
+i = 0.06 # Taxa de juros
+n = 20 # Período considerado
+B = 36000 # Valor do benefício a receber
+
+# O valor que é preciso ter acumulado é igual a B * (1 - V^n) / (1 - V)
+# Colocando os valores na fórmula:
+
+tx_ac = (1+i)*((1+i)^n-1)/i
+
+cat(&quot;Dessa forma, a taxa de capitalização acumulada será de: &quot;, tx_ac, sep = &quot;&quot;)</code></pre>
+<pre><code>## Dessa forma, a taxa de capitalização acumulada será de: 38.993</code></pre>
+<p>Então precisamos achar o valor de x tal que (I) = (II).</p>
+<p><span class="math inline">\(437692.20 = 38.99273*x \implies x =
+\frac{437692.20}{38.99273} = 11224.97\)</span></p>
+<p>Ou seja, deve-se pagar 11.224,97 u.m. por ano (lembremos que não
+estamos considerando a possibilidade do segurado falecer) para pagar o
+benefício anual de 36 mil ao longo de 20 anos.</p>
+<p><strong>Princípio da equivalência:</strong> O valor total dos
+compromissos do segurado, num certo momento, deve ser igual ao valor
+total dos compromissos do segurador no mesmo momento.</p>
+<p>Infelizmente, na prática não é tão simples calcular o prêmio como no
+exemplo anterior. Ainda não consideramos os carregamentos do prêmio
+(despesas administrativas, lucro, impostos) e não consideramos que o
+segurado poderá falecer tanto no momento dos depósitos quanto no momento
+de recebimento dos benefícios.</p>
+<p>Vamos considerar agora um exemplo mais simples. Pensemos no seguro de
+vida inteira que pagará R$ 100 ao fim do ano de morte do segurado.
+Então, o compromisso em valor presente do segurador é:</p>
+<p><span class="math inline">\(Z = 100 * V^{K + 1}\)</span></p>
+<p>Em que K é o número de anos inteiros de vida adicional do
+segurado.</p>
+<p>O contrato estipula que o segurado deverá pagar um prêmio constante P
+no início de cada ano enquanto o segurado sobreviver. Então, o
+compromisso do segurado, em valor presente, é igual a:</p>
+<p><span class="math inline">\(Y = P + P*V + P*V^2 + ... + P*V^K =
+P*(1+V+V^2+ ... + V^K) = P*\frac{1-V^{K+1}}{1-V} \\ Y =
+P*\ddot{a}_{\overline{K+1}|}\)</span></p>
+<p>Veja que, tanto Z quanto Y são variáveis aleatórias (v.a.’s). Pelo
+princípio da equivalência, gostaríamos de escolher P tal que:</p>
+<p><span class="math inline">\(Z - Y = 0\)</span></p>
+<p>Mas isto é “impossível” de garantir, pois Z e Y são v.a.’s.</p>
+<p>Gostaríamos de obter um prêmio tal que o princípio da equivalência
+fosse respeitado. Porém, como o Prêmio é dependente da relação de duas
+v.a.’s não seria possível, neste caso, definir um Prêmio constante para
+um segurado em particular.</p>
+<p>Os produtos atuariais são calculados para um grupo grande de pessoas
+e funciona bem, em média. A partir desse princípio, poderemos calcular
+sim um Prêmio constante P que satisfaça nosso Princípio da Equivalência
+em média. Como?</p>
+<p>Queremos um Prêmio que satisfaça:</p>
+<p><span class="math inline">\(E[Z - Y] = E[0]\)</span></p>
+<p>Neste caso, temos que:</p>
+<p><span class="math inline">\(E[Z] - E[Y] = 0\)</span></p>
+<p>Como:</p>
+<p><span class="math inline">\(E[Z] = E[100*V^{K+1}] = 100*E[V^{K+1}] =
+100*A_x \\ E[Y] = E[P*\ddot{a}_{\overline{K+1}|}] =
+P*E[\ddot{a}_{\overline{K+1}|}] = P*\ddot{a}_x\)</span></p>
+<p>Usando o Princípio da Equivalência:</p>
+<p><span class="math inline">\(0 = E[Z] - E[Y] = 100*A_x - P*\ddot{a}_x
+\implies P = 100*\frac{A_x}{\ddot{a}_x}\)</span></p>
+<p>Veja que podemos obter o Prêmio utilizando apenas o cálculo do seguro
+de vida usando a seguinte relação:</p>
+<p><span class="math inline">\(\ddot{a}_x =
+\frac{1-A_x}{1-V}\)</span></p>
+<p>Então: <span class="math inline">\(P =
+100*\frac{A_x}{\ddot{a}_x}\)</span> <span class="math inline">\(P = 100
+* \frac{A_x}{\frac{1-A_x}{1-V}} = 100 * A_x * \frac{1-V}{1-A_x} \\ P =
+100 * \frac{(1-V)*A_x}{1-A_x}\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Suponha que um segurado de 65 anos deseja comprar um seguro de vida
+inteira que paga R$ 1,00 e deseja pagar um prêmio nivelado enquanto
+viver. Caso o atuário tenha calculado: A65 = 0.4397 para uma taxa de
+juros anual i = 0.05. Qual será o valor do prêmio a ser pago anualmente
+pelo segurado?</p>
+<p><strong>Resolvendo utilizando o R</strong></p>
+<pre class="r"><code>i = 0.05 # Taxa de juros
+V = 1/(1+i) # Fator de desconto
+Ax = 0.4397 # 
+
+P = (1-V)*Ax / (1-Ax)
+
+P</code></pre>
+<pre><code>## [1] 0.037369</code></pre>
+<p>Caso o segurado queira que o benefício seja de R$ 100,00 neste seguro
+de vida inteira, então: <span class="math inline">\(P = P*100 =
+3.7369\)</span></p>
+<p>Seguindo a linha de procurar um equilíbrio entre as obrigações do
+segurado e do segurador defina:</p>
+<p>L = (V.P. dos benefícios) - (V.P. dos pagamentos dos prêmios),</p>
+<p>Em que L (de loss) é a v.a. que representa a perda do segurador. O
+princípio da equivalência pede que <span class="math inline">\(E[L] =
+0\)</span>.</p>
+<p>O valor do Prêmio que satisfaz este princípio é o Prêmio Puro. Veja
+que, se existe apenas um único pagamento (como estamos trabalhando ao
+longo do curso), então em t = 0</p>
+<p>L = (V.P. dos Benefícios a serem concedidos) - P</p>
+<p>Neste caso, considerando que obteremos o Prêmio Puro tal que a
+Esperança da Perda seja igual a zero:</p>
+<p>E[L] = 0</p>
+<p>E[L] = E[V.P. dos B.’s a serem concedidos] - P = 0</p>
+<p>P = E[V.P. dos B.’s a serem concedidos]</p>
+<p>Que é o princípio utilizado para cálculo de prêmio utilizado até o
+momento.</p>
+<p><strong>Exemplo</strong></p>
+<p>Suponha um seguro de vida temporário por 10 anos que paga C no final
+do ano de morte de <span class="math inline">\((x) = (40)\)</span> anos
+se a morte ocorrer no período de ? e 10 anos. Seja P o prêmio periódico
+anual pago antecipadamente enquanto o segurado estiver vivo, por não
+mais que 10 anos. Determine o Prêmio “não-único” P deste contrato.</p>
+<p><strong>Solução:</strong></p>
+<p>Como dito anteriormente, queremos calcular o Prêmio tal que <span
+class="math inline">\(E[L] = 0\)</span>.</p>
+<p>Veja que estamos considerando L como uma V.A. e, a partir daí,
+calculando sua esperança matemática. Para calcular a Esperança
+Matemática desta V.A. é necessário reconhecer duas caoisas nessa V.A.,
+você se lembra quais são? <strong>A lista de valores possíveis com suas
+respectivas probabilidades associadas</strong>. Como L é a perda da
+seguradora, veremos inicialmente os valores possíveis dos benefícios a
+serem concedidos (compromisso do segurador).</p>
+<p><span class="math inline">\(Z = \begin{cases} c*V^{K+1},\, \text{se }
+K = 0, 1, 2, ..., 9 \\ 0,\, \text{se } K = 10, 11, 12, ...
+\end{cases}\)</span></p>
+<p>E como ficam os valores possíveis dos pagamentos realizados pelo
+segurado? (Lembrando que ele poderá falecer antes de completar todas as
+contribuições).</p>
+<p>Assim:</p>
+<p><span class="math inline">\(Y = \begin{cases}
+P*\ddot{a}_{\overline{K+1}|} = P*(1+V+V^2+...+V^K),\, \text{se } K = 0,
+1, 2, ..., 9 \\ P*\ddot{a}_{\overline{10}|},\, \text{se } K \ge
+10\end{cases}\)</span></p>
+<p><span class="math inline">\(L = \begin{cases} c*V^{K+1} -
+P*\ddot{a}_{\overline{K+1}|},\, \text{se } K = 0, 1, 2, ..., 9 \\
+-P*\ddot{a}_{\overline{10}|},\, \text{se } K \ge
+10\end{cases}\)</span></p>
+<p>Veja que já calculamos várias vezes a <span
+class="math inline">\(E[Z*]\)</span> e <span
+class="math inline">\(E[Y*]\)</span> que são, respectivamente, dadas
+por:</p>
+<p><span class="math inline">\(A^1_{40: \overline{10}|} \quad\quad
+\ddot{a}_{40:\overline{10}|}\)</span></p>
+<p>Então:</p>
+<p><span class="math inline">\(E[L] = c * A^1_{40:\overline{10}|} - P *
+\ddot{a}_{40:\overline{10}|}\)</span></p>
+<p><span class="math inline">\(0 = c * A^1_{40:\overline{10}|} - P *
+\ddot{a}_{40:\overline{10}|} \Leftrightarrow P = \frac{c *
+A^1_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Seja uma pessoa de 40 anos que queira comprar um seguro de vida
+temporário por 5 anos. Para isso, o segurado deseja pagar durante a
+vigência do contrato um prêmio fixo. Qual o valor do Prêmio a ser pago
+pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i =
+0.05 a.a?</p>
+<p><strong>Resolvendo utilizando o R</strong></p>
+<pre class="r"><code>options(scipen = 999, digits = 5)
+
+pkg = c(&quot;readxl&quot;) # Precisamos do pacote readxl para ler arquivos no formato .xls ou .xlsx
+install.packages(pkg[!pkg%in%rownames(installed.packages())]) 
+
+tmp = tempfile(fileext = &quot;.xls&quot;) # Criando arquivo temporário com extensão .xls
+url = &quot;https://github.com/nadsu077/MatAtuarial/raw/main/AT-49.xls&quot; # Link para a tabela AT-49
+download.file(url, destfile = tmp, quiet = T) # Baixando a tabela
+
+at49 = as.data.frame(readxl::read_excel(tmp)) # Lendo o arquivo da tabela AT-49
+
+i = 0.05 # Taxa a ser considerada
+V = 1/(1+i) # Fator de desconto
+n = 5 # Período a ser considerado
+idade = 40 # Idade do segurado
+
+print(head(at49, 5))</code></pre>
+<pre><code>##   Idade     lx       qx      px     ndx
+## 1     0 1010.5 0.004040 0.99596 4.08232
+## 2     1 1006.4 0.001580 0.99842 1.59010
+## 3     2 1004.8 0.000887 0.99911 0.89126
+## 4     3 1003.9 0.000715 0.99928 0.71780
+## 5     4 1003.2 0.000627 0.99937 0.62900</code></pre>
+<pre class="r"><code>a40_5 = c(); A40_5 = c()
+
+for(k in (idade+1):(idade+n)){
+# Calculando ä40:5¬
+# Assim, o V.P.A. é: äx = E[Y] = (somatório de j=0 a inf) äj+1¬ * jpx * qx+j
+# Ou
+# äx = E[Y] = (somatório de j=0 a inf) V^j * jpx
+  a40_5[k-idade] = V^(k-idade-1)*(at49[k,2]/at49[idade+1,2])
+# Calculando A¹40:5¬
+# A¹|x:n] = (somatório de j = 0 a n-1) 1 * V^(j+1) * jpx * qx+j
+  A40_5[k-idade] = V^(k-idade) * (at49[k,2]/at49[idade+1,2]) * at49[k,3]
+}
+
+sum(a40_5)</code></pre>
+<pre><code>## [1] 4.5266</code></pre>
+<pre class="r"><code>sum(A40_5)</code></pre>
+<pre><code>## [1] 0.010837</code></pre>
+<pre class="r"><code>P = sum(A40_5) / sum(a40_5)
+
+# Caso, no exemplo anterior o benefício do seguro seja de R$ 5000.00, então:
+# P = 5000 * A¹40:5¬ / ä40:56 =&gt;
+
+cat(&quot;O prêmio a ser pago pelo segurado é igual a: &quot;, 5000*P, sep = &quot;&quot;)</code></pre>
+<pre><code>## O prêmio a ser pago pelo segurado é igual a: 11.97</code></pre>
+<p><strong>Exemplo</strong></p>
+<p>Considere agora, à luz do enunciado do exemplo 3, que o mesmo
+segurado queira comprar um seguro de vida inteira e pagar prêmios
+enquanto estiver vivo (começando a pagar o prêmio antecipadamente). Qual
+deverá ser o valor deste prêmio?</p>
+<p>Veja que, neste caso:</p>
+<p><span class="math inline">\(\ddot{a}_{40} = 16.5233\)</span></p>
+<p><span class="math inline">\(A_{40} = 0.2132\)</span></p>
+<p>Então:</p>
+<p><span class="math inline">\(P = A_{40} / \ddot{a}_{40} =
+\frac{0.2132}{16.5233} = 0.0129\)</span></p>
+<p>Veja que, no exemplo 3, o período de cobertura do seguro é menor que
+o período de cobertura do seguro no exemplo 4. Analisando apenas esse
+aspecto, o prêmio deveria ser maior no exemplo 4 que o prêmio cobrado no
+exemplo 3. No entanto, o período de recebimento de prêmio é maior no
+exemplo 4 (durante toda a vida do segurado) que no exemplo 3, o que nos
+levaria a pensar que o prêmio cobrado no exemplo 4 deveria ser menor que
+no exemplo 3. Nesta “briga” de risco em relação ao período de
+recebimento, o prêmio cobrado no exemplo 4 é aproximadamente 5 vezes
+maior que o prêmio cobrado no exemplo 3.</p>
+<p><strong>Exemplo</strong></p>
+<p>Seja um segurado de 40 anos de idade que resolve contratar um seguro
+de vida inteiro que paga R$ 1.00 ao final do ano de morte e decide pagar
+esse seguro em 10 parcelas iguais, sendo a primeira paga imediatamente.
+Considerando uma tábua de vida AT-49 e uma taxa de juros anual de 5%.
+Qual deverá ser o valor do prêmio pago por esse segurado?</p>
+<p><strong>Solução:</strong></p>
+<p>Para resolvermos esse exercício devemos lembrar do Princípio da
+Equivalência que diz que o compromisso do segurador é igual ao
+compromisso do segurado em um determinado tempo t. ou, de outra
+forma:</p>
+<p>L = V.P. das obrigações da seguradora - V.P. das obrigações do
+segurado</p>
+<p>Queremos um Prêmio tal que E[L] = 0:</p>
+<p>Seja a v.a. Z que representa o compromisso da seguradora e Y a v.a.
+que representa o compromisso do segurado.</p>
+<p><span class="math inline">\(Z = V^{T+1},\, \text{para } T \ge
+0\)</span></p>
+<p><span class="math inline">\(Y = P * \ddot{a}_{\overline{T}|},\,
+\text{para } 0 &lt; T &lt; 10\)</span></p>
+<p><span class="math inline">\(0 = E[L] = E[Z - Y] = E[Z] - E[Y] =
+E[V^{T+1}] - E[P*\ddot{a}_{\overline{T}|}] = E[V^{T+1}] -
+P*E[\ddot{a}_{\overline{T}|}] \\0 = A_{40} -
+P*\ddot{a}_{40:\overline{10}|} \implies P =
+\frac{A_{40}}{\ddot{a}_{40:\overline{10}|}}\)</span></p>
+<p>O exercício se resume ao cálculo de uma anuidade e de um seguro de
+vida inteiro. Sabemos calcular os dois.</p>
+<p><span class="math inline">\(A_{40} = 0.2132\)</span></p>
+<p><span class="math inline">\(\ddot{a}_{40:\overline{10}|} =
+8.01582\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Uma pessoa de 20 anos decide contratar uma aposentadoria vitalícia
+que pagará R$ 1,00 ao ano até que este segurado faleça. Ele se
+aposentará caso chegue vivo à idade de 60 anos. Esse segurado decide
+pagar um Prêmio nivelado enquanto estiver ativo. Considerando a tábua de
+mortalidade AT-49 e a taxa de juros de 5% ao ano, qual será o valor do
+Prêmio a ser pago pelo segurado?</p>
+<p><strong>Solução:</strong></p>
+<p>Novamente, vamos calcular o prêmio P tal que a esperança de L seja
+zero. Então:</p>
+<p><span class="math inline">\(L = Z - Y\)</span></p>
+<p>Em que:</p>
+<p><span class="math inline">\(Z = \begin{cases}
+\ddot{a}_{\overline{T}|},\, \text{se } T&gt;40 \\ 0,\, \text{se c.c.}
+\end{cases}\)</span></p>
+<p><span class="math inline">\(Y = \begin{cases}
+P*\ddot{a}_{\overline{T}|},\, \text{se } 0 &lt; T &lt; 40 \\
+P*\ddot{a}_{\overline{40}|},\, \text{se } T \ge 40
+\end{cases}\)</span></p>
+<p>Logo,</p>
+<p><span class="math inline">\(0 = E[L] = E[Z - Y] = E[Z] - E[Y] =
+E[V^{T+1}] - E[P * \ddot{a}_{\overline{T}|}] = E[V^{T+1}] -
+P*E[\ddot{a}_{\overline{T}|}] \\0 = {}_{40|}\ddot{a}_{20} - P *
+\ddot{a}_{20:\overline{40}|} \\ P =
+\frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20:\overline{40}|}} =
+\frac{1.4284}{7.2794} = 0.19622\)</span></p>
+<p>Caso o segurado tenha interesse de receber R$ 25.000,00 ao ano,
+então:</p>
+<p><span class="math inline">\(P = 25000 *
+\frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20:\overline{40}|}} = 25000 *
+0.19622 = 4905.52\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Suponhamos que o salário do segurado no exemplo anterior seja
+insuficiente para pagar os prêmios durante o período em que ele está em
+idade ativa. O segurado pergunta ao atuário se é possível pagar um
+prêmio anual nivelado durante toda a sua vida (inclusive enquanto
+aposentado). Qual deveria ser o prêmio pago pelo segurado neste
+caso?</p>
+<p><strong>Solução:</strong></p>
+<p>Veja que, neste caso, o que o segurado está fazendo será diminuir o
+beneficício que irá receber. De fato, o segurado irá receber um
+benefício como no exemplo 6, porém parte deste benefício estará
+comprometido para pagamento do prêmio. Como anteriormente, queremos um
+prêmio tal que E[L] = 0.</p>
+<p><span class="math inline">\(P =
+\frac{{}_{40|}\ddot{a}_{20}}{\ddot{a}_{20}}\)</span> A anuidade diferida
+de 40 anos da seguradora pela anuidade vitalícia do segurado</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

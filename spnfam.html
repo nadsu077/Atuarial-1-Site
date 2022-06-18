@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>spnfam.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="seguros-pagos-no-final-do-ano-de-morte" class="section level2">
+<h2><strong>Seguros Pagos no final do ano de morte</strong></h2>
+<p>Utilidade: usar a tábua de vida e dispensar a especificação da função
+densidade de probabilidade de morte ou sobrevivência <span
+class="math inline">\(f_{T}(t)\)</span></p>
+<p>Curtate-Future-Lifetime: anos completos de vida futura</p>
+<p>Seja K = [T]</p>
+<div style="text-align: center">
+<p><span class="math inline">\(K = \begin{cases} v.a.\, discreta \\
+maior\, inteiro \le T \\ parte\, inteira\, de\, T \end{cases}\)</span>
+<img src="spnfam_files/figure-html/unnamed-chunk-1-1.png" width="50%" height="50%" /></p>
+</div>
+<p>O pagamento é feito no tempo K+1 = [T]+1</p>
+<p>Vida futura começa com a idade x</p>
+<p><strong>Notação:</strong></p>
+<ul>
+<li><p>A probabilidade de um indivíduo que contrata um seguro de vida
+com x anos venha a falecer entre as idades x e x+1 é denotado por: <span
+class="math display">\[P(x \le x+T \le x+1\, |\, vivo\, em\, x) = q_x =
+\frac{d_x}{l_x}\]</span></p></li>
+<li><p>A probabilidade de um indivíduo que contrata um seguro de vida
+com x anos sobreviva após K anos é denotado por: <span
+class="math display">\[P(T &gt; K\, |\, vivo\, em\, x) = {}_{k}p_x =
+\frac{l_{x+k}}{l_x}\]</span></p></li>
+<li><p>A probabilidade de um indivíduo que contrata um seguro de vida
+com x anos é denotado por: <span class="math display">\[P(T &gt; 0\, |\,
+vivo\, em\, x) = {}_{0}p_x = 1\]</span></p></li>
+</ul>
+<p><strong>Distribuição de probabilidade da variável aleatória discreta
+K</strong></p>
+<p>A distribuição de K tem a presença de uma ista de valores possívels:
+0, 1, 2, 3, … <em>ou</em> 0, 1, 2, 3, …, w-x; junto de suas respectivas
+probabilidades associadas: P(K = 0), P(K = 1), …</p>
+<ol style="list-style-type: decimal">
+<li>Para K = 0, o indivíduo (x) tem que falecer entre o tempo [T] 0 e 1,
+onde a probabilidade é definida como:</li>
+</ol>
+<div style="text-align: center">
+<p><span class="math inline">\(P(K = 0) = q_x = \frac{d_x}{l_x}\)</span>
+<img src="spnfam_files/figure-html/unnamed-chunk-2-1.png" width="50%" height="50%" /></p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Para K = 1, o indivíduo (x) tem que sobreviver 1 ano após a
+aquisição do seguro (<span class="math inline">\(p_x\)</span>) e morrer
+no ano seguinte (<span class="math inline">\(q_{x+1}\)</span>), desse
+forma podemos denotar como sendo a probabilidade de sobreviver 1 ano
+dado que estava vivo com x e morrer no ano seguinte dado que está vivo
+com x+1 anos, sendo então a probabilidade de K = 1 definida como:</li>
+</ol>
+<div style="text-align: center">
+<p><span class="math display">\[P(K = 1) = p_x * q_{x+1} =
+\frac{l_{x+1}}{l_x} * \frac{d_{x+1}}{l_{x+1}} \Rightarrow P(K = 1) =
+\frac{d_{x+1}}{l_x}\]</span>
+<img src="spnfam_files/figure-html/unnamed-chunk-3-1.png" width="50%" height="50%" /></p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Para K = 2, o indivíduo (x) tem que sobreviver 2 anos após a
+aquisição do seguro (<span class="math inline">\({}_{2}p_x\)</span>) e
+morrer no ano seguinte (<span class="math inline">\(q_{x+2}\)</span>),
+desse forma podemos denotar como sendo a probabilidade de sobreviver 2
+anos dado que estava vivo com x e morrer no ano seguinte dado que está
+vivo com x+2 anos, sendo então a probabilidade de K = 2 definida
+como:</li>
+</ol>
+<p><span class="math display">\[P(K = 2) = {}_{2}p_x * q_{x+2} =
+\frac{l_{x+2}}{l_x} * \frac{d_{x+2}}{l_{x+2}} \Rightarrow P(K = 2) =
+\frac{d_{x+2}}{l_x}\]</span> <strong>De maneira geral:</strong></p>
+<p><span class="math display">\[P(K = j) = {}_{j}p_x * q_{x+j} =
+\frac{d_{x+j}}{l_x},\, \forall \, j = 0, 1, 2, ...\]</span></p>
+<p>Onde j são os anos após a aquisição da apólice.</p>
+<div id="seguro-de-vida-temporário-de-n-anos-a1_xoverlinen"
+class="section level3">
+<h3><strong>Seguro de vida temporário de n anos <span
+class="math inline">\(A^1_{x:\overline{n|}}\)</span></strong></h3>
+<ul>
+<li>Paga uma unidade monetária somente se o segurado morre dentro de n
+anos</li>
+</ul>
+<p><strong>Valor do benefício para 1 u.m.:</strong></p>
+<p><span class="math inline">\(b_{k+1} = \begin{cases} 1, \, k = 1, 2,
+..., n-1 \\ 0, \,caso\, contrário \end{cases}\)</span></p>
+<p><strong>Fator de desconto:</strong></p>
+<p><span class="math inline">\(V_{k+1} = V^{k+1}\)</span></p>
+<p><strong>Valor presente:</strong></p>
+<p><span class="math inline">\(Z(t) = \begin{cases} V^{k+1},\, k = 1, 2,
+..., n-1 \\ 0,\, c.c. \end{cases}\)</span></p>
+<p><strong>Valor presente atuarial:</strong></p>
+<p><span class="math inline">\(A^1_{x:\overline{n|}} =
+\displaystyle\sum_{j = 0}^{n-1} 1 * V^{j+1} * P(k = j) =
+\displaystyle\sum_{j = 0}^{n-1} 1 * V^{j+1} * {}_{j}p_x *
+q_{x+j}\)</span></p>
+<p><em>Comparando com o VPA contínuo:</em></p>
+<p><span class="math inline">\(\overline{A}^1_{x:\overline{n}|} =
+\displaystyle\int_0^n 1 * V^t * {}_{t}p_{x} * \mu(x+t) dt\)</span></p>
+<p><strong>A variância é dada por:</strong></p>
+<p><span class="math inline">\(Var(Z) = {}^{2}A^1_{x:\overline{n}|} -
+(A^1_{x:\overline{n}|})^2\)</span></p>
+<p><em>Onde:</em></p>
+<p><span class="math inline">\({}^{2}A^1_{x:\overline{n}|} =
+\displaystyle\sum_{j = 0}^{n-1} 1 * (V^2)^{j+1} * {}_{j}p_x *
+q_{x+j}\)</span></p>
+</div>
+<div id="seguro-de-vida-inteira-a_x" class="section level3">
+<h3><strong>Seguro de vida inteira <span
+class="math inline">\(A_x\)</span></strong></h3>
+<ul>
+<li><p>Paga 1 real no final do ano de morte</p></li>
+<li><p>Semelhante ao seguro temporário de n anos, basta fazer n ir para
+infinito:</p></li>
+</ul>
+<p><strong>Valor presente:</strong></p>
+<p><span class="math inline">\(Z(t) = 1 * V^{k+1}\)</span></p>
+<p><strong>Valor presente atuarial:</strong></p>
+<p><span class="math inline">\(A_x = \displaystyle\sum_{j = 0}^{\infty}
+V^{k+1} * {}_{j}p_x * q_{x+j}\)</span></p>
+<p><strong>A variância é dada por:</strong></p>
+<p><span class="math inline">\(Var(Z) = {}^{2}A_x - (A_x)^2\)</span></p>
+<ul>
+<li><p>Na prática, <span class="math inline">\({}_{j}p_x = 0\)</span>
+após j suficientemente grande</p></li>
+<li><p>AT-2000 tem lx = 0 após w = 115 anos</p></li>
+</ul>
+</div>
+<div id="seguro-dotal-puro-de-n-anos-a_xoverlinen1-ou-_ne_x"
+class="section level3">
+<h3><strong>Seguro dotal puro de n anos <span
+class="math inline">\(A_{x:\overline{n}|^1}\)</span> <em>ou</em> <span
+class="math inline">\({}_{n}E_x\)</span></strong></h3>
+<ul>
+<li>Paga uma unidade em t = n anos se e somente se, o segurado sobrevive
+ao final de n anos, após a emissão da apólice</li>
+</ul>
+<p><strong>Valor do benefício para 1 u.m.:</strong></p>
+<p><span class="math inline">\(b_{k+1} = \begin{cases} 0,\, se\, 0 \le k
+\le n-1 \\ 1,\, se\, c.c. \end{cases}\)</span></p>
+<p><strong>Fator de desconto:</strong></p>
+<p><span class="math inline">\(V_{k+1} = V^n,\, se\, t \ge
+0\)</span></p>
+<p><strong>Valor presente:</strong></p>
+<p><span class="math inline">\(Z = \begin{cases} 0,\, se\, 0 \le k \le
+n-1 \\ V^n,\, se\, k \ge n \end{cases}\)</span></p>
+<p><strong>Valor presente atuarial:</strong></p>
+<p><span class="math inline">\(A_{x:\overline{n}|^1} = {}_{n}E_x = 0 *
+P(T \le n) + V^n * P(T &gt; n) = V^n * {}_{n}p_x\)</span></p>
+<p><strong>A variância é dada por:</strong></p>
+<p><span class="math inline">\(Var(Z) = V^{2*n} * {}_{n}p_x *
+{}_{n}q_x\)</span></p>
+</div>
+<div id="seguro-dotal-misto-a_xoverlinen" class="section level3">
+<h3><strong>Seguro dotal misto <span
+class="math inline">\(A_{x:\overline{n}|}\)</span></strong></h3>
+<ul>
+<li>O seguro dotal misto pode ser visto como a soma de um seguro
+temporário de n anos (<span class="math inline">\(Z_1\)</span>) e um
+dotal puto de n anos (<span class="math inline">\(Z_2\)</span>)</li>
+</ul>
+<p><strong>Fator de desconto:</strong></p>
+<p><span class="math inline">\(Z_1 = \begin{cases} V^{k+1},\, se\, 0 \le
+k \le n-1 \\ 0,\, se\, k \ge n \end{cases}\)</span></p>
+<p><span class="math inline">\(Z_2 = \begin{cases} 0,\, se\, 0 \le k \le
+n-1 \\ V^n,\, se\, k \ge n \end{cases}\)</span></p>
+<p><span class="math inline">\(Z = Z_1 + Z_2\)</span></p>
+<p><strong>Valor presente atuarial:</strong></p>
+<p><span class="math inline">\(A_{x:\overline{n}|} =
+A^1_{x:\overline{n}|} + V^n * {}_{n}p_x\)</span></p>
+<ul>
+<li><p>Note que <span class="math inline">\(Z = V^n\)</span> se <span
+class="math inline">\(k = n-1\)</span> ou se <span
+class="math inline">\(k \ge n\)</span></p></li>
+<li><p>Paga 1 u.m. se vivo ao fim de n anos <strong>ou</strong> se morre
+antes de n anos, o pagamento é feito no final do ano de morte.</p></li>
+</ul>
+</div>
+<div id="seguro-de-capital-diferido-_ma_x" class="section level3">
+<h3><strong>Seguro de capital diferido <span
+class="math inline">\({}_{m|}A_x\)</span></strong></h3>
+<ul>
+<li><p>Seguro de vida inteira com um período de carência</p></li>
+<li><p>Paga uma unidade após a morte somente se o segurado morrer pelo
+menos m anos após a emissão da apólice, sendo m o tempo de
+diferimento</p></li>
+</ul>
+<p><strong>Valor do benefício para 1 u.m.:</strong></p>
+<p><span class="math inline">\(b_{k+1} = \begin{cases} 1,\, se\, k \ge m
+\\ 0,\, se\, 0 \le k \le m-1 \end{cases}\)</span></p>
+<p><strong>Fator de desconto:</strong></p>
+<p><span class="math inline">\(V_{k+1} = V^{k+1},\, \forall\,
+k\)</span></p>
+<p><strong>Valor presente:</strong></p>
+<p><span class="math inline">\(Z = \begin{cases} V^{k+1},\, k \ge m \\
+0,\, se\, 0 \le k \le m-1 \end{cases}\)</span></p>
+<p><strong>Valor presente atuarial:</strong></p>
+<p><span class="math inline">\({}_{m|}A_x = \displaystyle\sum_{j =
+m}^\infty V^{j+1} * {}_{j}p_x * q_{x+j}\)</span></p>
+<ul>
+<li>Modificando os limites do somatório (I) para zero e infinito, com j
+= m + 1 temos:</li>
+</ul>
+<p><span class="math inline">\({}_{m|}A_x = \displaystyle\sum_{l =
+0}^\infty V^{m+l+1} * {}_{m+l}p_x * q_{x+m+l}\)</span></p>
+<p>temos:</p>
+<p><span class="math inline">\({}_{m+l}p_x = {}_{m}p_x *
+{}_{l}p_{x+m}\)</span></p>
+<p>então:</p>
+<p><span class="math inline">\({}_{m|}A_x = V^m * {}_{m}p_x *
+\displaystyle\sum_{l = 0}^\infty V^{l+1} * {}_{l}p_{x+m} * q_{x+m+l} =
+V^m * {}_{m}p_x * A_{x+m}\)</span></p>
+<p>Ou seja, é um seguro de vida inteiro de x+m anos com um fator de
+desconto de m anos junto da probabilidade do indivíduo está vivo na
+idade x+m, trazida para o momento de aquisição da apólice.</p>
+<p>Outra interpretação seria: O valor presente atuarial na idade x
+diferido por m anos é igual (ou equivalente) ao V.P.A. na idade x+m
+descontando m anos de juros e a possibilidade de morrer entre x e
+x+m</p>
+<p>Outra forma de encontrar o seguro de capital diferido seria:</p>
+<p><span class="math inline">\({}_{m|}A_x = A_x -
+A^1_{x:\overline{m}|}\)</span></p>
+<p>Um seguro de vida inteiro em x menos um seguro temporário de m
+anos.</p>
+</div>
+<div
+id="relação-entre-seguros-pagos-no-momento-de-morte-e-no-final-do-ano-de-morte"
+class="section level3">
+<h3><strong>Relação entre seguros pagos no momento de morte e no final
+do ano de morte</strong></h3>
+<ul>
+<li><p>Fim do ano: Utiliza-se tabela de vida, na prática, quase no
+momento de morte</p></li>
+<li><p>Suposição:</p></li>
+</ul>
+<p><img src="spnfam_files/figure-html/unnamed-chunk-4-1.png" width="50%" height="50%" /></p>
+<p><span class="math inline">\(T = [T] + S = K+S = K + 1 -
+(1-S)\)</span></p>
+<p>Assuma que T é independente de S e que S ~ U(0, 1), então 1-S ~ U(0,
+1).</p>
+<p>Considere o seguro de vida inteira pago no momento de morte:</p>
+<p><span class="math inline">\(V.P. = Z = V^t\)</span></p>
+<p><span class="math inline">\(\overline{A}_x =
+\displaystyle\int_0^\infty V^t * f_T(t) dt = \displaystyle\int_0^\infty
+V^t * {}_{t}p_x * \mu(x+t) dt\)</span></p>
+<p>Temos:</p>
+<p><span class="math inline">\(V.P. = Z = V^t\)</span></p>
+<p><span class="math inline">\(\overline{A}_x = E\Big(V^t\Big) =
+E\Big(V^{k+1-(1-S)}\Big) = E\Big(V^{k+1} * V^{-(1-S)}\Big)\)</span></p>
+<p><span class="math inline">\(\overline{A}_x = E\Big(V^{k+1} *
+V^{-(1-S)}\Big)\)</span>, com K independente de S</p>
+<p><span class="math inline">\(\overline{A}_x = A_x *
+E\Big(V^{-(1-S)}\Big)\)</span></p>
+<p>mas</p>
+<p><span class="math inline">\(E\Big(V^{-(1-S)}\Big) =
+E\Big(e^{-\delta*(-(1-S))}\Big) =
+E\Big(e^{\delta*(1-S)}\Big)\)</span></p>
+<p><span class="math inline">\(E\Big(e^{\delta*(1-S)}\Big) =
+\displaystyle\int_0^1 e^{\delta*(1-S)} ds = \frac{e^\delta - 1}{\delta}
+= \frac{(1+i) - 1}{\delta}\)</span></p>
+<p>Assim,</p>
+<div id="seguro-de-vida-inteira" class="section level4">
+<h4><strong>Seguro de vida inteira:</strong></h4>
+<p><span class="math inline">\(\overline{A}_x = \frac{i}{\delta} *
+A_x\)</span></p>
+</div>
+<div id="seguro-temporário-de-n-anos" class="section level4">
+<h4><strong>Seguro temporário de n anos:</strong></h4>
+<p><span class="math inline">\(\overline{A}^1_{x:\overline{n}|} =
+\frac{i}{\delta} * A^1_{x:\overline{n}|}\)</span></p>
+</div>
+<div id="seguro-dotal-puro" class="section level4">
+<h4><strong>Seguro dotal puro:</strong></h4>
+<ul>
+<li>O caso discreto é igual ao caso contínuo</li>
+</ul>
+</div>
+<div id="seguro-dotal-misto" class="section level4">
+<h4><strong>Seguro dotal misto:</strong></h4>
+<p><span class="math inline">\(\overline{A}_{x:\overline{n}|} =
+\frac{i}{\delta} * A^1_{x:\overline{n}|} + V^n * {}_{n}p_x\)</span></p>
+</div>
+<div id="seguro-de-capital-diferido" class="section level4">
+<h4><strong>Seguro de capital diferido:</strong></h4>
+<p><span class="math inline">\({}_{m|}\overline{A}_x = V^m * {}_{m}p_x *
+\frac{i}{\delta} * A_{x+m}\)</span></p>
+<ul>
+<li><strong>Exemplo:</strong></li>
+</ul>
+<p>Baseado na tabela de vida, temos <span class="math inline">\(A_x =
+0.353\)</span>, se a taxa instantânea de juros é de 3% a.a. então o
+V.P.A. do pagamento instantâneo é?</p>
+<p><span class="math inline">\(\overline{A}_x = \frac{e^\delta -
+1}{\delta} * A_x \Rightarrow \overline{A}_x = \frac{e^0.03 - 1}{0.03} *
+0.353 = 0.35835\)</span></p>
+<p>Logo, pelo exemplo podemos perceber que o seguro de vida pago no
+momento de morte é maior que o seguro de vida inteira pago no final do
+ano de morte.</p>
+<p><span class="math inline">\(\overline{A}_x \ge A_x\)</span></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

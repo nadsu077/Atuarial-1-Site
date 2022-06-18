@@ -8,7 +8,19 @@ navbar:
     - text: "Curso"
       href: about.html
     - text: "Conteúdos"
-      href: contents.html
+      menu:
+      - text: "Seguros pagos no momento de morte"
+        href: spnmm.html
+      - text: "Seguros pagos no final do ano de morte"
+        href: spnfam.html
+      - text: "Anuidades financeiras"
+        href: af.html
+      - text: "Anuidades atuariais"
+        href: aa.html
+      - text: "Prêmios e benefícios"
+        href: peb.html
+      - text: "Prêmios carregados"
+        href: pc.html
 output: 
   html_document:
     theme: cerulean

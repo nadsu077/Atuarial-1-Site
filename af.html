@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>af.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="anuidades-financeiras" class="section level3">
+<h3><strong>Anuidades financeiras</strong></h3>
+</div>
+<div id="resumo" class="section level3">
+<h3>Resumo</h3>
+<p>As anuidades são uma série de pagamentos que serão feitos à um
+segurado até o momento de morte (em caso de aposentadoria) ou por um
+período determinado (cobertura).</p>
+<p>A série de Prêmios pagos pelo segurado, seja para financiar um seguro
+de vida, seja para financiar a aposentadoria, também podem ser
+reconhecidas como anuidades.</p>
+<p>As anuidades que não pagam imediatamente uma quantia financeira (o
+primeiro pagamento só ocorre no próximo instante de tempo) são chamadas
+anuidades postecipadas.</p>
+<p>As anuidades em que o primeiro pagamento ocorre imediatamente são
+chamadas anuidades antecipadas.</p>
+</div>
+<div id="esquema-1-de-pagamento-ddota_overlinen" class="section level3">
+<h3><strong>Esquema 1 de pagamento</strong> <span
+class="math inline">\(\ddot{a}_{\overline{n}|}\)</span></h3>
+<p>São feitos n pagamentos anuais de 1 u.m. em t = 0, 1, 2, …, n-1 <span
+class="math inline">\(\to\)</span> anuidade antecipada paga no início do
+período em que está vivo.</p>
+<p>O valor presente é:</p>
+<p><span class="math inline">\(\ddot{a}_{\overline{n}|} =
+\frac{1-V^n}{1-V}\)</span></p>
+<p>O valor final ou acumulado da anuidade é o valor final capitalizado a
+juros efetivos i a.a. da série de n pagamentos de 1 u.m.</p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|} = 1 * (1+i)^n +
+1 * (1+i)^{n-1} + ... + 1*(1+i)\)</span></p>
+<p>Em que <span class="math inline">\(1*(1+i)^n\)</span> é pago no tempo
+inicial (t = 0) e capitalizado por n períodos</p>
+<p><span class="math inline">\(a_1 = 1*(1+i)^n\)</span></p>
+<p><span class="math inline">\(q = \frac{1}{1+i}\)</span></p>
+<p>Desenvolvendo:</p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|} = 1 * (1+i)^n +
+1 * (1+i)^{n-1} + ... + 1*(1+i)\)</span></p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|} =
+(1+i)*\Big[1+(1+i) + ... + (1+i)^{n-1}\Big]\)</span></p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|} =
+(1+i)*\Bigg[\frac{1-(1+i)^n}{1-(1+i)}\Bigg]\)</span></p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|} =
+\frac{1+i}{i}*\Big[(1+i)^n - 1\Big]\)</span></p>
+<p>Veja que <span class="math inline">\(\ddot{S}_{\overline{n}|} =
+(1+i)^n * \ddot{a}_{\overline{n}|}\)</span></p>
+<p><strong>Exercício:</strong></p>
+<p>Suponha que alguém ao aposentar-se aos 60 anos deseja receber uma
+renda antecipada de 36000 por ano durante 20 anos. Considere uma taxa de
+juros de 8% ao ano. Qual o valor dos depósitos anuais que um indivíduo
+de 40 anos deve fazer?</p>
+<p><strong>Resolução feita no R</strong></p>
+<pre class="r"><code>i = 0.08      # Taxa considerada
+n = 20        # Número de Períodos
+apos = 36000  # Valor da renda
+V = 1/(1+i)   # Fator de desconto
+
+a20 = (1-V^n)/(1-V) # Valor presente
+
+Map = 36000*a20 # Montante de Aposentadoria
+
+S20 = (1+i)^n*a20 # Série de pagamentos ou Anuidades
+
+P = Map / S20 # Prêmio a ser cobrado ao segurado
+
+Mpr = P * S20 # Montante dos Prêmios
+
+# Onde Mpr é o Montante dos Prêmios e o Montante dos Prêmios tem que ser igual ao Montante da Aposentadoria (Mpr = Map). 
+# Logo, P * S20 = Map =&gt; P = Map / S20
+
+cat(&quot;Valor Presente: &quot;, a20, &quot;\n\n&quot;,
+    &quot;Montante de Aposentadoria: &quot;, Map, &quot;\n\n&quot;,
+    &quot;Série de Pagamentos ou Anuidades: &quot;, S20, &quot;\n\n&quot;,
+    &quot;Montante dos Prêmios: &quot;, Mpr, &quot;\n\n&quot;,
+    &quot;Valor do Prêmio: &quot;, P, 
+    sep = &quot;&quot;)</code></pre>
+<pre><code>## Valor Presente: 10.604
+## 
+## Montante de Aposentadoria: 381730
+## 
+## Série de Pagamentos ou Anuidades: 49.423
+## 
+## Montante dos Prêmios: 381730
+## 
+## Valor do Prêmio: 7723.7</code></pre>
+</div>
+<div id="esquema-2-de-pagamento-a_overlinen" class="section level3">
+<h3><strong>Esquema 2 de pagamento</strong> <span
+class="math inline">\(a_{\overline{n}|}\)</span></h3>
+<p>São feitos n pagamentos anuais de 1 u.m. em t = 1, 2, …, n <span
+class="math inline">\(\to\)</span> anuidade postecipada.</p>
+<p>O valor presente é:</p>
+<p><span class="math inline">\(a_{\overline{n}|} = V + V^2 + ... + V^n =
+V*(1 + V + V^2 + ... + V^{n-1})\)</span></p>
+<p><span class="math inline">\(a_{\overline{n}|} = \frac{V}{1-V} *
+(1-V^n) = V * \ddot{a}_{\overline{n}|} \to \text{Desconta um período do
+Esquema 1}\)</span></p>
+<p>O valor final capitalizado é:</p>
+<p><span class="math inline">\(S_{\overline{n}|} = (1+i)^{n-1} + ... +
+1\)</span></p>
+<p><span class="math inline">\(S_{\overline{n}|} =
+\frac{1-(1+i)^n}{1-(1+i)} = \frac{(1+i)^n-1}{i}\)</span></p>
+</div>
+<div id="esquema-3-de-pagamento-ddota_overlinenm"
+class="section level3">
+<h3><strong>Esquema 3 de pagamento</strong> <span
+class="math inline">\(\ddot{a}_{\overline{n}|}^{(m)}\)</span></h3>
+<p>São feitos n pagamentos anuais de 1 u.m. em m parcelas equipassadas
+de <span class="math inline">\(\frac{1}{m}\)</span> pagos em <span
+class="math inline">\(t = 0, \frac{1}{m}, \frac{2}{m}, ...,
+\frac{n*m-1}{m} \to\)</span> antecipada</p>
+<p>Por exemplo: 10 pagamentos anuais em 12 parcelas por ano.</p>
+<p>Valor presente:</p>
+<p><span class="math inline">\(\ddot{a}_{\overline{n}|}^{(m)} =
+\frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} + ... +
+\frac{1}{m}*V^{\frac{m*n-1}{m}}\)</span></p>
+<p><span class="math inline">\(\ddot{a}_{\overline{n}|}^{(m)} =
+\frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} +
+\frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^2 + ... +
+\frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^{m*n-1}\)</span></p>
+<p><span class="math inline">\(\ddot{a}_{\overline{n}|}^{(m)} =
+\frac{1}{m} *
+\Bigg[\frac{1-\Big(V^{\frac{1}{m}}\Big)^{m*n}}{1-\Big(V^{\frac{1}{m}}\Big)}\Bigg]\)</span></p>
+<p><span class="math inline">\(\ddot{a}_{\overline{n}|}^{(m)} =
+\frac{1}{m} *
+\Bigg[\frac{1-V^n}{1-\big(V^{\frac{1}{m}}\big)}\Bigg]\)</span></p>
+<p><strong>Valor final capitalizado</strong></p>
+<p><span class="math inline">\(\ddot{S}_{\overline{n}|}^{(m)} =
+\frac{(1+i)^n - 1}{m*\Big(1 - (1 + i)^{\frac{1}{m}}\Big)}\)</span></p>
+</div>
+<div id="esquema-4-de-pagamento-a_overlinenm" class="section level3">
+<h3><strong>Esquema 4 de pagamento</strong> <span
+class="math inline">\(a_{\overline{n}|}^{(m)}\)</span></h3>
+<p>São feitos n pagamentos anuais de 1 em m parcelas equipassadas de 1/m
+pagos em <span class="math inline">\(t = \frac{1}{m}, \frac{2}{m}, ...,
+n \to\)</span> postecipada</p>
+<p><strong>Uma idealização matemática</strong></p>
+<p>No esquema 3, o que acontece quando <span class="math inline">\(m \to
+\infty\)</span> ?</p>
+<p>O número de pagamentos vai a <span
+class="math inline">\(\infty\)</span>, mas cada pagamento <span
+class="math inline">\(\frac{1}{m} \to 0\)</span></p>
+<p>A soma no fim do ano dos cheques recebidos é igual a 1, mas
+capitaliza mais que 1.</p>
+<p><span class="math inline">\(\displaystyle \lim_{m \to \infty}
+a_{\overline{n}|}^{(m)} = \displaystyle \lim_{m \to \infty}
+\Bigg[\frac{\frac{1}{m} * (1-V^n)}{1-V^{\frac{1}{m}}}\Bigg]\)</span></p>
+<p><span class="math inline">\(\displaystyle \lim_{m \to \infty}
+a_{\overline{n}|}^{(m)} = (1-V^n) * \displaystyle \lim_{m \to \infty}
+\Bigg[\frac{1/m}{1-V^{1/m}}\Bigg]\)</span></p>
+<p>Como,</p>
+<p><span class="math inline">\(\displaystyle \lim_{x \to 0}
+\bigg(\frac{x}{1-V^x}\bigg) = \displaystyle \lim_{x \to 0}
+\bigg(\frac{x}{1-e^{-\delta*x}}\bigg)\)</span></p>
+<p>Por L’Hoptal</p>
+<p><span class="math inline">\(\displaystyle \lim_{x \to 0}
+\bigg(\frac{1}{\delta*e^{-\delta*x}}\bigg) =
+\frac{1}{\delta}\)</span></p>
+<p>Logo,</p>
+<p><span class="math inline">\(\displaystyle \lim_{m \to \infty}
+a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta}\)</span></p>
+<p>Dessa forma,</p>
+<p><span class="math inline">\(VP = \frac{1-V^n}{\delta}\)</span></p>
+<p>Para t geral (não só t = n inteiro) temos</p>
+<p><span class="math inline">\(\displaystyle \lim_{m \to \infty}
+a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta} =
+\overline{a}_{\overline{t}|} =
+\frac{1-e^{-\delta*t}}{\delta}\)</span></p>
+<p><span class="math inline">\(\overline{a}_{\overline{t}|}\)</span> é o
+valor presente de um fluxo contínuo de pagamentos em <span
+class="math inline">\([0, t]\)</span> à taxa de 1 real por ano, com
+juros delta.</p>
+<p>Pense no fluxo contínuo como se fosse água saindo por um ano à uma
+taxa de 1 litro por minuto, no nosso caso pense em 1 real por ano.</p>
+<p>Infelizmente o fluxo não é tão simples assim!</p>
+<p>O segurado pode morrer antes de receber todos os benefícios, então os
+pagamentos deveriam ser menores?</p>
+<p>O segurado pode morrer antes de completar os pagamentos.</p>
+<p>Veja que, no processo de compra de um produto atuarial ou de
+concessão de benefício, existe o risco.</p>
+<p>A seguradora não sabe se vai receber todos os prêmios do segurado
+(este pode morrer antes do período de cobertura) e, a seguradora não
+sabe ao certo quanto irá gastar com previdência uma vez que não se sabe
+o tempo de gozo de benefício de uma pessoa que se aposentou.</p>
+<p>Reconhecer a anuidade como um produto atuarial é reconhecer que a
+seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor
+presente (hoje), um segurado irá custar.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

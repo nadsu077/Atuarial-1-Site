@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>spnmm.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="seguros-pagos-no-momento-de-morte" class="section level3">
+<h3><strong>Seguros pagos no momento de morte</strong></h3>
+<p>Seja (x) = indivíduo de idade x que faz um seguro de vida inteira
+(vitalício)</p>
+<p>Seja T = tempo de vida futuro ou adicional de x</p>
+<p>T é uma v.a. e <span class="math inline">\(T \in (0,
+\infty)\)</span></p>
+<p>Probabilidades são expressas como função densidade</p>
+<p><strong>Exemplo 1:</strong></p>
+<p>Deseja-se que um beneficiário receba 100 mil reais no <strong>momento
+de morte</strong>, daqui a T ano. Qual é o valor presente desses R$
+100.000,00 que serão recebidos daqui a T anos?</p>
+<p><strong>Solução feita no R</strong></p>
+<pre class="r"><code>vf = 100000 # Valor Futuro
+i = 0.05 # Taxa a ser considerada
+t = 50 # Tempo em anos
+
+v = 1/(1+i)
+vp = vf*(v^t)
+vp</code></pre>
+<pre><code>## [1] 8720.4</code></pre>
+<p>Onde:</p>
+<p><span class="math inline">\(V = \frac{1}{(1+i)}\)</span></p>
+<p>Logo:</p>
+<p><span class="math inline">\(V^t = \frac{1}{(1+i)^t}\)</span></p>
+<p><strong>Exemplo 2:</strong></p>
+<p>Suponha que T é uma v.a. com apenas 3 valores: 5,5; 32,3 e 50 anos.
+Quanto (x) deveria pagar hoje para esse seguro de modo que a seguradora
+receba o necessário para pagar, em média, a indenização de R$ 100.000,00
+no futuro?</p>
+<p><strong>Solução</strong></p>
+<p>O justo seria a seguradora cobrar um prêmio igual ao valor esperado
+de V.P. (estamos ignorando, por enquanto, a necessidade da seguradora
+cobrir despesas e lucros)</p>
+<p><span class="math inline">\(E[VP] = (76.464,32) * P(T = 5,5) +
+(20.480,84) * P(T = 32,3) + (8.720,37) * P(T = 50)\)</span></p>
+<p><span class="math inline">\(E[VP] = vf * (V^{5,5} * P(T = 5,5) +
+V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))\)</span></p>
+<p><span class="math inline">\(E[VP] = 100.000 * (V^{5,5} * P(T = 5,5) +
+V^{32,3} * P(T = 32,3) + V^{50} * P(T = 50))\)</span></p>
+<p><span class="math inline">\(E[VP] = 100.000 * E[V^t]\)</span></p>
+<p><span class="math inline">\(E[VP] = B * E[V^t]\)</span></p>
+<p><span class="math display">\[E[V^t] = \sum_{0}^{\infty} V^t * P(T =
+t)\]</span></p>
+<p>Se T fosse uma v.a. contínua</p>
+<p><span class="math display">\[E[V^t] = \displaystyle \int_{0}^{\infty}
+V^t * f_T(t)\, dt\]</span></p>
+<p><strong>Principais pontos:</strong></p>
+<p>O valor presente (V.P.) da indenização futura é incerto porque
+depende da v.a. T;</p>
+<p>O horizonte é de longo prazo;</p>
+<p>t = 0 tempo entre a emissão da apólice e a morte;</p>
+<p>Função benefício <span class="math inline">\(\to b_t =
+b(t)\)</span>;</p>
+<p>Função de desconto <span class="math inline">\(\to V_t =
+V^t\)</span>;</p>
+<p>Função de valor presente <span class="math inline">\(\to Z(t) = b(t)
+* V^t\)</span>.</p>
+<p>Como T é uma v.a. Z(t) também é v.a. que possui uma lista de valores
+possíveis e probabilidades associadas.</p>
+</div>
+<div id="seguro-de-vida" class="section level3">
+<h3><strong>Seguro de vida</strong></h3>
+<p>Chame de Prêmio Puro (PP) a parcela do prêmio, suficiente para pagar
+sinistros. Neste sentido o Prêmio Puro é o prêmio que propõe o pagamento
+de despesas relacionadas ao risco que está sendo assumido pela
+seguradora.</p>
+<p><span class="math inline">\(E[VP] = E[Z(t)] \to E[VP] =
+VPA\)</span></p>
+</div>
+<div id="seguro-de-vida-temporário-de-n-anos-overlinea1_xoverlinen"
+class="section level3">
+<h3><strong>Seguro de vida temporário de n-anos</strong> <span
+class="math inline">\(\overline{A}^{1}_{x:\overline{n}|}\)</span></h3>
+<p>Paga uma unidade monetária somente se o segurado morre dentro de
+n-anos</p>
+<p><span class="math inline">\(b(t) = \begin{cases} 1, \, \text{se } t
+\le n \\ 0, \, \text{se } c.c.\end{cases}\)</span></p>
+<p><span class="math inline">\(V_t = V^t\)</span> Fator de desconto</p>
+<p><span class="math inline">\(Z(t) = \begin{cases}V^t, \, \text{se } t
+\le n \\ 0, \, \text{se } c.c.\end{cases}\)</span></p>
+<p><strong>Exemplo</strong></p>
+<ul>
+<li><p><span class="math inline">\((x) = \text{30
+anos}\)</span></p></li>
+<li><p><span class="math inline">\((n) = \text{20
+anos}\)</span></p></li>
+<li><p>i = 5%, logo, V = 0.9524</p></li>
+<li><p>T ~ U(0; 70)</p></li>
+</ul>
+<p><strong>Solução</strong></p>
+<p><span class="math inline">\(Z(t) = \begin{cases}0.9524^t, \, \text{se
+} t \le n \\ 0, \, \text{se } c.c.\end{cases}\)</span></p>
+<p><span class="math inline">\(E[Z] = \displaystyle \int_{0}^{20} Z(t) *
+f_T(t)\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = \displaystyle \int_{0}^{20} V^t *
+T\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = \displaystyle \int_{0}^{20}
+0.9524^t * \frac{1}{70}\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = \frac{1}{70} *
+\frac{1}{ln(0.9524)} * [0.9524^t|_{0}^{20}]\)</span></p>
+<p><span class="math inline">\(E[Z] = 0.1825\)</span></p>
+<p><strong>Resolvendo o exemplo usando o R</strong></p>
+<pre class="r"><code># Criando a função a ser integrada [Z(t) * fT(t)]
+unif = function(v, b, a){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){v^t*1/(b-a)})
+}
+
+# Integrando a função no intervalo de 0 a 20
+integrate(unif(v = 0.9524, 70, 0), lower = 0, upper = 20)$value</code></pre>
+<pre><code>## [1] 0.18248</code></pre>
+<p>Isto é, cada 1 real eventualmente pago no futuro (dentro de 20 anos)
+vale, hoje, 18.25 centavos</p>
+<p>Se o valor do benefício a ser pago for 87 mil reais, então O VPA
+desse seguro é de 87000 * 0.1825 = 15877.5</p>
+<p>Observe que no contrato de seguro de vida temporário existe a
+incerteza sobre a ocorrência ou não da indenização e sobre a ocorrência
+ou não da indenização e sobre o momento do pagamento eventual</p>
+<p>Se b(t) é uma constante, não há incerteza sobre o valor a ser
+pago</p>
+<p>Notação: no caso de b(t) = 1 (uma unidade)</p>
+<p><span class="math inline">\(\overline{A}^{1}_{x:\overline{n}|} =
+\displaystyle \int_{0}^{n} Z(t) * f_T(t) dt = \displaystyle \int_{0}^{n}
+1 * V^t * f_T(t)\, dt\)</span></p>
+<p><span class="math inline">\(\overline{A} \to \text{Seguro pago no
+momento de morte}\)</span></p>
+<p><span class="math inline">\(^1 \to \text{Temporário}\)</span></p>
+<p><span class="math inline">\(_x \to \text{Idade}\)</span></p>
+<p><span class="math inline">\(_n \to \text{Tempo de
+vigência}\)</span></p>
+<p>Sabemos que, de acordo com as relações de tabelas de vida:</p>
+<p><span class="math inline">\(f_T(t) dt = \sideset{_t}{}p_x *
+\mu(x+t)\, dt\)</span></p>
+<p>Dessa forma, podemos escrever: <span
+class="math inline">\(\overline{A}^{1}_{x:\overline{n}|} = \displaystyle
+\int_{0}^{n} 1V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt\)</span></p>
+<p>Como Z é uma v.a. que oscila em torno de E[Z], podemos perguntar como
+Z varia ao redor de E[Z]</p>
+<p><span class="math inline">\(Var(Z) = E[Z - E[Z]]^2 = E[Z^2] -
+E[Z]^2\)</span></p>
+<p>Se b(t) é igual a zero ou 1 para todo t, o cálculo de Var(Z) é
+facilitado, pois:</p>
+<p><span class="math inline">\(Z^j = [b(x) * V^t]^j = b(x)^j * V^{t *
+j}\)</span></p>
+<p>Então</p>
+<p><span class="math inline">\(E[Z^j] = \displaystyle \int_{0}^{n}
+b(t)^j * V^{t * j} * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * V^{j *
+t} * f_T(t)\, dt\)</span></p>
+<p><span class="math inline">\(E[Z^j] = \displaystyle \int_{0}^{n} 1 *
+(V^j)^t * f_T(t)\, dt = \displaystyle \int_{0}^{n} 1 * W^t * f_T(t)\,
+dt\)</span></p>
+<p>Assim, <span class="math inline">\(E[Z^j]\)</span> com fator de
+desconto V é igual a <span class="math inline">\(E[Z]\)</span> com fator
+de desconto <span class="math inline">\(V^j\)</span></p>
+<p>Notação: <span class="math inline">\(E[Z^j]@V = E[Z]@V^j\)</span></p>
+<p><strong>No exemplo anterior:</strong></p>
+<p><span class="math inline">\(^2\overline{A}^{1}_{30:\overline{20}|} =
+\displaystyle \int_{0}^{20} [0.9524^2]^t * \frac{1}{70}\, dt =
+0.1256\)</span></p>
+<p><strong>Realizando no R</strong></p>
+<pre class="r"><code># Criando a função a ser integrada
+unif2 = function(v, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  v = v; b = b; a = a
+  return(function(t){(v^j)^t*1/(b-a)})
+}
+# Integrando a função
+integrate(unif2(v = 0.9524, b = 70, a = 0, j = 2), lower = 0, upper = 20)$value</code></pre>
+<pre><code>## [1] 0.12564</code></pre>
+<p><span class="math inline">\(Var(Z) = 0.1256 - 0.1825^2 =
+0.09229\)</span></p>
+<p><span class="math inline">\(DP = \sqrt{Var(Z)} = 0.3038\)</span></p>
+</div>
+<div id="seguro-de-vida-inteira-overlinea_x" class="section level3">
+<h3><strong>Seguro de vida inteira</strong> <span
+class="math inline">\(\overline{A}_x\)</span></h3>
+<p>Paga 1 real no momento de morte</p>
+<p>Assim, <span class="math inline">\(b(t) = 1\)</span> para todo t e
+<span class="math inline">\(Z(t) = 1*V^t\)</span></p>
+<p>O VPA é</p>
+<p><span class="math inline">\(\overline{A}_x = \displaystyle
+\int_{0}^{\infty} V^t * f_T(t)\, dt = \displaystyle \int_{0}^{\infty}
+V^t * \sideset{_t}{}p_x * \mu(x+t)\, dt\)</span></p>
+<p><span class="math inline">\(\overline{A} \to \text{Seguro pago no
+momento de morte}\)</span></p>
+<p><span class="math inline">\(_x \to \text{Idade}\)</span></p>
+<p><span class="math inline">\(Var(Z) =\, ^2\overline{A}_x -
+(\overline{A}_x)^2\)</span></p>
+<p>Este é o caso limite do seguro temporário quando <span
+class="math inline">\(n \to \infty\)</span></p>
+<p>A incerteza é apenas sobre o momento do pagamento</p>
+<p><strong>Exemplo</strong></p>
+<p>Seguro de vida inteira de R$ 80.000,00 emitido para (x) com vida
+futura T ~ U(0; 80). A taxa de juros instantânea é de 3% a.a., encontre
+o V.P.A.</p>
+<p><span class="math inline">\(\overline{A}_x = 80000 * \displaystyle
+\int_{0}^{80} e^{-0.03 * t} \frac{1}{80}\, dt\)</span></p>
+<p><span class="math inline">\(\overline{A}_x = \frac{80000}{80} *
+\displaystyle \int_{0}^{80} e^{-0.03 * t}\, dt\)</span></p>
+<p><span class="math inline">\(\overline{A}_x = \frac{1000}{-0.03} *
+e^{-0.03 * t}|_{0}^{80}\)</span></p>
+<p><span class="math inline">\(\overline{A}_x = 30309.4\)</span></p>
+<p><span class="math inline">\(Var(Z) =\, ^2\overline{A}_x -
+(\overline{A}_x)^2\)</span></p>
+<p><span class="math inline">\(^2\overline{A}_x = 80000^2 *
+\displaystyle \int_{0}^{80} e^{(-0.03 * t)^2} \frac{1}{80}\,
+dt\)</span></p>
+<p><span class="math inline">\(^2\overline{A}_x = \frac{80000^2}{80} *
+\displaystyle \int_{0}^{80} e^{(-0.03 * t * 2)}\, dt\)</span></p>
+<p><span class="math inline">\(^2\overline{A}_x = \frac{80000^2}{80} *
+\displaystyle \int_{0}^{80} e^{(-0.06 * t)}\, dt\)</span></p>
+<p><span class="math inline">\(^2\overline{A}_x = \frac{80000^2}{-0.06 *
+80} * e^{-0.06 * t}|_{0}^{80}\)</span></p>
+<p><span class="math inline">\(^2\overline{A}_x =
+1322360337\)</span></p>
+<p><span class="math inline">\(Var(Z) = 1322360337 -
+30309.4^2\)</span></p>
+<p><span class="math inline">\(Var(Z) = 403700609\)</span></p>
+<p><span class="math inline">\(DP = 20092.3\)</span></p>
+<p><strong>Resolvendo utilizando o R</strong></p>
+<pre class="r"><code>unif2 = function(i, b, a, j){
+  # Encontrar E[Z] para uma distribuição Uniforme (a, b)
+  i = i; b = b; a = a
+  return(function(t){exp(-i*j*t)*1/(b-a)})
+}
+
+
+sqrt( # Desvio-padrão
+80000^2*integrate(unif2(i = 0.03, b = 80, a = 0, j = 2), lower = 0, upper = 80)$value- # E[Z²]
+(80000*integrate(unif2(i = 0.03, b = 80, a = 0, j = 1), lower = 0, upper = 80)$value)^2 # E[Z]²
+)</code></pre>
+<pre><code>## [1] 20092</code></pre>
+<p>Observe que E[Z] é muito próximo de DP(Z), ou seja, o coeficiente de
+variação é muito próximo de 1, muita variação é muito próximo de 1,
+muita variação ao redor de E[Z].</p>
+<p>A distribuição uniforme para o tempo de vida só é razoável para os
+homens entre 25 e 45 anos, mais ou menos, pois <span
+class="math inline">\(q_x\)</span> é constante nesta faixa.</p>
+<p>Para um seguro de vida inteira é mais razoável ter T com distribuição
+não-uniforme, uma boa distribuição para T é a Gama com os parâmetros
+<span class="math inline">\(\alpha\)</span> e <span
+class="math inline">\(\beta\)</span>.</p>
+<p><strong>Exemplo</strong></p>
+<p>Imagine uma carteira com 100 indivíduos (todos de mesma idade) que
+contratam hoje um seguro de vida inteira. O benefício é de 10 unidades
+monetárias no momento da morte. Seja a taxa instantânea de juros igual a
+0.06.</p>
+<p>Seja ainda T ~ Exp(0.04). Qual o prêmio puro a ser cobrado de cada
+segurado E[Z]?</p>
+<p><strong>Solução</strong></p>
+<p><span class="math inline">\(Z(t) = b_t * V^t = 10 *
+e^{-0.06*t}\)</span></p>
+<p><span class="math inline">\(E[Z] = \displaystyle \int_{0}^{\infty} 10
+* e^{-0.06 * t} * 0.04 * e^{-0.04 * T}\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = 10 * 0.04 * \displaystyle
+\int_{0}^{\infty} e^{-0.06 * t - 0.04 * t}\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = 0.4 * \displaystyle
+\int_{0}^{\infty} e^{-0.1 * t}\, dt\)</span></p>
+<p><span class="math inline">\(E[Z] = \frac{0.4}{-0.1} * e^{-0.1 *
+t}|_{0}^{\infty}\)</span></p>
+<p><span class="math inline">\(E[Z] = -4 * (e^{-0.1 * \infty} - e^{-0.1
+* 0})\)</span></p>
+<p><span class="math inline">\(E[Z] = -4 * (0 - 1)\)</span></p>
+<p><span class="math inline">\(E[Z] = 4\)</span></p>
+<p><strong>Resolvendo utilizando o R</strong></p>
+<pre class="r"><code># Criando a função a ser integrada
+funcao = function(bt, a, b){
+  return(function(t){bt*exp(-a*t)*b*exp(-b*t)})
+}
+
+# Integrando a função
+integrate(funcao(bt = 10, a = 0.06, b = 0.04), lower = 0, upper = Inf)$value</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>Veja que o gasto médio com o pagamento de sisnistros será de 400
+reais, pois cada uma das 100 pessoas nesta carteira, pagará 4 unidades
+monetárias para a seguradora honrar com seus compromissos relativos à
+sinistros.</p>
+<p>Porém, o processo de risco dessa seguradora pode ser um pouco mais
+complexo. Pensemos o que aconteceria se 90% dos segurados morressem já
+no primeiro ano? Certamente a seguradoranão teria tempo suficiente para
+investir o dinheiro pago pelos segurados na forma de prêmio e, esta,
+ficaria insolvente.</p>
+<p>Neste caso, pode-se dizer que o valor cobrado pela seguradora seria
+diferente do prêmio calculado anteriormente. De fato, o prêmio poderá
+ser (em alguns casos) bem maior que o calor calculado anteriormente.</p>
+<p>Seguindo essa linha de raciocínio, o que desejamos saber é qual o
+valor que a seguradora deve ter hoje de modo que a probabilidade de que
+haja fundo para efetuar todos os pagamentos no momento de morte seja
+aproximadamente 95%.</p>
+<p>Chamando de S o valor total a ser pago pela seguradora em relação aos
+sinistros ocorridos, queremos encontrar o valor h tal que:</p>
+<p><span class="math inline">\(P(S \le h) = 0.95\)</span></p>
+<p>Fazendo uma aproximação pela distribuição normal teremos:</p>
+<p><span class="math inline">\(P(S \le h) = P\bigg(\frac{S -
+400}{\sqrt{900}} \le \frac{h - 400}{\sqrt{900}}\bigg) =
+0.95\)</span></p>
+<p>Ou seja,</p>
+<p><span class="math inline">\(\frac{h - 400}{\sqrt{900}} = 1.645
+\Leftrightarrow h = \sqrt{900} * 1.645 + 400 = 449.35\)</span></p>
+<p>Como existem 100 segurados em nossa carteira e um custo total de
+449.35, o prêmio deveria ser <span
+class="math inline">\(\frac{449.35}{100} = 4.49\)</span> por indivíduo e
+não de 4 unidades monetárias, como calculado anteriormente.</p>
+</div>
+<div id="seguro-dotal-puro-de-n-anos-a_xoverlinen1-text-ou-sideset_ne_x"
+class="section level3">
+<h3><strong>Seguro Dotal Puro de n-anos</strong> <span
+class="math inline">\(A_{x:\overline{n}|^1}\, \text{ ou } \,
+\sideset{_{n}}{}E_{x}\)</span></h3>
+<p>Paga uma unidade ao final de n-anos se, e somente se, o segurado
+sobrevive pelo menos n-anos após a emissão da apólice.</p>
+<p><span class="math inline">\(b(t) = \begin{cases} 0,\, \text{se } t
+\le n \\ 1,\, \text{se } t &gt; n \end{cases}\)</span></p>
+<p><span class="math inline">\(V_t = V^n,\, \text{se } t \ge
+0\)</span></p>
+<p><span class="math inline">\(Z = \begin{cases}0,\, \text{se } t \le n
+\\ V^n,\, \text{se } t &gt; n\end{cases}\)</span></p>
+<p>Existe incerteza apenas sobre a ocorrência da indenização, não há
+incerteza sobre o momento e o valor.</p>
+<p>Este tipo de seguro será útil para modelar o pagamento de um bônus
+por uma empresa: se um funcionário “sobrevive” como ativo na empresa por
+20 anos, ele recebe 2 salários mensais como bônus. Caso ele não
+sobreviva como ativo, nada é pago. Para fazer frente a esta despesa
+futura, a empresa precisa saber hoje, quanto ela deveria ter para cobrir
+estes benefícios.</p>
+<p>Assim,</p>
+<p><span class="math inline">\(A_{x:\overline{n}|^1} =
+\sideset{_{n}}{}E_{x} = 0 * P(T&lt;=n) + V^n*P(T &gt; n)\)</span></p>
+<p><span class="math inline">\(A_{x:\overline{n}|^1} =
+\sideset{_{n}}{}E_{x} = V^n * P(T &gt; n)\)</span></p>
+<p><span class="math inline">\(Var(Z) = E[Z^2] - E[Z]^2\)</span></p>
+<p><span class="math inline">\(Var(Z) = V^{2*n} * \sideset{_n}{}p_x -
+V^{2*n} * \sideset{_n}{}p_x^2\)</span></p>
+<p>Colocando <span class="math inline">\(V^{2*n} *
+\sideset{_n}{}p_x\)</span> em evidência</p>
+<p><span class="math inline">\(Var(Z) = V^{2*n} * \sideset{_n}{}p_x *
+(1-\sideset{_n}{}p_x)\)</span></p>
+<p>Como <span class="math inline">\((1-npx) = nqx\)</span></p>
+<p><span class="math inline">\(Var(Z) = V^{2*n} * \sideset{_n}{}p_x *
+\sideset{_n}{}q_x\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Seguro dotal de n = 20 anos para (x) = 30 anos com taxa instantânea
+de juros de 0.03 -&gt; V = 0.970, paga R$ 100.000,00 se sobreviver. Qual
+o VPA? (Tabela do livro pág. 676)</p>
+<p><span class="math inline">\(l_{30} = 95013.79\)</span> <span
+class="math inline">\(l_{50} = 89509\)</span></p>
+<p><span class="math inline">\(\sideset{_{20}}{}p_{30} =
+\frac{l_{50}}{l_{30}} = 0.942\)</span></p>
+<p>Assim, paga R$ 100.000,00 com prob. de 0.942 e zero com prob. de
+0.058. Portanto, em valor presente:</p>
+<p><span class="math inline">\(Z = \begin{cases} 10^5 * 0.970^{20},\,
+\text{com prob. 0.942} \\ 0,\, \text{com prob. 0.058}
+\end{cases}\)</span></p>
+<p>Dessa forma, o valor presente médio de uma unidade é:</p>
+<p><span class="math inline">\(A_{x:\overline{n}|^1} =
+\sideset{_{n}}{}E_{x} = V^{20} * \sideset{_{20}}{}p_{30} = 0.97^{20} *
+0.942 = 0.5122543 * 10^5\)</span></p>
+<p><span class="math inline">\(A_{x:\overline{n}|^1} =
+51225.43\)</span></p>
+<p>Para 100.000 unidades paga-se 51.225,43</p>
+<p><span class="math inline">\(Var(Z) = \sideset{_{n}^2}{}E_{x} -
+(0.5122543)²\)</span></p>
+<p><span class="math inline">\(Var(Z) = (e^{-0.03*2})^{20} * 0.942 -
+0.5122543^2 = 0.02132048\)</span></p>
+<p>Para 100 unidades monetárias</p>
+<p><span class="math inline">\(Var(100*Z) = 100^2 * Var(Z) = 100^2 *
+0.02132048 = 213.20\)</span></p>
+<p><span class="math inline">\(DP = 15.170\)</span></p>
+<p><strong>Resolvendo utilizando o R</strong></p>
+<pre class="r"><code>l30 = 95013.79
+l50 = 89509
+
+p30_20 = l50/l30
+
+nEx = 0.97^20 * p30_20
+
+cat(&quot;Para 100.000 unidades monetárias, paga-se &quot;, round(10^5*nEx,2), &quot; unidades.&quot;, sep = &quot;&quot;)</code></pre>
+<pre><code>## Para 100.000 unidades monetárias, paga-se 51229 unidades.</code></pre>
+<pre class="r"><code>varZ = exp(-0.03*2)^20*p30_20 - nEx^2
+
+cat(&quot;Para 100 unidades monetárias: &quot;, round(100^2*varZ,2),&quot;\n\nCom DP igual a: &quot;, sqrt(100^2*varZ), sep = &quot;&quot;)</code></pre>
+<pre><code>## Para 100 unidades monetárias: 213.04
+## 
+## Com DP igual a: 14.596</code></pre>
+</div>
+<div id="seguro-dotal-misto-overlinea_xoverlinen"
+class="section level3">
+<h3><strong>Seguro Dotal Misto</strong> <span
+class="math inline">\(\overline{A}_{x:\overline{n}|}\)</span></h3>
+<p>Paga uma unidade monetária se o segurado morre ou o segurado
+sobrevive ao final de n-anos, o que ocorrer primeiro.</p>
+<p>Como motivação para esse seguro, imagine alguém com 30 anos,
+desejando um plano de aposentadoria que pague 500 mil reais daqui a n =
+35 anos, se ele viver até lá. Se ele falecer, a viuva ou outro
+beneficiário receberá o benefício.</p>
+<p>Quanto custa hoje esse benefício futuro?</p>
+<p>Considere o pagamento de uma única unidade, ou seja, b(t) = 1 para
+todo t.</p>
+<p><span class="math inline">\(Vt = \begin{cases} V^t,\, \text{se } t
+\le n \\ V^n,\, \text{se } t &gt; n \end{cases}\)</span></p>
+<p><span class="math inline">\(Z = \begin{cases}V^t,\, \text{se } t \le
+n \\ V^n,\, \text{se } t &gt; n \end{cases}\)</span></p>
+<p>O valor presente atuarial é denotado por:</p>
+<p><span class="math inline">\(\overline{A}_{x:\overline{n}|} =
+\displaystyle \int_{0}^{n} V^t * f_T(t)\, dt + V^n *
+\sideset{_{n}}{}p_{x}\)</span></p>
+<p>O seguro dotal misto pode ser visto como a soma de um seguro
+temporário de n anos Z1 e um dotal puro de n anos Z2.</p>
+<p><span class="math inline">\(Z_1 = \begin{cases} V^t,\, \text{se } t
+\le n \\ 0,\, \text{se } t &gt; n \end{cases}\)</span></p>
+<p><span class="math inline">\(Z_2 = \begin{cases} 0,\, \text{se } t \le
+n \\ V^n,\, \text{se } t &gt; n \end{cases}\)</span></p>
+<p><span class="math inline">\(Z = Z_1 + Z_2\)</span></p>
+<p><span class="math inline">\(\overline{A}_{x:\overline{n}|} =
+\overline{A}_{x:\overline{n}|}^1 + \sideset{_{n}}{}E_{x}\)</span></p>
+<p><strong>Variância:</strong></p>
+<p>Variância de Z usa a relação da variância da soma de duas variáveis
+<span class="math inline">\(Var(X + Y)\)</span>, no caso as variáveis
+são <span class="math inline">\(Z_1\)</span> e <span
+class="math inline">\(Z_2\)</span></p>
+<p><span class="math inline">\(Var(Z) = Var(Z_1 + Z_2) = Var(Z1) +
+Var(Z2) + 2*Cov(Z1, Z2)\)</span></p>
+<p>Como <span class="math inline">\(Z_1 * Z_2 = 0 \Rightarrow E(Z1, Z2)
+= 0\)</span></p>
+<p>Assim,</p>
+<p><span class="math inline">\(Cov(Z_1, Z_2) = E(Z_1, Z_2) -
+E(Z_1)*E(Z_2) = -E(Z_1)*E(Z_2)\)</span></p>
+<p><span class="math inline">\(Cov(Z_1, Z_2) =
+-\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}\)</span></p>
+<p>Conclusão: <span class="math inline">\(Var(Z) = Var(Z_1) + Var(Z_2) -
+2*\overline{A}_{x:\overline{n}|}^1 * \sideset{_{n}}{}E_{x}\)</span></p>
+<p><span class="math inline">\(Var(Z) =\,
+^2\overline{A}_{x:\overline{n}|}^1 -
+(\overline{A}_{x:\overline{n}|}^1)^2 + \sideset{_n^2}{}E_x -
+(\sideset{_{n}}{}E_{x})^2 - 2*\overline{A}_{x:\overline{n}|}^1 *
+\sideset{_{n}}{}E_{x}\)</span></p>
+</div>
+<div id="seguro-de-capital-diferido-sideset_moverlinea_x"
+class="section level3">
+<h3><strong>Seguro de Capital Diferido</strong> <span
+class="math inline">\(\sideset{_{m|}}{}{\overline{A}}_x\)</span></h3>
+<p>Seguro de vida inteira com um período de carência. Paga uma unidade
+após a morte somente se o segurado morrer pelo menos m anos após a
+emissão da apólice.</p>
+<p><span class="math inline">\(b(t) = \begin{cases} 1,\, \text{se } t
+&gt; m \\ 0,\, \text{se } t \le m \end{cases}\)</span></p>
+<p><span class="math inline">\(Z = \begin{cases} V^t,\, \text{se } t
+&gt; m \\ 0,\, \text{se } t \le m \end{cases}\)</span></p>
+<p><span class="math inline">\(V_t = V^t,\, \forall \, t\)</span></p>
+<p><span class="math inline">\(\sideset{_{m|}}{}{\overline{A}}_x =
+\displaystyle \int_{m}^{\infty} V^t * f_T(t)\, dt\)</span></p>
+<p><span class="math inline">\(\sideset{_{m|}}{}{\overline{A}}_x =
+\displaystyle \int_{m}^{\infty} V^t * \sideset{_n}{}p_x * \mu(x+t)\,
+dt\)</span></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

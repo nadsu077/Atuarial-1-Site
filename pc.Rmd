@@ -1,0 +1,137 @@
+---
+output: html_document
+---
+
+<div style="text-align: justify">
+
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado na área [sobre o curso](https://atuarial-1-ufrn.netlify.app/about.html)
+
+### __Prêmios carregados__
+
+Nas aulas anteriores aprendemos como calcular o Prêmio Puro Único e o Prêmio Nivelado. Nos dois casos estamos calculando o prêmio de risco, ou seja, o prêmio a ser cobrado do segurado para que a seguradora consiga pagar todas as indenizações relativas a sinistros ocorridos. No entanto, nenhum dos prêmios cobrados será suficiente para pagar as despesas administrativas da seguradora (ou fundo de pensão). 
+
+Veremos agora como incluir no prêmio as despesas da seguradora.Para incluirmos as despesas da seguradora no prêmio puro devemos inicialmente dividir as despesas no que diz à incidência. Algumas despesas irão ocorrer apenas no momento da aquisição do contrato como: comissão de corretagem, despesas com médicos examinadores, ordenado com empregados ligados à aquisição da apólice, etc. 
+
+Em contrapartida, algumas despesas incidem enquanto o segurado estiver ligação com a empresa (período de pagamento de prêmio ou recebimento de benefício). Algumas dessas despesas são: salários de funcionários, despesas com informática, correspondência, aluguel, impostos, etc.
+
+Sobre o Prêmio Puro, pode-se adicionar carregamentos de segurabilidade para diminuir o risco de insolvência da seguradora a partir da Teoria do Risco de Ruína. Até o final do curso, estudaremos os carregamentos relativos às despesas apresentadas anterioremente. 
+
+Dividiremos os Prêmios carregados em:
+
+- a) Prêmio de Inventário
+
+- b) Prêmio Zilmerado
+
+- c) Prêmio Comercial ou de Tarifa
+
+### __a) Prêmio de Inventário__
+
+O prêmio de inventário deve ser mensurado para atender às despesas de administração e demais despesas que incidem ao longo do contrato de seguro (além do prêmio de risco).
+
+Para exemplificar este tipo de seguro, pensemos em uma pessoa de idade x que contrata um seguro de vida inteira que paga R$ 1,00 no final do ano de morte deste segurado. Sabemos que o prêmio puro único seria dados por:
+
+$A_x = \displaystyle \sum_{k = 0}^{\infty} V^{k+1} * {}_{k}p_{x} * q_{x+k}$
+
+Caso o segurado tenha interesse em fazer pagamentos nivelados até o momento de morte, então o prêmio seria:
+
+$P = \frac{A_x}{\ddot{a}_x}$
+
+Queremos calcular o prêmio (de Inventário) que faça frente às despesas administrativas que incidem ao longo do período de vigência do contrato. Em outras palavras, queremos cobrar um prêmio do segurado que, em média, seja suficiente para cobrir os riscos (prêmio puro) e as despesas da seguradora. Ou seja, queremos calcular o Prêmio P' tal que E[L] = 0.
+
+Vejam que a teoria já vista é extremamente importante para calcularmos o prêmio com este carregamento. 
+
+Lembremos que: 
+
+$L = Z - Y$
+
+Em que Z é a obrigação da seguradora e Y é a obrigação do segurado. 
+
+A obrigação da seguradora, agora, é diferente do que havíamos calculado anteriormente.
+
+A obrigação da seguradora é, além de pagar as indenizações, pagar também as despesas administrativas para seu funcionamento (durante o período de vigência do contrato). Neste caso, Z é uma V.A. cuja função (em relação ao tempo de vida adicional) pode ser descrita como:
+
+Obrigação da seguradora com o segurado:
+$Z = \begin{cases}V^{K+1} + \gamma * \ddot{a}_{\overline{K}|},\, \text{se } K \ge \\ 0,\, \text{c.c} \end{cases}$
+
+E qual a obrigação do segurado? O Segurado se compromete a pagar o prêmio enquanto estiver vivo. 
+
+Mantendo a notação, P' é o prêmio que assume essas despesas da seguradora, então:
+
+$Y = \begin{cases}P' * \ddot{a}_{\overline{K}|},\, \text{se } K \ge 0 \\ 0,\, \text{c.c}\end{cases}$
+
+Quase nenhum esforço adicional é necessário. Veja que queremos calcular P' tal que E[L] = 0, então:
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y] \\ E[Z] - E[Y] = A_x + \gamma * \ddot{a}_x - P' * \ddot{a}_x = 0 \\ P'*\ddot{a}_x = A_x + \gamma * \ddot{a}_x \\ P' = \frac{A_x + \gamma*\ddot{a}_x}{\ddot{a}_x} \\ P' = \frac{A_x}{\ddot{a}_x} + \frac{\gamma*\ddot{a}_x}{\ddot{a}_x} \\P' = \frac{A_x}{\ddot{a}_x} + \gamma \\ P' = P + \gamma$
+
+Lembremos que o prêmio puro (nivelado) seria calculado pela fórmula: $P = \frac{A_x}{\ddot{a}_x}$, ou seja, o prêmio de inventário é calculado pela soma do prêmio puro mais a parte das despesas que é gerada periodicamente pelo segurado. De outra forma: $P' = P + \gamma$
+
+__Exemplo 1:__
+
+Seja uma pessoa de 40 anos que queira comprar um seguro de vida inteiro que paga R$ 1,00 ao final do ano de morte. Para isso, o segurado deseja pagar durante a vigência do contrato um prêmio fixo. 
+Qual o valor do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i = 0.05? Considere, para o cálculo do prêmio, que o segurado deve pagar uma quantia anual de R$ 0.005 relativos a gastos administrativos.
+
+__Solução:__
+
+Já vimos no exemplo 4 dos slides de Prêmios e Benefícios que o prêmio de risco (ou prêmio puro) é de R$ 0,0129. 
+Utilizando a fórmula: $P' = P + \gamma$ temos que: $P' = 0.0129 + 0.005 = 0.0179$
+
+__Exemplo__
+
+Seja uma pessoa de 40 anos que queira comprar um seguro de vida temporário por 5 anos. Para isso, o segurado deseja pagar durante a vigência do contrato um prêmio fixo. Qual o valor do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i = 0.05, considerando, para o cálculo do prêmio, que o segurado deve pagar uma quantia anula de R$ 0.0005 relativos a gastos administrativos.
+
+__Solução:__
+
+Este exemplo está inspirado no exemplo 3 de Prêmios e Benefícios. Veja que queremos calcular um prêmio que contemplo os gastos administrativos tal que E[L] = 0. Temos que: 
+
+$P' = \frac{A_{x:\overline{5}|} + \gamma * \ddot{a}_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} \\ P' = \frac{A_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} + \gamma \\ P' = P + \gamma$
+
+O valor de P já foi calculado no exemplo 3 da aula de Benefícios e Prêmios.
+
+$P = 0.002518 \implies P' = 0.002518 + 0.0005 = 0.003018$
+
+Caso o interesse seja calcular o prêmio para produtos atuariais e formas de pagamento diferentes, deve ser feito de forma similar aos exemplos anteriores. Basta usar o princípio da equivalência. $L = Z - Y = 0$
+
+### __b) Prêmio Zilmerado (Zilmer, 1863)__
+
+Este tipo de prêmio considera despesas de aquisição, quando esta é cara o suficiente para que o segurado deseja pagá-la em um período bem menor do que o período de vigência do contrato.
+
+Neste caso, o segurado irá pagar um prêmio P' durante um período até o pagamnento relativo às despesas de aquisição e, em seguida, pagará um prêmio P relativo ao risco. Calculando, então esses prêmios tais que E[L] = 0, teremos:
+
+$0 = E[L] = E[Z - Y] = E[Z] - E[Y]$
+
+Mas qual é, nesse caso, a obrigação do segurado? Quanto ele gastará, em média, com esse segurado? Podemos dizer que o gasto será relativo ao seguro e à despesa que a seguradora terá no momento de aquisição do contrato, então: 
+
+$E[Z] = A_x + \alpha$
+
+Em que $\alpha$ é o gasto inicial da seguradora. Vamos identificar agora o compromisso do segurado.
+
+$E[Y] = P' * \ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x$
+
+Como queremos calcular o prêmio tal que E[L] = 0, o resultado fica: 
+
+$E[Z] - E[Y] = (A_x + \alpha) - (P'*\ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x) = 0$
+
+$P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*{}_{s|}\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}}$
+
+Em que, ${}_{s|}\ddot{a}_x = \ddot{a}_x - \ddot{a}_{x:\overline{s}|}$
+
+Agora, $P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*(\ddot{a}_x - \ddot{a}_{x:\overline{s}|})}{\ddot{a}_{x:\overline{s}|}}$
+
+$P' = \frac{A_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} + P$
+
+$P' = \frac{A_x - P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}} + P$
+
+- Veja que $A_x - P*\ddot{a}_x$ é $Z - Y$ e que, portanto, é igual a 0, logo:
+
+$P' = P + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}}$
+
+### __c) Prêmio Comercial ou de Tarifa__
+
+O prêmio comercial é o prêmio que contempla as duas despesas apontadas anteriormente.
+
+$\gamma =$ Despesa de administração
+$\alpha =$ Despesa de aquisição
+
+$P' = P + \gamma + \frac{\alpha}{\ddot{a}_{x:\overline{s}|}}$
+
+</div>

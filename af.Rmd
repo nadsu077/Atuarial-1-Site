@@ -1,0 +1,173 @@
+---
+output: html_document
+---
+
+<div style="text-align: justify">
+
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado na área [sobre o curso](https://atuarial-1-ufrn.netlify.app/about.html)
+
+### __Anuidades financeiras__
+
+### Resumo
+
+As anuidades são uma série de pagamentos que serão feitos à um segurado até o momento de morte (em caso de aposentadoria) ou por um período determinado (cobertura).
+
+A série de Prêmios pagos pelo segurado, seja para financiar um seguro de vida, seja para financiar a aposentadoria, também podem ser reconhecidas como anuidades.
+
+As anuidades que não pagam imediatamente uma quantia financeira (o primeiro pagamento só ocorre no próximo instante de tempo) são chamadas anuidades postecipadas.
+
+As anuidades em que o primeiro pagamento ocorre imediatamente são chamadas anuidades antecipadas.
+
+### __Esquema 1 de pagamento__ $\ddot{a}_{\overline{n}|}$
+
+São feitos n pagamentos anuais de 1 u.m. em t = 0, 1, 2, ..., n-1 $\to$ anuidade antecipada  paga no início do período em que está vivo.
+
+O valor presente é:
+
+$\ddot{a}_{\overline{n}|} = \frac{1-V^n}{1-V}$
+
+O valor final ou acumulado da anuidade é o valor final capitalizado a juros efetivos i a.a. da série de n pagamentos de 1 u.m.
+
+$\ddot{S}_{\overline{n}|} = 1 * (1+i)^n + 1 * (1+i)^{n-1} + ... + 1*(1+i)$
+
+Em que $1*(1+i)^n$ é pago no tempo inicial (t = 0) e capitalizado por n períodos
+
+$a_1 = 1*(1+i)^n$
+
+$q = \frac{1}{1+i}$
+
+Desenvolvendo:
+
+$\ddot{S}_{\overline{n}|} = 1 * (1+i)^n + 1 * (1+i)^{n-1} + ... + 1*(1+i)$
+
+$\ddot{S}_{\overline{n}|} = (1+i)*\Big[1+(1+i) + ... + (1+i)^{n-1}\Big]$
+
+$\ddot{S}_{\overline{n}|} = (1+i)*\Bigg[\frac{1-(1+i)^n}{1-(1+i)}\Bigg]$
+
+$\ddot{S}_{\overline{n}|} = \frac{1+i}{i}*\Big[(1+i)^n - 1\Big]$
+
+Veja que $\ddot{S}_{\overline{n}|} = (1+i)^n * \ddot{a}_{\overline{n}|}$
+
+__Exercício:__
+
+Suponha que alguém ao aposentar-se aos 60 anos deseja receber uma renda antecipada de 36000 por ano durante 20 anos. Considere uma taxa de juros de 8% ao ano. Qual o valor dos depósitos anuais que  um indivíduo de 40 anos deve fazer?
+
+__Resolução feita no R__
+
+```{r}
+i = 0.08      # Taxa considerada
+n = 20        # Número de Períodos
+apos = 36000  # Valor da renda
+V = 1/(1+i)   # Fator de desconto
+
+a20 = (1-V^n)/(1-V) # Valor presente
+
+Map = 36000*a20 # Montante de Aposentadoria
+
+S20 = (1+i)^n*a20 # Série de pagamentos ou Anuidades
+
+P = Map / S20 # Prêmio a ser cobrado ao segurado
+
+Mpr = P * S20 # Montante dos Prêmios
+
+# Onde Mpr é o Montante dos Prêmios e o Montante dos Prêmios tem que ser igual ao Montante da Aposentadoria (Mpr = Map). 
+# Logo, P * S20 = Map => P = Map / S20
+
+cat("Valor Presente: ", a20, "\n\n",
+    "Montante de Aposentadoria: ", Map, "\n\n",
+    "Série de Pagamentos ou Anuidades: ", S20, "\n\n",
+    "Montante dos Prêmios: ", Mpr, "\n\n",
+    "Valor do Prêmio: ", P, 
+    sep = "")
+
+```
+
+### __Esquema 2 de pagamento__ $a_{\overline{n}|}$
+
+São feitos n pagamentos anuais de 1 u.m. em t = 1, 2, ..., n $\to$ anuidade postecipada.
+
+O valor presente é:
+
+$a_{\overline{n}|} = V + V^2 + ... + V^n = V*(1 + V + V^2 + ... + V^{n-1})$
+
+$a_{\overline{n}|} = \frac{V}{1-V} * (1-V^n) = V * \ddot{a}_{\overline{n}|} \to \text{Desconta um período do Esquema 1}$
+
+O valor final capitalizado é:
+
+$S_{\overline{n}|} = (1+i)^{n-1} + ... + 1$
+
+$S_{\overline{n}|} = \frac{1-(1+i)^n}{1-(1+i)} = \frac{(1+i)^n-1}{i}$
+
+### __Esquema 3 de pagamento__ $\ddot{a}_{\overline{n}|}^{(m)}$
+
+São feitos n pagamentos anuais de 1 u.m. em m parcelas equipassadas de $\frac{1}{m}$ pagos em $t = 0, \frac{1}{m}, \frac{2}{m}, ..., \frac{n*m-1}{m} \to$ antecipada
+
+Por exemplo: 10 pagamentos anuais em 12 parcelas por ano.
+
+Valor presente:
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} + ... + \frac{1}{m}*V^{\frac{m*n-1}{m}}$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} + \frac{1}{m}*V^{\frac{1}{m}} + \frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^2 + ... + \frac{1}{m}*\Big(V^{\frac{1}{m}}\Big)^{m*n-1}$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} * \Bigg[\frac{1-\Big(V^{\frac{1}{m}}\Big)^{m*n}}{1-\Big(V^{\frac{1}{m}}\Big)}\Bigg]$
+
+$\ddot{a}_{\overline{n}|}^{(m)} = \frac{1}{m} * \Bigg[\frac{1-V^n}{1-\big(V^{\frac{1}{m}}\big)}\Bigg]$
+
+__Valor final capitalizado__
+
+$\ddot{S}_{\overline{n}|}^{(m)} = \frac{(1+i)^n - 1}{m*\Big(1 - (1 + i)^{\frac{1}{m}}\Big)}$
+
+### __Esquema 4 de pagamento__ $a_{\overline{n}|}^{(m)}$
+
+São feitos n pagamentos anuais de 1 em m parcelas equipassadas de 1/m pagos em $t = \frac{1}{m}, \frac{2}{m}, ..., n \to$ postecipada
+
+__Uma idealização matemática__
+
+No esquema 3, o que acontece quando $m \to \infty$ ?
+
+O número de pagamentos vai a $\infty$, mas cada pagamento $\frac{1}{m} \to 0$
+
+A soma no fim do ano dos cheques recebidos é igual a 1, mas capitaliza mais que 1.
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \displaystyle \lim_{m \to \infty} \Bigg[\frac{\frac{1}{m} * (1-V^n)}{1-V^{\frac{1}{m}}}\Bigg]$
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = (1-V^n) * \displaystyle \lim_{m \to \infty} \Bigg[\frac{1/m}{1-V^{1/m}}\Bigg]$
+
+Como,
+
+$\displaystyle \lim_{x \to 0} \bigg(\frac{x}{1-V^x}\bigg) = \displaystyle \lim_{x \to 0} \bigg(\frac{x}{1-e^{-\delta*x}}\bigg)$
+
+Por L'Hoptal
+
+$\displaystyle \lim_{x \to 0} \bigg(\frac{1}{\delta*e^{-\delta*x}}\bigg) = \frac{1}{\delta}$
+
+Logo,
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta}$
+
+Dessa forma, 
+
+$VP = \frac{1-V^n}{\delta}$
+
+Para t geral (não só t = n inteiro) temos
+
+$\displaystyle \lim_{m \to \infty} a_{\overline{n}|}^{(m)} = \frac{1-V^n}{\delta} = \overline{a}_{\overline{t}|} = \frac{1-e^{-\delta*t}}{\delta}$
+
+$\overline{a}_{\overline{t}|}$ é o valor presente de um fluxo contínuo de pagamentos em $[0, t]$ à taxa de 1 real por ano, com juros delta.
+
+Pense no fluxo contínuo como se fosse água saindo por um ano à uma taxa de 1 litro por minuto, no nosso caso pense em 1 real por ano.
+
+Infelizmente o fluxo não é tão simples assim!
+
+O segurado pode morrer antes de receber todos os benefícios, então os pagamentos deveriam ser menores?
+
+O segurado pode morrer antes de completar os pagamentos.
+
+Veja que, no processo de compra de um produto atuarial ou de concessão de benefício, existe o risco.
+
+A seguradora não sabe se vai receber todos os prêmios do segurado (este pode morrer antes do período de cobertura) e, a seguradora não sabe ao certo quanto irá gastar com previdência uma vez que não se sabe o tempo de gozo de benefício de uma pessoa que se aposentou.
+
+Reconhecer a anuidade como um produto atuarial é reconhecer que a seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor presente (hoje), um segurado irá custar.
+
+</div>

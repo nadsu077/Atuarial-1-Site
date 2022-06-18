@@ -1,0 +1,359 @@
+---
+output: html_document
+---
+
+<div style="text-align: justify">
+
+Antes de escolher o assunto a ser estudado, esteja ciente da necessidade do conhecimento prévio elencado na área [sobre o curso](https://atuarial-1-ufrn.netlify.app/about.html)
+
+### __Anuidades Atuariais__
+
+Infelizmente as anuidades atuariais não são tão simples assim! 
+
+O segurado pode morrer antes de receber todos os benefícios, pagamentos deveriam ser menores, como também pode morrer antes de completar os pagamentos.
+
+Veja que, no processo de compra de um produto atuarial ou de concessão de benefício, existe o __risco__.
+
+A seguradora não sabe se vai receber todos os prêmios do segurado (este pode morrer antes do período de cobertura) e, a seguradora não sabe ao certo quanto irá gastar com previdência, uma vez que não se sabe o tempo de gozo de benefício de uma pessoa que se aposentou.
+
+Reconhecer a anuidade como um produto atuarial é reconhecer que a seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor de hoje, um segurado irá custar.
+
+### __Anuidades Atuariais Contínuas__
+
+__Anuidades__
+
+Pensemos em uma pessoa que aposentou hoje e recebeu 1 u.m. e morreu antes de receber a segunda parcela do benefício. Esse segurado (ou participante) irá custar à seguradora (ou fundo de pensão) apenas 1 u.m.
+
+Caso o Segurado sobreviva um ano a mais e morra no ano seguinte, o fundo de pensão deverá ter pago, em valores de hoje, o valor de: $1 + V$.
+
+Se o segurado não morrer nos dois primeiros anos e morrer no terceiro ano, deverá ser pago ao segurado, à valores de hoje, o valor de: $1 + V + V^2$.
+
+A partir desse ano de morte, o custo desse segurado à seguradora fica intuitivo.
+
+### __Anuidades Vitalícias__ $\overline{a}_{\overline{t}|}$
+
+As anuidades vitalícias são uma sequência periódica de pagamentos sujeitos a sobrevivência do beneficiário.
+
+Anuidades Vitalícias podem ser:
+
+- 1: Sequência de pagamentos de prêmios do segurado ao segurador
+
+- 2: Sequência de pagamentos do segurador ao segurado
+
+- 3: Pensões
+
+T é o tempo de vida futuro (adicional) de x
+
+__Continuous Life Annuities__
+
+O valor presente de um fluxo contínuo em $[0,t]$ de pagamentos à taxa de 1 a.a. com taxa de juros instantânea $\delta$ é igual a anuidade vitalícia paga continuamente em $[0,t]$.
+
+$Y = \displaystyle \lim_{m \to \infty} a_{\overline{t}|}^{(m)} = \frac{1-V^{t}}{\delta} = \overline{a}_{\overline{t}|} = \frac{1-e^{-\delta*t}}{\delta}$
+
+Como T é uma variável aleatória, o valor presente também é uma v.a.
+
+### __Valor Presente Atuarial__ $\overline{a}_{x}$
+
+VPA é a esperança do valor presente da anuidade $\to$ Considerar a função densidade do tempo adicional de vida
+
+$E[Y] = \overline{a}_{x} = \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{t}|} * f_t(t)\, dt = \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{t}|} * {}_{t}p_x$
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} \frac{1-e^{-\delta * t}}{\delta} * f_t(t)\, dt$
+
+Considerando,
+
+$u = \frac{1-e^{-\delta * t}}{\delta}$
+
+$du = e^{-\delta*t}\, dt$
+
+$dv = {}_{t}p_{x} * \mu(x+t)\, dt = f_t(t)\, dt$
+
+$v = F_t(t) = 1-{}_{t}p_{x} \gets \text{Relação de tabelas de sobrevivência}$
+
+Assim,
+
+$\overline{a}_{x} = \frac{1-e^{-\delta*t}}{\delta} * F_t(t)|_{0}^{\infty} - \displaystyle \int_{0}^{\infty} e^{-\delta*t} * (1-{}_{t}p_{x})\, dt$
+
+$\overline{a}_{x} = \Big[\frac{1}{\delta} * F_t(\infty) - 0\Big] - \Big[\displaystyle \int_{0}^{\infty} e^{-\delta*t}\, dt -\displaystyle \int_{0}^{\infty} e^{-\delta*t} * {}_{t}p_{x}\, dt\Big]$
+
+$\overline{a}_{x} = \frac{1}{\delta} - \frac{1}{\delta} * \displaystyle \int_{0}^{\infty} \delta*e^{-\delta*t}\, dt + \displaystyle \int_{0}^{\infty} e^{-\delta*t} * {}_{t}p_{x}\, dt$
+
+Onde, $\displaystyle \int_{0}^{\infty} \delta*e^{-\delta*t}\, dt$ é a função densidade de uma exponencial e integrando essa função chegaremos ao valor de 1.
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle \int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt$
+
+Interpretação: Pagamentos Contínuos de 1 dt no instante t, trazidos a valor presente por:
+
+$1*dt*e^{-\delta*t} = V^t*1*dt$
+
+E  multiplicado pela chance de estar vivo: ${}_{t}p_{x}$
+
+Resultado:
+
+$\overline{a}_{x} = \displaystyle \int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle \int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt$
+
+A técnica de pagamento corrente para determinar o V.P.A. de uma anuidade segue a seguinte interpretação:
+
+$\overline{a}_{\overline{x}|} = \displaystyle \int_{0}^{\infty} V^{t} * \text{(prob. do pagamento ser feito no tempo t)}*\text{taxa de fluxo de pagamento}\, dt$
+
+__Relação matemática importante__
+
+- Uma anuidade é posta a juros $\delta$
+
+- Após um tempo t, capitaliza e vale $1*e^{\delta*t} > 1$ no tempo t
+
+- O acréscimo no capital devido a juros é $e^{\delta*t} - 1$ em valores no tempo t
+
+- Em valor presente (t = 0), este acréscimo vale:
+
+$V^t * (e^{\delta*t} - 1) = e^{-\delta*t} * (e^{\delta*t} - 1) = 1 - e^{-\delta*t} = 1 - V^t$
+
+Como,
+
+$1 = 1 - V^t + V^t = \frac{\delta*(1-V^t)}{\delta} + V^t$
+
+Podemos dizer que:
+
+$1 = \delta*\overline{a}_{\overline{t}|} + V^t$
+
+Onde:
+
+$\delta*\overline{a}_{\overline{t}|} =$ V.P. do acréscimo devido a juros de uma anuidade vitalícia
+
+$V^t =$ V.P., após t, do cheque inicial de 1
+
+- Essa relação vale para todo t
+
+- Vale também se T é um valoraleatório
+
+- Isto é, se T é váriável aleatória com valores em $(0, \infty)$ então,
+
+$1 = \delta*\overline{a}_{\overline{t}|} + V^t \to$ Soma de duas v.a.'s que, somadas, possui valor constante
+
+Então, se tirarmos a esperança de cada parcela, temos:
+
+$E[1] = E[\delta*\overline{a}_{\overline{t}|}] + E[V^t]$
+
+$1 = \delta*E[\overline{a}_{\overline{t}|}]  + E[V^t]$
+
+$1 = \delta * \overline{a}_{x} + \overline{A}_{x}$
+
+Onde:
+
+$\delta * \overline{a}_{x} \to$ V.P.A. de fluxo contínuo de anuidade inteira à taxa de 1 real por ano e a juros $\delta$
+
+$\overline{A}_{x} \to$ V.P.A. de um seguro de vida inteira que paga 1 real
+
+Assim, temos as seguintes relações:
+
+$\overline{a}_{x} = \frac{1-\overline{A}_x}{\delta}$
+
+$\overline{A}_x = 1-\delta*\overline{a}_x$
+
+Podemos também calcular a variância do valor presente de um fluxo contínuo de pagamentos em $[0,t]$ à taxa de 1 real por ano, com juros $\delta$.
+
+$Var(\overline{a}_{\overline{t}|}) = Var\Big(\frac{1-V^t}{\delta}\Big)$
+
+$Var(\overline{a}_{\overline{t}|}) = \frac{Var(V^t)}{\delta^2}$
+
+$Var(\overline{a}_{\overline{t}|}) = \frac{{}^{2}\overline{A}_x - (\overline{A}_x)^2}{\delta^2}$
+
+### __Anuidades Temporária__ $\overline{a}_{x:n}$
+
+Paga a taxa de 1 por ano continuamente, enquanto indivíduo com a idade x sobrevive pelos próximos n anos
+
+$Y = \begin{cases} \overline{a}_{\overline{t}|},\, \text{se } 0 \le T < n \\ \overline{a}_{\overline{n}|},\, \text{se } T \ge n \end{cases}$
+
+$Y = \begin{cases} \frac{1-V^t}{\delta},\, \text{se } 0 \le T < n \\ \frac{1-V^n}{\delta},\, \text{se } T \ge n \end{cases}$
+
+- Y é uma Variável Aleatória (V.A.)
+
+- Y não é nem contínua e nem discreta
+
+Precisamos calcular a esperança de Y, ou seja, o VPA. Como fazer?
+
+Se o VPA de uma anuidade vitalícia é:
+
+$\overline{a}_{\overline{x}|} = \displaystyle \int_{0}^{\infty} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Então o VPA de uma anuidade de vida temporária é:
+
+$\overline{a}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Interpretação pela técnica de pagamentos correntes
+
+$\overline{a}_{x:\overline{n}|} = \displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt$
+
+Onde:
+
+- A integral é o período de pagamento
+
+- 1 é a Taxa de fluxos de pagamento em t
+
+- $V^t$ é o desconto para trazer a valor presente
+
+- Probabilidade de pagar = Probabilidade de estar vivo = ${}_{t}p_{x}$
+
+Observe que a anuidade temporária pode ser escrita em função do seguro de vida temporário:
+
+$Y = \begin{cases} \overline{a}_{\overline{t}|},\, \text{se } 0 \le T < n \\ \overline{a}_{\overline{n}|},\, \text{se } T \ge n \end{cases} \implies$
+$Y = \begin{cases} \frac{1-V^t}{\delta},\, \text{se } 0 \le T < n \\ \frac{1-V^n}{\delta},\, \text{se } T \ge n \end{cases}$
+
+$Y = \frac{1-Z}{\delta}$
+
+$Z = \begin{cases} V^t,\, \text{se } 0 \le T < n \\ V^n,\, \text{se } T \ge n \end{cases}$
+
+Onde Z é o valor presente do seguro dotal misto
+
+Assim, temos que:
+
+$\overline{a}_{x:\overline{n}|} = E[Y] = E\Big[\frac{1-Z}{\delta}\Big] = \frac{1}{\delta} * E[1-Z] = \frac{E[1]-E[Z]}{\delta} = \frac{1-E[Z]}{\delta}$
+
+Além disso,
+
+$Var[Y] = Var\Big[\frac{1-Z}{\delta}\Big] = \frac{Var[1-Z]}{\delta^2} = \frac{Var[1]+Var[-Z]}{\delta^2} \implies \text{Como Var[1] = 0} \text{ & } Var[-Z] = (-1)^2*Var[Z] = Var[Z] \\ Var[Y] =  \frac{Var[Z]}{\delta^2} = \frac{{}^{2}\overline{A}_{x:\overline{n}|} - (\overline{A}_{x:\overline{n}|})^2}{\delta^2}$
+
+### __Anuidade Vitalícia Diferida de m anos__ ${}_{m|}\overline{a}_x$
+
+Neste caso, a v.a. que representa o valor presente dessa anuidade é:
+
+$Y = \begin{cases} 0,\, \text{se } 0 \le T < m \\ \overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|},\, \text{se } T \ge m \end{cases}$
+
+Em que $\overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|}$ é o valor presente do fluxo de pagamento desde do tempo zero $\overline{a}_{\overline{t}|}$ menos o valor presente do fluxo entre zero e m $\overline{a}_{\overline{m}|}$
+
+Pensão vitalícia que vai começar a ser paga dentro de m anos, se vivo até lá
+
+Como,
+
+$\overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|} = \frac{1-V^t}{\delta} - \frac{1-V^m}{\delta} = \frac{V^m - V^t}{\delta} = V^m * \frac{1-V^{t-m}}{\delta} = V^m * \overline{a}_{t-\overline{m}|}$
+
+Então,
+
+$Y = \begin{cases} 0,\, \text{se } 0 \le T < m \\ V^m * \overline{a}_{t-\overline{m}|}, \, \text{se } T \ge m \end{cases}$
+
+Y não é discreta e nem contínua
+
+Os valores do valor presente de Y estão entre $\Big[0, \frac{V^m}{\delta}\Big]$, porque:
+
+$P[Y = 0] = P[0 \le T < m] = {}_{m}q_x > 0$
+
+$Y \le \lim\limits_{x \to \infty} \Big(V^m * \overline{a}_{t-\overline{m}|}\Big) = \frac{V^m}{\delta}$
+
+O valor presente atuarial = esperança de Y:
+
+${}_{m|}\overline{a}_x = E[Y] = 0 + \displaystyle \int_{m}^{\infty} V^m * \overline{a}_{t-\overline{m}|} * f_t(t)\, dt$
+
+Se $t = m + s$
+
+${}_{m|}\overline{a}_x = \displaystyle \int_{0}^{\infty} V^m * \overline{a}_{\overline{s}|} * f_t(m+s)\, ds = V^m * \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{s}|} * {}_{m+s}p_x * \mu(x+m+s)\, ds$
+
+Como ${}_{m+s}p_x = {}_{m}p_x * {}_{s}p_{x+m}$, então:
+
+${}_{m|}\overline{a}_x = V^m * {}_{m}p_x * \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{s}|}*{}_{s}p_{x+m} * \mu(x+m+s)\, ds$
+
+Dessa forma, o VPA da anuidade é:
+
+${}_{m|}\overline{a}_x = {}_{m}E_x * \overline{a}_{x+m} = V^m * {}_{m}p_x * \overline{a}_{x+m}$
+
+O VPA do seguro dotal puro x VPA de uma renda vitalícia para um indivíduo com x+m anos
+
+${}_{m|}\overline{a}_x = V^m * {}_{m}p_x * \overline{a}_{x+m}$
+
+${}_{m|}\overline{a}_x = \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+- Desenvolvimento alternativo
+
+${}_{m|}\overline{a}_x = \overline{a}_x - \overline{a}_{x:\overline{m}|}$
+${}_{m|}\overline{a}_x = \displaystyle \int_0^{\infty} V^t * {}_{t}p_x\, dt - \displaystyle \int_0^m V^t * {}_{t}p_x\, dt = \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+VPA da anuidade vitalícia $\overline{a}_x$ menos VPA de uma anuidade temporária de m anos $\overline{a}_{x:\overline{m}|}$
+
+### __Anuidade Vitalícia com Pagamentos Certos para os Primeiros m anos__ $\overline{a}_{\overline{x:\overline{m}|}}$
+
+Isto é, o beneficiário recebe um fluxo contínuo de pagamentos de 1dt nos primeiros m períodos com certeza e, após este período, se ainda vivo, o fluxo de pagamentos de 1dt continua até a sua eventual morte.
+
+Assim, o valor atuarial do valor presente dessa anuidade é:
+
+$Y = \begin{cases} \overline{a}_{\overline{m}|},\, \text{se } 0 \le T \le m \\ \overline{a}_{\overline{t}|},\, \text{se } T>m \end{cases}$
+
+Esta v.a. não é nem contínua e nem discreta.
+
+O VPA, ou seja, a esperança de Y é:
+
+$\overline{a}_{\overline{x:\overline{m}|}} = \overline{a}_{\overline{m}|} + \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\, dt$
+
+Prob = 1 entre $[0, m]$ e probabilidade de sobrevivência entre $[m, \infty]$
+
+### __Anuidades Atuariais Discretas__
+
+- Renda vitalícia antecipada: Paga 1 no início de cada ano que x sobrevive. Para melhor compreensão é necessário fazer a linha do tempo!
+
+- Renda vitalícia postecipada: paga 1 no final de cada ano que x sobrevive. Para melhor compreensão é necessário fazer a linha do tempo!
+
+### __Anuidade Antecipada__ $\ddot{a}_x$
+
+K = [T], parte inteira de T
+
+Pagamentos em 0,1,2,...,k
+
+São feitos k+1 pagamentos
+
+Assim, o V.P. é: $Y = \ddot{a}_{k+\overline{1}|} = 1 + V + V^2 + ... + V^k$
+
+Em que Y é uma variável aleatória discreta
+
+
+| Valores j possíveis para k        | k = 0                             | k = 1                             | k = 2                                 | ... |
+|:----------------------------------|:---------------------------------:|:---------------------------------:|:-------------------------------------:|:----|
+| Valores possíveis de Y            | $1 \\ \ddot{a}_{\overline{1}|}$   | $1+V \\ \ddot{a}_{\overline{2}|}$ | $1+V+V^2 \\ \ddot{a}_{\overline{3}|}$ | ... |
+| Probabilidades associadas P(k=j)  | $q_x$                             | ${}_{1}p_x * q_{x+1}$             | ${}_{2}p_x*q_{x+2}$                   | ... |
+|
+
+Assim, o V.P.A. é: 
+
+$\ddot{a}_x = E[Y] = \displaystyle \sum_{j = 0}^{\infty} \ddot{a}_{j+\overline{1}|} * {}_{j}p_x * q_{x+j}$
+
+Ou
+
+$\ddot{a}_x = E[Y] = \displaystyle \sum_{j = 0}^{\infty} V^j * {}_{j}p_x$
+
+No mundo contínuo o V.P.A. é: 
+
+$\overline{a}_x = \displaystyle \int_0^{\infty} V^t * {}_{t}p_x\, dt$
+
+No seguro pago no final do ano de morte o VPA é: 
+
+$A_x = E[Z] = \displaystyle \sum_{j = 0}^{\infty} V^{j+1} * {}_{j}p_x * q_{x+j}$
+
+__Exemplo__
+
+Seja uma pessoa de 40 anos que queira comprar uma anuidade que paga 5 parcelas de 1 u.m. começando a pagar imediatamente. Considerando a tábua de mortalidade AT-2000 e uma taxa de juros de 5% a.a., calcule o Prêmio Puro Único a ser pago pelo segurado para comprar essa anuidade.
+
+__Resolução feita utilizando o R__
+
+```{r}
+i = 0.05    # Taxa de juros considerada
+V = 1/(1+i) # Calculando o fator de desconto V
+n = 5       # Períodos considerados
+
+# ä40:5¬ = (somatório de k = 0 a 4) V^k * kp40
+
+tabua = data.frame(qx = c(0.000677, 0.000732, 0.000796, 0.000868, 0.000950, 0.001043),
+                   lx = c(98518.75, 98452.05, 98379.98, 98301.67, 98216.35, 98123.04),
+                   dx = c(66.69719, 72.06690, 78.31047, 85.32585, 93.30553, 102.3423),
+                   row.names = c(40, 41, 42, 43, 44, 45))
+
+print(tabua)
+
+a40_5 = c()
+
+for (k in 1:n){
+  # Calculando a anuidade ä40:5¬
+  a40_5[k] = V^(k-1)*(tabua[k,2]/tabua[1,2])
+}
+
+cat("O prêmio puro único a ser pago é igual a: ", round(sum(a40_5),2), sep = "")
+
+```
+
+</div>

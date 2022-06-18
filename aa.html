@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>aa.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="anuidades-atuariais" class="section level3">
+<h3><strong>Anuidades Atuariais</strong></h3>
+<p>Infelizmente as anuidades atuariais não são tão simples assim!</p>
+<p>O segurado pode morrer antes de receber todos os benefícios,
+pagamentos deveriam ser menores, como também pode morrer antes de
+completar os pagamentos.</p>
+<p>Veja que, no processo de compra de um produto atuarial ou de
+concessão de benefício, existe o <strong>risco</strong>.</p>
+<p>A seguradora não sabe se vai receber todos os prêmios do segurado
+(este pode morrer antes do período de cobertura) e, a seguradora não
+sabe ao certo quanto irá gastar com previdência, uma vez que não se sabe
+o tempo de gozo de benefício de uma pessoa que se aposentou.</p>
+<p>Reconhecer a anuidade como um produto atuarial é reconhecer que a
+seguradora (ou fundo de pensão) não saberá ao certo quanto que, a valor
+de hoje, um segurado irá custar.</p>
+</div>
+<div id="anuidades-atuariais-contínuas" class="section level3">
+<h3><strong>Anuidades Atuariais Contínuas</strong></h3>
+<p><strong>Anuidades</strong></p>
+<p>Pensemos em uma pessoa que aposentou hoje e recebeu 1 u.m. e morreu
+antes de receber a segunda parcela do benefício. Esse segurado (ou
+participante) irá custar à seguradora (ou fundo de pensão) apenas 1
+u.m.</p>
+<p>Caso o Segurado sobreviva um ano a mais e morra no ano seguinte, o
+fundo de pensão deverá ter pago, em valores de hoje, o valor de: <span
+class="math inline">\(1 + V\)</span>.</p>
+<p>Se o segurado não morrer nos dois primeiros anos e morrer no terceiro
+ano, deverá ser pago ao segurado, à valores de hoje, o valor de: <span
+class="math inline">\(1 + V + V^2\)</span>.</p>
+<p>A partir desse ano de morte, o custo desse segurado à seguradora fica
+intuitivo.</p>
+</div>
+<div id="anuidades-vitalícias-overlinea_overlinet"
+class="section level3">
+<h3><strong>Anuidades Vitalícias</strong> <span
+class="math inline">\(\overline{a}_{\overline{t}|}\)</span></h3>
+<p>As anuidades vitalícias são uma sequência periódica de pagamentos
+sujeitos a sobrevivência do beneficiário.</p>
+<p>Anuidades Vitalícias podem ser:</p>
+<ul>
+<li><p>1: Sequência de pagamentos de prêmios do segurado ao
+segurador</p></li>
+<li><p>2: Sequência de pagamentos do segurador ao segurado</p></li>
+<li><p>3: Pensões</p></li>
+</ul>
+<p>T é o tempo de vida futuro (adicional) de x</p>
+<p><strong>Continuous Life Annuities</strong></p>
+<p>O valor presente de um fluxo contínuo em <span
+class="math inline">\([0,t]\)</span> de pagamentos à taxa de 1 a.a. com
+taxa de juros instantânea <span class="math inline">\(\delta\)</span> é
+igual a anuidade vitalícia paga continuamente em <span
+class="math inline">\([0,t]\)</span>.</p>
+<p><span class="math inline">\(Y = \displaystyle \lim_{m \to \infty}
+a_{\overline{t}|}^{(m)} = \frac{1-V^{t}}{\delta} =
+\overline{a}_{\overline{t}|} =
+\frac{1-e^{-\delta*t}}{\delta}\)</span></p>
+<p>Como T é uma variável aleatória, o valor presente também é uma
+v.a.</p>
+</div>
+<div id="valor-presente-atuarial-overlinea_x" class="section level3">
+<h3><strong>Valor Presente Atuarial</strong> <span
+class="math inline">\(\overline{a}_{x}\)</span></h3>
+<p>VPA é a esperança do valor presente da anuidade <span
+class="math inline">\(\to\)</span> Considerar a função densidade do
+tempo adicional de vida</p>
+<p><span class="math inline">\(E[Y] = \overline{a}_{x} = \displaystyle
+\int_{0}^{\infty} \overline{a}_{\overline{t}|} * f_t(t)\, dt =
+\displaystyle \int_{0}^{\infty} \overline{a}_{\overline{t}|} *
+{}_{t}p_x\)</span></p>
+<p><span class="math inline">\(\overline{a}_{x} = \displaystyle
+\int_{0}^{\infty} \frac{1-e^{-\delta * t}}{\delta} * f_t(t)\,
+dt\)</span></p>
+<p>Considerando,</p>
+<p><span class="math inline">\(u = \frac{1-e^{-\delta *
+t}}{\delta}\)</span></p>
+<p><span class="math inline">\(du = e^{-\delta*t}\, dt\)</span></p>
+<p><span class="math inline">\(dv = {}_{t}p_{x} * \mu(x+t)\, dt =
+f_t(t)\, dt\)</span></p>
+<p><span class="math inline">\(v = F_t(t) = 1-{}_{t}p_{x} \gets
+\text{Relação de tabelas de sobrevivência}\)</span></p>
+<p>Assim,</p>
+<p><span class="math inline">\(\overline{a}_{x} =
+\frac{1-e^{-\delta*t}}{\delta} * F_t(t)|_{0}^{\infty} - \displaystyle
+\int_{0}^{\infty} e^{-\delta*t} * (1-{}_{t}p_{x})\, dt\)</span></p>
+<p><span class="math inline">\(\overline{a}_{x} = \Big[\frac{1}{\delta}
+* F_t(\infty) - 0\Big] - \Big[\displaystyle \int_{0}^{\infty}
+e^{-\delta*t}\, dt -\displaystyle \int_{0}^{\infty} e^{-\delta*t} *
+{}_{t}p_{x}\, dt\Big]\)</span></p>
+<p><span class="math inline">\(\overline{a}_{x} = \frac{1}{\delta} -
+\frac{1}{\delta} * \displaystyle \int_{0}^{\infty}
+\delta*e^{-\delta*t}\, dt + \displaystyle \int_{0}^{\infty}
+e^{-\delta*t} * {}_{t}p_{x}\, dt\)</span></p>
+<p>Onde, <span class="math inline">\(\displaystyle \int_{0}^{\infty}
+\delta*e^{-\delta*t}\, dt\)</span> é a função densidade de uma
+exponencial e integrando essa função chegaremos ao valor de 1.</p>
+<p><span class="math inline">\(\overline{a}_{x} = \displaystyle
+\int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle
+\int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt\)</span></p>
+<p>Interpretação: Pagamentos Contínuos de 1 dt no instante t, trazidos a
+valor presente por:</p>
+<p><span class="math inline">\(1*dt*e^{-\delta*t} =
+V^t*1*dt\)</span></p>
+<p>E multiplicado pela chance de estar vivo: <span
+class="math inline">\({}_{t}p_{x}\)</span></p>
+<p>Resultado:</p>
+<p><span class="math inline">\(\overline{a}_{x} = \displaystyle
+\int_{0}^{\infty} e^{-\delta * t} * {}_{t}p_{x}\, dt = \displaystyle
+\int_{0}^{\infty} V^t * {}_{t}p_{x}\, dt\)</span></p>
+<p>A técnica de pagamento corrente para determinar o V.P.A. de uma
+anuidade segue a seguinte interpretação:</p>
+<p><span class="math inline">\(\overline{a}_{\overline{x}|} =
+\displaystyle \int_{0}^{\infty} V^{t} * \text{(prob. do pagamento ser
+feito no tempo t)}*\text{taxa de fluxo de pagamento}\, dt\)</span></p>
+<p><strong>Relação matemática importante</strong></p>
+<ul>
+<li><p>Uma anuidade é posta a juros <span
+class="math inline">\(\delta\)</span></p></li>
+<li><p>Após um tempo t, capitaliza e vale <span
+class="math inline">\(1*e^{\delta*t} &gt; 1\)</span> no tempo t</p></li>
+<li><p>O acréscimo no capital devido a juros é <span
+class="math inline">\(e^{\delta*t} - 1\)</span> em valores no tempo
+t</p></li>
+<li><p>Em valor presente (t = 0), este acréscimo vale:</p></li>
+</ul>
+<p><span class="math inline">\(V^t * (e^{\delta*t} - 1) = e^{-\delta*t}
+* (e^{\delta*t} - 1) = 1 - e^{-\delta*t} = 1 - V^t\)</span></p>
+<p>Como,</p>
+<p><span class="math inline">\(1 = 1 - V^t + V^t =
+\frac{\delta*(1-V^t)}{\delta} + V^t\)</span></p>
+<p>Podemos dizer que:</p>
+<p><span class="math inline">\(1 = \delta*\overline{a}_{\overline{t}|} +
+V^t\)</span></p>
+<p>Onde:</p>
+<p><span class="math inline">\(\delta*\overline{a}_{\overline{t}|}
+=\)</span> V.P. do acréscimo devido a juros de uma anuidade
+vitalícia</p>
+<p><span class="math inline">\(V^t =\)</span> V.P., após t, do cheque
+inicial de 1</p>
+<ul>
+<li><p>Essa relação vale para todo t</p></li>
+<li><p>Vale também se T é um valoraleatório</p></li>
+<li><p>Isto é, se T é váriável aleatória com valores em <span
+class="math inline">\((0, \infty)\)</span> então,</p></li>
+</ul>
+<p><span class="math inline">\(1 = \delta*\overline{a}_{\overline{t}|} +
+V^t \to\)</span> Soma de duas v.a.’s que, somadas, possui valor
+constante</p>
+<p>Então, se tirarmos a esperança de cada parcela, temos:</p>
+<p><span class="math inline">\(E[1] =
+E[\delta*\overline{a}_{\overline{t}|}] + E[V^t]\)</span></p>
+<p><span class="math inline">\(1 =
+\delta*E[\overline{a}_{\overline{t}|}] + E[V^t]\)</span></p>
+<p><span class="math inline">\(1 = \delta * \overline{a}_{x} +
+\overline{A}_{x}\)</span></p>
+<p>Onde:</p>
+<p><span class="math inline">\(\delta * \overline{a}_{x} \to\)</span>
+V.P.A. de fluxo contínuo de anuidade inteira à taxa de 1 real por ano e
+a juros <span class="math inline">\(\delta\)</span></p>
+<p><span class="math inline">\(\overline{A}_{x} \to\)</span> V.P.A. de
+um seguro de vida inteira que paga 1 real</p>
+<p>Assim, temos as seguintes relações:</p>
+<p><span class="math inline">\(\overline{a}_{x} =
+\frac{1-\overline{A}_x}{\delta}\)</span></p>
+<p><span class="math inline">\(\overline{A}_x =
+1-\delta*\overline{a}_x\)</span></p>
+<p>Podemos também calcular a variância do valor presente de um fluxo
+contínuo de pagamentos em <span class="math inline">\([0,t]\)</span> à
+taxa de 1 real por ano, com juros <span
+class="math inline">\(\delta\)</span>.</p>
+<p><span class="math inline">\(Var(\overline{a}_{\overline{t}|}) =
+Var\Big(\frac{1-V^t}{\delta}\Big)\)</span></p>
+<p><span class="math inline">\(Var(\overline{a}_{\overline{t}|}) =
+\frac{Var(V^t)}{\delta^2}\)</span></p>
+<p><span class="math inline">\(Var(\overline{a}_{\overline{t}|}) =
+\frac{{}^{2}\overline{A}_x - (\overline{A}_x)^2}{\delta^2}\)</span></p>
+</div>
+<div id="anuidades-temporária-overlinea_xn" class="section level3">
+<h3><strong>Anuidades Temporária</strong> <span
+class="math inline">\(\overline{a}_{x:n}\)</span></h3>
+<p>Paga a taxa de 1 por ano continuamente, enquanto indivíduo com a
+idade x sobrevive pelos próximos n anos</p>
+<p><span class="math inline">\(Y = \begin{cases}
+\overline{a}_{\overline{t}|},\, \text{se } 0 \le T &lt; n \\
+\overline{a}_{\overline{n}|},\, \text{se } T \ge n
+\end{cases}\)</span></p>
+<p><span class="math inline">\(Y = \begin{cases} \frac{1-V^t}{\delta},\,
+\text{se } 0 \le T &lt; n \\ \frac{1-V^n}{\delta},\, \text{se } T \ge n
+\end{cases}\)</span></p>
+<ul>
+<li><p>Y é uma Variável Aleatória (V.A.)</p></li>
+<li><p>Y não é nem contínua e nem discreta</p></li>
+</ul>
+<p>Precisamos calcular a esperança de Y, ou seja, o VPA. Como fazer?</p>
+<p>Se o VPA de uma anuidade vitalícia é:</p>
+<p><span class="math inline">\(\overline{a}_{\overline{x}|} =
+\displaystyle \int_{0}^{\infty} 1 * V^t * {}_{t}p_{x}\, dt\)</span></p>
+<p>Então o VPA de uma anuidade de vida temporária é:</p>
+<p><span class="math inline">\(\overline{a}_{x:\overline{n}|} =
+\displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt\)</span></p>
+<p>Interpretação pela técnica de pagamentos correntes</p>
+<p><span class="math inline">\(\overline{a}_{x:\overline{n}|} =
+\displaystyle \int_{0}^{n} 1 * V^t * {}_{t}p_{x}\, dt\)</span></p>
+<p>Onde:</p>
+<ul>
+<li><p>A integral é o período de pagamento</p></li>
+<li><p>1 é a Taxa de fluxos de pagamento em t</p></li>
+<li><p><span class="math inline">\(V^t\)</span> é o desconto para trazer
+a valor presente</p></li>
+<li><p>Probabilidade de pagar = Probabilidade de estar vivo = <span
+class="math inline">\({}_{t}p_{x}\)</span></p></li>
+</ul>
+<p>Observe que a anuidade temporária pode ser escrita em função do
+seguro de vida temporário:</p>
+<p><span class="math inline">\(Y = \begin{cases}
+\overline{a}_{\overline{t}|},\, \text{se } 0 \le T &lt; n \\
+\overline{a}_{\overline{n}|},\, \text{se } T \ge n \end{cases}
+\implies\)</span> <span class="math inline">\(Y = \begin{cases}
+\frac{1-V^t}{\delta},\, \text{se } 0 \le T &lt; n \\
+\frac{1-V^n}{\delta},\, \text{se } T \ge n \end{cases}\)</span></p>
+<p><span class="math inline">\(Y = \frac{1-Z}{\delta}\)</span></p>
+<p><span class="math inline">\(Z = \begin{cases} V^t,\, \text{se } 0 \le
+T &lt; n \\ V^n,\, \text{se } T \ge n \end{cases}\)</span></p>
+<p>Onde Z é o valor presente do seguro dotal misto</p>
+<p>Assim, temos que:</p>
+<p><span class="math inline">\(\overline{a}_{x:\overline{n}|} = E[Y] =
+E\Big[\frac{1-Z}{\delta}\Big] = \frac{1}{\delta} * E[1-Z] =
+\frac{E[1]-E[Z]}{\delta} = \frac{1-E[Z]}{\delta}\)</span></p>
+<p>Além disso,</p>
+<p><span class="math inline">\(Var[Y] = Var\Big[\frac{1-Z}{\delta}\Big]
+= \frac{Var[1-Z]}{\delta^2} = \frac{Var[1]+Var[-Z]}{\delta^2} \implies
+\text{Como Var[1] = 0} \text{ &amp; } Var[-Z] = (-1)^2*Var[Z] = Var[Z]
+\\ Var[Y] = \frac{Var[Z]}{\delta^2} =
+\frac{{}^{2}\overline{A}_{x:\overline{n}|} -
+(\overline{A}_{x:\overline{n}|})^2}{\delta^2}\)</span></p>
+</div>
+<div id="anuidade-vitalícia-diferida-de-m-anos-_moverlinea_x"
+class="section level3">
+<h3><strong>Anuidade Vitalícia Diferida de m anos</strong> <span
+class="math inline">\({}_{m|}\overline{a}_x\)</span></h3>
+<p>Neste caso, a v.a. que representa o valor presente dessa anuidade
+é:</p>
+<p><span class="math inline">\(Y = \begin{cases} 0,\, \text{se } 0 \le T
+&lt; m \\ \overline{a}_{\overline{t}|} - \overline{a}_{\overline{m}|},\,
+\text{se } T \ge m \end{cases}\)</span></p>
+<p>Em que <span class="math inline">\(\overline{a}_{\overline{t}|} -
+\overline{a}_{\overline{m}|}\)</span> é o valor presente do fluxo de
+pagamento desde do tempo zero <span
+class="math inline">\(\overline{a}_{\overline{t}|}\)</span> menos o
+valor presente do fluxo entre zero e m <span
+class="math inline">\(\overline{a}_{\overline{m}|}\)</span></p>
+<p>Pensão vitalícia que vai começar a ser paga dentro de m anos, se vivo
+até lá</p>
+<p>Como,</p>
+<p><span class="math inline">\(\overline{a}_{\overline{t}|} -
+\overline{a}_{\overline{m}|} = \frac{1-V^t}{\delta} -
+\frac{1-V^m}{\delta} = \frac{V^m - V^t}{\delta} = V^m *
+\frac{1-V^{t-m}}{\delta} = V^m *
+\overline{a}_{t-\overline{m}|}\)</span></p>
+<p>Então,</p>
+<p><span class="math inline">\(Y = \begin{cases} 0,\, \text{se } 0 \le T
+&lt; m \\ V^m * \overline{a}_{t-\overline{m}|}, \, \text{se } T \ge m
+\end{cases}\)</span></p>
+<p>Y não é discreta e nem contínua</p>
+<p>Os valores do valor presente de Y estão entre <span
+class="math inline">\(\Big[0, \frac{V^m}{\delta}\Big]\)</span>,
+porque:</p>
+<p><span class="math inline">\(P[Y = 0] = P[0 \le T &lt; m] = {}_{m}q_x
+&gt; 0\)</span></p>
+<p><span class="math inline">\(Y \le \lim\limits_{x \to \infty} \Big(V^m
+* \overline{a}_{t-\overline{m}|}\Big) = \frac{V^m}{\delta}\)</span></p>
+<p>O valor presente atuarial = esperança de Y:</p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = E[Y] = 0 +
+\displaystyle \int_{m}^{\infty} V^m * \overline{a}_{t-\overline{m}|} *
+f_t(t)\, dt\)</span></p>
+<p>Se <span class="math inline">\(t = m + s\)</span></p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = \displaystyle
+\int_{0}^{\infty} V^m * \overline{a}_{\overline{s}|} * f_t(m+s)\, ds =
+V^m * \displaystyle \int_{0}^{\infty} \overline{a}_{\overline{s}|} *
+{}_{m+s}p_x * \mu(x+m+s)\, ds\)</span></p>
+<p>Como <span class="math inline">\({}_{m+s}p_x = {}_{m}p_x *
+{}_{s}p_{x+m}\)</span>, então:</p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = V^m * {}_{m}p_x *
+\displaystyle \int_{0}^{\infty}
+\overline{a}_{\overline{s}|}*{}_{s}p_{x+m} * \mu(x+m+s)\,
+ds\)</span></p>
+<p>Dessa forma, o VPA da anuidade é:</p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = {}_{m}E_x *
+\overline{a}_{x+m} = V^m * {}_{m}p_x * \overline{a}_{x+m}\)</span></p>
+<p>O VPA do seguro dotal puro x VPA de uma renda vitalícia para um
+indivíduo com x+m anos</p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = V^m * {}_{m}p_x *
+\overline{a}_{x+m}\)</span></p>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = \displaystyle
+\int_m^{\infty} V^t * {}_{t}p_x\, dt\)</span></p>
+<ul>
+<li>Desenvolvimento alternativo</li>
+</ul>
+<p><span class="math inline">\({}_{m|}\overline{a}_x = \overline{a}_x -
+\overline{a}_{x:\overline{m}|}\)</span> <span
+class="math inline">\({}_{m|}\overline{a}_x = \displaystyle
+\int_0^{\infty} V^t * {}_{t}p_x\, dt - \displaystyle \int_0^m V^t *
+{}_{t}p_x\, dt = \displaystyle \int_m^{\infty} V^t * {}_{t}p_x\,
+dt\)</span></p>
+<p>VPA da anuidade vitalícia <span
+class="math inline">\(\overline{a}_x\)</span> menos VPA de uma anuidade
+temporária de m anos <span
+class="math inline">\(\overline{a}_{x:\overline{m}|}\)</span></p>
+</div>
+<div
+id="anuidade-vitalícia-com-pagamentos-certos-para-os-primeiros-m-anos-overlinea_overlinexoverlinem"
+class="section level3">
+<h3><strong>Anuidade Vitalícia com Pagamentos Certos para os Primeiros m
+anos</strong> <span
+class="math inline">\(\overline{a}_{\overline{x:\overline{m}|}}\)</span></h3>
+<p>Isto é, o beneficiário recebe um fluxo contínuo de pagamentos de 1dt
+nos primeiros m períodos com certeza e, após este período, se ainda
+vivo, o fluxo de pagamentos de 1dt continua até a sua eventual
+morte.</p>
+<p>Assim, o valor atuarial do valor presente dessa anuidade é:</p>
+<p><span class="math inline">\(Y = \begin{cases}
+\overline{a}_{\overline{m}|},\, \text{se } 0 \le T \le m \\
+\overline{a}_{\overline{t}|},\, \text{se } T&gt;m
+\end{cases}\)</span></p>
+<p>Esta v.a. não é nem contínua e nem discreta.</p>
+<p>O VPA, ou seja, a esperança de Y é:</p>
+<p><span class="math inline">\(\overline{a}_{\overline{x:\overline{m}|}}
+= \overline{a}_{\overline{m}|} + \displaystyle \int_m^{\infty} V^t *
+{}_{t}p_x\, dt\)</span></p>
+<p>Prob = 1 entre <span class="math inline">\([0, m]\)</span> e
+probabilidade de sobrevivência entre <span class="math inline">\([m,
+\infty]\)</span></p>
+</div>
+<div id="anuidades-atuariais-discretas" class="section level3">
+<h3><strong>Anuidades Atuariais Discretas</strong></h3>
+<ul>
+<li><p>Renda vitalícia antecipada: Paga 1 no início de cada ano que x
+sobrevive. Para melhor compreensão é necessário fazer a linha do
+tempo!</p></li>
+<li><p>Renda vitalícia postecipada: paga 1 no final de cada ano que x
+sobrevive. Para melhor compreensão é necessário fazer a linha do
+tempo!</p></li>
+</ul>
+</div>
+<div id="anuidade-antecipada-ddota_x" class="section level3">
+<h3><strong>Anuidade Antecipada</strong> <span
+class="math inline">\(\ddot{a}_x\)</span></h3>
+<p>K = [T], parte inteira de T</p>
+<p>Pagamentos em 0,1,2,…,k</p>
+<p>São feitos k+1 pagamentos</p>
+<p>Assim, o V.P. é: <span class="math inline">\(Y =
+\ddot{a}_{k+\overline{1}|} = 1 + V + V^2 + ... + V^k\)</span></p>
+<p>Em que Y é uma variável aleatória discreta</p>
+<table style="width:100%;">
+<colgroup>
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+<col width="26%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Valores j possíveis para k</th>
+<th align="center">k = 0</th>
+<th align="center">k = 1</th>
+<th align="center">k = 2</th>
+<th align="left">…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Valores possíveis de Y</td>
+<td align="center"><span class="math inline">\(1 \\
+\ddot{a}_{\overline{1}|}\)</span></td>
+<td align="center"><span class="math inline">\(1+V \\
+\ddot{a}_{\overline{2}|}\)</span></td>
+<td align="center"><span class="math inline">\(1+V+V^2 \\
+\ddot{a}_{\overline{3}|}\)</span></td>
+<td align="left">…</td>
+</tr>
+<tr class="even">
+<td align="left">Probabilidades associadas P(k=j)</td>
+<td align="center"><span class="math inline">\(q_x\)</span></td>
+<td align="center"><span class="math inline">\({}_{1}p_x *
+q_{x+1}\)</span></td>
+<td align="center"><span
+class="math inline">\({}_{2}p_x*q_{x+2}\)</span></td>
+<td align="left">…</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Assim, o V.P.A. é:</p>
+<p><span class="math inline">\(\ddot{a}_x = E[Y] = \displaystyle \sum_{j
+= 0}^{\infty} \ddot{a}_{j+\overline{1}|} * {}_{j}p_x *
+q_{x+j}\)</span></p>
+<p>Ou</p>
+<p><span class="math inline">\(\ddot{a}_x = E[Y] = \displaystyle \sum_{j
+= 0}^{\infty} V^j * {}_{j}p_x\)</span></p>
+<p>No mundo contínuo o V.P.A. é:</p>
+<p><span class="math inline">\(\overline{a}_x = \displaystyle
+\int_0^{\infty} V^t * {}_{t}p_x\, dt\)</span></p>
+<p>No seguro pago no final do ano de morte o VPA é:</p>
+<p><span class="math inline">\(A_x = E[Z] = \displaystyle \sum_{j =
+0}^{\infty} V^{j+1} * {}_{j}p_x * q_{x+j}\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Seja uma pessoa de 40 anos que queira comprar uma anuidade que paga 5
+parcelas de 1 u.m. começando a pagar imediatamente. Considerando a tábua
+de mortalidade AT-2000 e uma taxa de juros de 5% a.a., calcule o Prêmio
+Puro Único a ser pago pelo segurado para comprar essa anuidade.</p>
+<p><strong>Resolução feita utilizando o R</strong></p>
+<pre class="r"><code>i = 0.05    # Taxa de juros considerada
+V = 1/(1+i) # Calculando o fator de desconto V
+n = 5       # Períodos considerados
+
+# ä40:5¬ = (somatório de k = 0 a 4) V^k * kp40
+
+tabua = data.frame(qx = c(0.000677, 0.000732, 0.000796, 0.000868, 0.000950, 0.001043),
+                   lx = c(98518.75, 98452.05, 98379.98, 98301.67, 98216.35, 98123.04),
+                   dx = c(66.69719, 72.06690, 78.31047, 85.32585, 93.30553, 102.3423),
+                   row.names = c(40, 41, 42, 43, 44, 45))
+
+print(tabua)</code></pre>
+<pre><code>##          qx    lx      dx
+## 40 0.000677 98519  66.697
+## 41 0.000732 98452  72.067
+## 42 0.000796 98380  78.310
+## 43 0.000868 98302  85.326
+## 44 0.000950 98216  93.306
+## 45 0.001043 98123 102.342</code></pre>
+<pre class="r"><code>a40_5 = c()
+
+for (k in 1:n){
+  # Calculando a anuidade ä40:5¬
+  a40_5[k] = V^(k-1)*(tabua[k,2]/tabua[1,2])
+}
+
+cat(&quot;O prêmio puro único a ser pago é igual a: &quot;, round(sum(a40_5),2), sep = &quot;&quot;)</code></pre>
+<pre><code>## O prêmio puro único a ser pago é igual a: 4.54</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

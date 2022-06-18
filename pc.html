@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>pc.knit</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Matemática Atuarial I</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Início</a>
+</li>
+<li>
+  <a href="about.html">Curso</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Conteúdos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spnmm.html">Seguros pagos no momento de morte</a>
+    </li>
+    <li>
+      <a href="spnfam.html">Seguros pagos no final do ano de morte</a>
+    </li>
+    <li>
+      <a href="af.html">Anuidades financeiras</a>
+    </li>
+    <li>
+      <a href="aa.html">Anuidades atuariais</a>
+    </li>
+    <li>
+      <a href="peb.html">Prêmios e benefícios</a>
+    </li>
+    <li>
+      <a href="pc.html">Prêmios carregados</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div style="text-align: justify">
+<p>Antes de escolher o assunto a ser estudado, esteja ciente da
+necessidade do conhecimento prévio elencado na área <a
+href="https://atuarial-1-ufrn.netlify.app/about.html">sobre o
+curso</a></p>
+<div id="prêmios-carregados" class="section level3">
+<h3><strong>Prêmios carregados</strong></h3>
+<p>Nas aulas anteriores aprendemos como calcular o Prêmio Puro Único e o
+Prêmio Nivelado. Nos dois casos estamos calculando o prêmio de risco, ou
+seja, o prêmio a ser cobrado do segurado para que a seguradora consiga
+pagar todas as indenizações relativas a sinistros ocorridos. No entanto,
+nenhum dos prêmios cobrados será suficiente para pagar as despesas
+administrativas da seguradora (ou fundo de pensão).</p>
+<p>Veremos agora como incluir no prêmio as despesas da seguradora.Para
+incluirmos as despesas da seguradora no prêmio puro devemos inicialmente
+dividir as despesas no que diz à incidência. Algumas despesas irão
+ocorrer apenas no momento da aquisição do contrato como: comissão de
+corretagem, despesas com médicos examinadores, ordenado com empregados
+ligados à aquisição da apólice, etc.</p>
+<p>Em contrapartida, algumas despesas incidem enquanto o segurado
+estiver ligação com a empresa (período de pagamento de prêmio ou
+recebimento de benefício). Algumas dessas despesas são: salários de
+funcionários, despesas com informática, correspondência, aluguel,
+impostos, etc.</p>
+<p>Sobre o Prêmio Puro, pode-se adicionar carregamentos de
+segurabilidade para diminuir o risco de insolvência da seguradora a
+partir da Teoria do Risco de Ruína. Até o final do curso, estudaremos os
+carregamentos relativos às despesas apresentadas anterioremente.</p>
+<p>Dividiremos os Prêmios carregados em:</p>
+<ul>
+<li><ol style="list-style-type: lower-alpha">
+<li>Prêmio de Inventário</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-alpha">
+<li>Prêmio Zilmerado</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-alpha">
+<li>Prêmio Comercial ou de Tarifa</li>
+</ol></li>
+</ul>
+</div>
+<div id="a-prêmio-de-inventário" class="section level3">
+<h3><strong>a) Prêmio de Inventário</strong></h3>
+<p>O prêmio de inventário deve ser mensurado para atender às despesas de
+administração e demais despesas que incidem ao longo do contrato de
+seguro (além do prêmio de risco).</p>
+<p>Para exemplificar este tipo de seguro, pensemos em uma pessoa de
+idade x que contrata um seguro de vida inteira que paga R$ 1,00 no final
+do ano de morte deste segurado. Sabemos que o prêmio puro único seria
+dados por:</p>
+<p><span class="math inline">\(A_x = \displaystyle \sum_{k = 0}^{\infty}
+V^{k+1} * {}_{k}p_{x} * q_{x+k}\)</span></p>
+<p>Caso o segurado tenha interesse em fazer pagamentos nivelados até o
+momento de morte, então o prêmio seria:</p>
+<p><span class="math inline">\(P = \frac{A_x}{\ddot{a}_x}\)</span></p>
+<p>Queremos calcular o prêmio (de Inventário) que faça frente às
+despesas administrativas que incidem ao longo do período de vigência do
+contrato. Em outras palavras, queremos cobrar um prêmio do segurado que,
+em média, seja suficiente para cobrir os riscos (prêmio puro) e as
+despesas da seguradora. Ou seja, queremos calcular o Prêmio P’ tal que
+E[L] = 0.</p>
+<p>Vejam que a teoria já vista é extremamente importante para
+calcularmos o prêmio com este carregamento.</p>
+<p>Lembremos que:</p>
+<p><span class="math inline">\(L = Z - Y\)</span></p>
+<p>Em que Z é a obrigação da seguradora e Y é a obrigação do
+segurado.</p>
+<p>A obrigação da seguradora, agora, é diferente do que havíamos
+calculado anteriormente.</p>
+<p>A obrigação da seguradora é, além de pagar as indenizações, pagar
+também as despesas administrativas para seu funcionamento (durante o
+período de vigência do contrato). Neste caso, Z é uma V.A. cuja função
+(em relação ao tempo de vida adicional) pode ser descrita como:</p>
+<p>Obrigação da seguradora com o segurado: <span class="math inline">\(Z
+= \begin{cases}V^{K+1} + \gamma * \ddot{a}_{\overline{K}|},\, \text{se }
+K \ge \\ 0,\, \text{c.c} \end{cases}\)</span></p>
+<p>E qual a obrigação do segurado? O Segurado se compromete a pagar o
+prêmio enquanto estiver vivo.</p>
+<p>Mantendo a notação, P’ é o prêmio que assume essas despesas da
+seguradora, então:</p>
+<p><span class="math inline">\(Y = \begin{cases}P&#39; *
+\ddot{a}_{\overline{K}|},\, \text{se } K \ge 0 \\ 0,\,
+\text{c.c}\end{cases}\)</span></p>
+<p>Quase nenhum esforço adicional é necessário. Veja que queremos
+calcular P’ tal que E[L] = 0, então:</p>
+<p><span class="math inline">\(0 = E[L] = E[Z - Y] = E[Z] - E[Y] \\ E[Z]
+- E[Y] = A_x + \gamma * \ddot{a}_x - P&#39; * \ddot{a}_x = 0 \\
+P&#39;*\ddot{a}_x = A_x + \gamma * \ddot{a}_x \\ P&#39; = \frac{A_x +
+\gamma*\ddot{a}_x}{\ddot{a}_x} \\ P&#39; = \frac{A_x}{\ddot{a}_x} +
+\frac{\gamma*\ddot{a}_x}{\ddot{a}_x} \\P&#39; = \frac{A_x}{\ddot{a}_x} +
+\gamma \\ P&#39; = P + \gamma\)</span></p>
+<p>Lembremos que o prêmio puro (nivelado) seria calculado pela fórmula:
+<span class="math inline">\(P = \frac{A_x}{\ddot{a}_x}\)</span>, ou
+seja, o prêmio de inventário é calculado pela soma do prêmio puro mais a
+parte das despesas que é gerada periodicamente pelo segurado. De outra
+forma: <span class="math inline">\(P&#39; = P + \gamma\)</span></p>
+<p><strong>Exemplo 1:</strong></p>
+<p>Seja uma pessoa de 40 anos que queira comprar um seguro de vida
+inteiro que paga R$ 1,00 ao final do ano de morte. Para isso, o segurado
+deseja pagar durante a vigência do contrato um prêmio fixo. Qual o valor
+do Prêmio a ser pago pelo segurado considerando-se a tabela AT-49 e uma
+taxa de juros i = 0.05? Considere, para o cálculo do prêmio, que o
+segurado deve pagar uma quantia anual de R$ 0.005 relativos a gastos
+administrativos.</p>
+<p><strong>Solução:</strong></p>
+<p>Já vimos no exemplo 4 dos slides de Prêmios e Benefícios que o prêmio
+de risco (ou prêmio puro) é de R$ 0,0129. Utilizando a fórmula: <span
+class="math inline">\(P&#39; = P + \gamma\)</span> temos que: <span
+class="math inline">\(P&#39; = 0.0129 + 0.005 = 0.0179\)</span></p>
+<p><strong>Exemplo</strong></p>
+<p>Seja uma pessoa de 40 anos que queira comprar um seguro de vida
+temporário por 5 anos. Para isso, o segurado deseja pagar durante a
+vigência do contrato um prêmio fixo. Qual o valor do Prêmio a ser pago
+pelo segurado considerando-se a tabela AT-49 e uma taxa de juros i =
+0.05, considerando, para o cálculo do prêmio, que o segurado deve pagar
+uma quantia anula de R$ 0.0005 relativos a gastos administrativos.</p>
+<p><strong>Solução:</strong></p>
+<p>Este exemplo está inspirado no exemplo 3 de Prêmios e Benefícios.
+Veja que queremos calcular um prêmio que contemplo os gastos
+administrativos tal que E[L] = 0. Temos que:</p>
+<p><span class="math inline">\(P&#39; = \frac{A_{x:\overline{5}|} +
+\gamma * \ddot{a}_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} \\
+P&#39; = \frac{A_{x:\overline{5}|}}{\ddot{a}_{x:\overline{5}|}} + \gamma
+\\ P&#39; = P + \gamma\)</span></p>
+<p>O valor de P já foi calculado no exemplo 3 da aula de Benefícios e
+Prêmios.</p>
+<p><span class="math inline">\(P = 0.002518 \implies P&#39; = 0.002518 +
+0.0005 = 0.003018\)</span></p>
+<p>Caso o interesse seja calcular o prêmio para produtos atuariais e
+formas de pagamento diferentes, deve ser feito de forma similar aos
+exemplos anteriores. Basta usar o princípio da equivalência. <span
+class="math inline">\(L = Z - Y = 0\)</span></p>
+</div>
+<div id="b-prêmio-zilmerado-zilmer-1863" class="section level3">
+<h3><strong>b) Prêmio Zilmerado (Zilmer, 1863)</strong></h3>
+<p>Este tipo de prêmio considera despesas de aquisição, quando esta é
+cara o suficiente para que o segurado deseja pagá-la em um período bem
+menor do que o período de vigência do contrato.</p>
+<p>Neste caso, o segurado irá pagar um prêmio P’ durante um período até
+o pagamnento relativo às despesas de aquisição e, em seguida, pagará um
+prêmio P relativo ao risco. Calculando, então esses prêmios tais que
+E[L] = 0, teremos:</p>
+<p><span class="math inline">\(0 = E[L] = E[Z - Y] = E[Z] -
+E[Y]\)</span></p>
+<p>Mas qual é, nesse caso, a obrigação do segurado? Quanto ele gastará,
+em média, com esse segurado? Podemos dizer que o gasto será relativo ao
+seguro e à despesa que a seguradora terá no momento de aquisição do
+contrato, então:</p>
+<p><span class="math inline">\(E[Z] = A_x + \alpha\)</span></p>
+<p>Em que <span class="math inline">\(\alpha\)</span> é o gasto inicial
+da seguradora. Vamos identificar agora o compromisso do segurado.</p>
+<p><span class="math inline">\(E[Y] = P&#39; *
+\ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x\)</span></p>
+<p>Como queremos calcular o prêmio tal que E[L] = 0, o resultado
+fica:</p>
+<p><span class="math inline">\(E[Z] - E[Y] = (A_x + \alpha) -
+(P&#39;*\ddot{a}_{x:\overline{s}|} + P * {}_{s|}\ddot{a}_x) =
+0\)</span></p>
+<p><span class="math inline">\(P&#39; =
+\frac{A_x}{\ddot{a}_{x:\overline{s}|}} +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}} -
+\frac{P*{}_{s|}\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}}\)</span></p>
+<p>Em que, <span class="math inline">\({}_{s|}\ddot{a}_x = \ddot{a}_x -
+\ddot{a}_{x:\overline{s}|}\)</span></p>
+<p>Agora, <span class="math inline">\(P&#39; =
+\frac{A_x}{\ddot{a}_{x:\overline{s}|}} +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}} - \frac{P*(\ddot{a}_x -
+\ddot{a}_{x:\overline{s}|})}{\ddot{a}_{x:\overline{s}|}}\)</span></p>
+<p><span class="math inline">\(P&#39; =
+\frac{A_x}{\ddot{a}_{x:\overline{s}|}} +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}} -
+\frac{P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} + P\)</span></p>
+<p><span class="math inline">\(P&#39; = \frac{A_x -
+P*\ddot{a}_x}{\ddot{a}_{x:\overline{s}|}} +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}} + P\)</span></p>
+<ul>
+<li>Veja que <span class="math inline">\(A_x - P*\ddot{a}_x\)</span> é
+<span class="math inline">\(Z - Y\)</span> e que, portanto, é igual a 0,
+logo:</li>
+</ul>
+<p><span class="math inline">\(P&#39; = P +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}}\)</span></p>
+</div>
+<div id="c-prêmio-comercial-ou-de-tarifa" class="section level3">
+<h3><strong>c) Prêmio Comercial ou de Tarifa</strong></h3>
+<p>O prêmio comercial é o prêmio que contempla as duas despesas
+apontadas anteriormente.</p>
+<p><span class="math inline">\(\gamma =\)</span> Despesa de
+administração <span class="math inline">\(\alpha =\)</span> Despesa de
+aquisição</p>
+<p><span class="math inline">\(P&#39; = P + \gamma +
+\frac{\alpha}{\ddot{a}_{x:\overline{s}|}}\)</span></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
